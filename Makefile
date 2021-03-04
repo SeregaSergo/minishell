@@ -1,11 +1,14 @@
 NAME =	minishell
-SRCS =	./srcs/main.c
+SRCS =	./srcs/main.c \
+		./srcs/init.c \
+		./srcs/errors.c \
+		./srcs/parser.c
 OBJS = $(SRCS:%.c=%.o)
 LIB = libft_shell.a
 PATHLIB = libs/
 INC = includes
 CC = gcc
-CFLAGS = -O2 -Wall -Wextra -Werror
+CFLAGS = -g -Wall -Wextra -Werror
 
 .PHONY: all clean fclean re bonus
 

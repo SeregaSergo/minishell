@@ -6,35 +6,44 @@
 #    By: bswag <bswag@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/12/20 17:19:13 by bswag             #+#    #+#              #
-#    Updated: 2021/03/04 14:07:58 by bswag            ###   ########.fr        #
+#    Updated: 2021/02/03 14:25:55 by bswag            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME =		libft_shell.a
-SRCS =		get_next_line.c \
-			get_next_line_utils.c
-PATHSRC =	./GNL/
-OBJS =	$(SRCS:%.c=%.o)
-LIB =		libftprintf.a
-PATHLIB = ./ft_printf/
+NAME = libftprintf.a
+SRCS = ft_printf.c \
+	   ./parser/parse_flags.c \
+	   ./parser/parse_width.c \
+	   ./parser/parse_precision.c \
+	   ./parser/ft_parser.c \
+	   ./parser/parse_type.c \
+	   ./processor/ft_processor.c \
+	   ./processor/process_int.c \
+	   ./processor/process_uxx.c \
+	   ./processor/process_p.c \
+	   ./processor/process_str.c \
+	   ./processor/process_char.c
+OBJS = $(SRCS:%.c=%.o)
+PATHLIB = ../libft/
+LIB = libft.a
 CC = gcc
 CFLAGS = -c -Wall -Wextra -Werror
-DEPS = $(PATHSRC)get_next_line.h
+DEPS = ft_printf.h
 
 .PHONY: all clean fclean re bonus
 
 all: $(NAME)
 
-$(NAME): $(addprefix $(PATHSRC),$(OBJS)) $(LIB)
-	cp $(PATHLIB)$(LIB) ./$(NAME)
-	ar -rcs $(NAME) $(addprefix $(PATHSRC),$(OBJS))
+$(NAME): $(OBJS) $(LIB)
+	cp $(PATHLIB)libft.a ./$(NAME)
+	ar -rcs $(NAME) $(OBJS)
 
 $(LIB):
 	$(MAKE) -C $(PATHLIB)
 
-%.o: $(PATHSRC)%.c $(DEPS)
-	$(CC) $(CFLAGS) -o $(PATHSRC)$@ $<
-	
+%.o: %.c $(DEPS)
+	$(CC) $(CFLAGS) -o $@ $<
+
 bonus: all
 
 clean:

@@ -6,12 +6,12 @@
 /*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/20 21:52:34 by bswag             #+#    #+#             */
-/*   Updated: 2021/02/01 22:24:11 by bswag            ###   ########.fr       */
+/*   Updated: 2021/03/04 22:23:45 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-
+#include <stdio.h>
 /*
 ** Parsing the list with fd reminders, and returning a pointer on element
 ** with the same fd. If function doesn't find element it will be created.
@@ -91,7 +91,7 @@ int					get_next_line(int fd, char **line)
 		return (-1);
 	while ((pos_char = gnl_strchr(data->rem, '\n')) < 0)
 	{
-		if ((pos_char = ft_read(data, buf)) < 1)
+		if ((pos_char = ft_read(data, buf)) < 1  && ft_strlen(data->rem) == 0)
 		{
 			if (pos_char == 0)
 				*line = data->rem;
