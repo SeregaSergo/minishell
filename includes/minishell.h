@@ -6,7 +6,7 @@
 /*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/03 18:05:44 by bswag             #+#    #+#             */
-/*   Updated: 2021/03/04 23:09:25 by bswag            ###   ########.fr       */
+/*   Updated: 2021/03/12 16:28:35 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,9 @@
 #include "ft_printf.h"
 #include <sys/errno.h>
 #include <signal.h>
+#include <term.h>
+#include <termios.h>
+#include <curses.h>
 
 enum TokenType{
 	CHAR_GENERAL = -1,
@@ -37,21 +40,50 @@ enum TokenType{
 	TOKEN	= -1,
 };
 
-char	*g_prompt;
+# define PROMPT			"USER"
 
 # define ER_MEMORY			1
 # define ER_ARGS			2
 
-typedef struct	s_exec
+typedef struct termios t_termios;
+
+typedef struct		s_glob
 {
-	/* data */
-}				t_exec;
+	char		*prompt;
+	t_list		*cmd_lines;
+	t_termios	*saved_term;
+	t_termios	*term;
+	char		**env;
+	char		*buf;
+}					t_glob;
+
+t_glob	*g_main;
+
+typedef struct	s_cmd_line
+{
+	int		cmd_space;
+	int		num_cmds;
+	char	**cmds;
+}				t_cmd_line;
+
+typedef struct	s_cmd
+{
+	int		arg_space;
+	int		num_arg;
+	char	**args;
+	char	*out_file;
+	int		out_append;
+	char	*in_file;
+}				t_cmd;
+
+void	add_argument(t_cmd *cmd, char *arg);
+t_cmd	*construct_cmd(void);
 
 /*
 ** File: init.c
 */
 void	switch_off_signals(void);
-char	*find_envp(char * param, char **envp, char *prog);
+char	*get_prompt(char * param, char *prog);
 
 /*
 ** File: errors.c

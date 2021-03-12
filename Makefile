@@ -15,12 +15,12 @@ CFLAGS = -g -Wall -Wextra -Werror
 all: $(NAME)
 
 $(NAME): $(OBJS) $(LIB)
-	$(CC) $(CFLAGS) -I$(INC) -lft_shell -L$(PATHLIB) $(OBJS) -o $(NAME)
+	$(CC) $(CFLAGS) -I$(INC) -ltermcap -lft_shell -L$(PATHLIB) $(OBJS) -o $(NAME)
 
 $(LIB):
 	$(MAKE) -C $(PATHLIB)
 
-%.o: %.c $(INC)*
+%.o: %.c $(INC)/minishell.h
 	$(CC) -c $(CFLAGS) -I$(INC) -o $@ $<
 
 clean:
