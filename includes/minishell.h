@@ -6,7 +6,7 @@
 /*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/03 18:05:44 by bswag             #+#    #+#             */
-/*   Updated: 2021/03/12 16:28:35 by bswag            ###   ########.fr       */
+/*   Updated: 2021/03/12 19:36:00 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ enum TokenType{
 
 # define ER_MEMORY			1
 # define ER_ARGS			2
+# define ER_NO_TERMINAL		3
+# define ER_ENV_TERM		4
 
 typedef struct termios t_termios;
 
@@ -89,5 +91,23 @@ char	*get_prompt(char * param, char *prog);
 ** File: errors.c
 */
 void	ft_error(unsigned char er);
+
+/*
+** File: utility_func.c
+*/
+void	print_envp(char **envp);
+
+/*
+** File: utility_func.c
+*/
+void	switch_off_signals(void);
+void	init_glob_struct(char **argv);
+
+/*
+** File: debug.c
+*/
+void	debug_print_buf(void);
+void	debug_print_info_terminal(void);
+void	debug_print_termios(void);
 
 #endif

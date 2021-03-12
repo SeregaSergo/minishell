@@ -2,7 +2,10 @@ NAME =	minishell
 SRCS =	./srcs/main.c \
 		./srcs/init.c \
 		./srcs/errors.c \
-		./srcs/parser.c
+		./srcs/parser.c \
+		./srcs/utility_func.c \
+		./srcs/signals.c \
+		./srcs/debug.c
 OBJS = $(SRCS:%.c=%.o)
 LIB = libft_shell.a
 PATHLIB = libs/

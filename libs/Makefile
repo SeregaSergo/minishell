@@ -6,7 +6,7 @@
 #    By: bswag <bswag@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/12/20 17:19:13 by bswag             #+#    #+#              #
-#    Updated: 2021/03/04 14:07:58 by bswag            ###   ########.fr        #
+#    Updated: 2021/03/12 19:52:19 by bswag            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,14 +18,14 @@ OBJS =	$(SRCS:%.c=%.o)
 LIB =		libftprintf.a
 PATHLIB = ./ft_printf/
 CC = gcc
-CFLAGS = -c -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror
 DEPS = $(PATHSRC)get_next_line.h
 
 .PHONY: all clean fclean re bonus
 
 all: $(NAME)
 
-$(NAME): $(addprefix $(PATHSRC),$(OBJS)) $(LIB)
+$(NAME): $(addprefix $(PATHSRC),$(OBJS)) $(LIB) $(DEPS)
 	cp $(PATHLIB)$(LIB) ./$(NAME)
 	ar -rcs $(NAME) $(addprefix $(PATHSRC),$(OBJS))
 
@@ -38,7 +38,7 @@ $(LIB):
 bonus: all
 
 clean:
-	/bin/rm -f $(OBJS)
+	/bin/rm -f $(addprefix $(PATHSRC), $(OBJS))
 
 fclean: clean
 	/bin/rm -f $(NAME)
