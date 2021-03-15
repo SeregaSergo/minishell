@@ -6,7 +6,7 @@
 /*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/03 18:05:44 by bswag             #+#    #+#             */
-/*   Updated: 2021/03/15 16:13:12 by bswag            ###   ########.fr       */
+/*   Updated: 2021/03/15 23:28:50 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@
 #include <termios.h>
 #include <curses.h>
 #include <fcntl.h>
+#include <string.h>
+#include <stdio.h>
 
 enum TokenType{
 	CHAR_GENERAL = -1,
@@ -42,7 +44,8 @@ enum TokenType{
 };
 
 # define PROMPT			"USER"
-# define FILE_HISTORY	"~/.minishell_history"
+# define FILE_HISTORY	"/.minishell_history"
+# define FILE_HIST_2	"./.minishell_history"
 
 # define ER_MEMORY			1
 # define ER_ARGS			2
@@ -58,11 +61,12 @@ typedef struct		s_glob
 	t_termios	*saved_term;
 	t_termios	*term;
 	char		**env;
-	t_list		*history;
-	t_list		*cur_elem;  // current editabe element of history list
+	t_bdlist	*history;
+	t_bdlist	*cur_elem;  // current editabe element of history list
 	char		*cur_buf;	// current buf (copy of cur_elem.content)
-	char		*c;			// buffer for reading small portions;
+	int			pos;
 	int			n_symb_buf;
+	// int			buf_size;
 }					t_glob;
 
 t_glob	*g_main;
@@ -120,5 +124,16 @@ void	debug_print_termios(t_termios *t);
 ** File: reading.c
 */
 int		shell_reading(void);
+char	*paste_char_pos(int pos, char *buf, char *c);
+/*
+** File: keys_actions.c
+*/
+void    process_key_up(void);
+void	process_key_down(void);
+void    process_key_left(void);
+void	process_key_right(void);
+void	process_key_backspace(char *c);
+int		process_key_eof(void);
+int		process_printable_char(char *c);
 
 #endif

@@ -6,7 +6,7 @@
 #    By: bswag <bswag@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/09 14:09:47 by bswag             #+#    #+#              #
-#    Updated: 2021/03/14 19:58:01 by bswag            ###   ########.fr        #
+#    Updated: 2021/03/15 20:28:15 by bswag            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -61,7 +61,10 @@ SRCSBNS = ft_lstnew.c \
 		  ft_lstdelone.c \
 		  ft_lstclear.c \
 		  ft_lstiter.c \
-		  ft_lstmap.c
+		  ft_lstmap.c \
+		  ft_bdlstnew.c \
+		  ft_bdlstadd_front.c \
+		  ft_bdlstsize.c
 OBJS = $(SRCS:%.c=%.o)
 OBJSBNS = $(SRCSBNS:%.c=%.o)
 CC = gcc

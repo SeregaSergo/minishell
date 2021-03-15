@@ -44,9 +44,9 @@ void	debug_print_buf(void)
 {
 	int	i = 0;
 
-	while (g_main->buf[i])
+	while (g_main->cur_buf[i])
 	{
-		ft_printf("#%i: %d\n", i, g_main->buf[i]);
+		ft_printf("#%i: %d\n", i, g_main->cur_buf[i]);
 		i++;
 	}
 }

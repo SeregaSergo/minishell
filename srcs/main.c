@@ -6,7 +6,7 @@
 /*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/02 19:25:10 by bswag             #+#    #+#             */
-/*   Updated: 2021/03/15 16:38:05 by bswag            ###   ########.fr       */
+/*   Updated: 2021/03/15 23:50:06 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,12 @@
 */
 void	prepare_to_read(void)
 {
-	t_list	*new;
+	t_bdlist	*new;
 	
 	tcsetattr(0, TCSAFLUSH, g_main->term);
-	if (!(new = ft_lstnew(NULL)))
+	if (!(new = ft_bdlstnew(NULL)))
 		ft_error(ER_MEMORY);
-	ft_lstadd_front(&g_main->history, new);
+	ft_bdlstadd_front(&g_main->history, new);
 	g_main->cur_elem = g_main->history;
 	ft_printf("%s%% ", g_main->prompt);
 	tputs(save_cursor, 1, ft_putchar);
@@ -35,14 +35,14 @@ void	end_of_reading(void)
 {
 	tcsetattr(0, TCSAFLUSH, g_main->saved_term);
 	g_main->cur_elem = g_main->history;
-	g_main->cur_elem->content = g_main->cur_buf;
+	g_main->cur_elem->cont = g_main->cur_buf;
 	g_main->cur_buf = NULL;
+	g_main->n_symb_buf = 0;
+	g_main->pos = 0;
 }
 
 int		main(int argc, char **argv, char **envp)
 {
-	// int		res;
-	
 	if (argc != 1 && envp != NULL)
 		ft_error(ER_ARGS);
 	switch_off_signals();
@@ -52,17 +52,12 @@ int		main(int argc, char **argv, char **envp)
 		prepare_to_read();
 		if (shell_reading() == 0)
 			break ;
-		// res = get_next_line(0, &g_main->buf);
-		// if (res <= 0 || res == 2)
-		// {
-		// 	ft_printf("\n");
-		// 	exit(0);
-		// }
-		end_of_reading();
 		debug_print_buf();
 		// parse_input();
+		end_of_reading();
 		// execute_comands();
 		// clear_struct();
 	}
+	// save_history();
 	return (0);
 }

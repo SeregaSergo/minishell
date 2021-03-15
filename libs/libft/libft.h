@@ -6,7 +6,7 @@
 /*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/09 15:32:55 by bswag             #+#    #+#             */
-/*   Updated: 2021/03/14 20:36:39 by bswag            ###   ########.fr       */
+/*   Updated: 2021/03/15 20:28:45 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,13 @@ typedef struct		s_list
 	void			*content;
 	struct s_list	*next;
 }					t_list;
+
+typedef struct		s_bdlist
+{
+	void			*cont;
+	struct s_bdlist	*next;
+	struct s_bdlist	*prev;
+}					t_bdlist;
 
 int					ft_isdigit(int c);
 int					ft_isalpha(int c);
@@ -77,5 +84,9 @@ void				ft_lstclear(t_list **lst, void (*del)(void *));
 void				ft_lstiter(t_list *lst, void (*f)(void *));
 t_list				*ft_lstmap(t_list *lst, void *(*f)(void *), \
 					void (*del)(void *));
+
+t_bdlist			*ft_bdlstnew(void *content);
+void				ft_bdlstadd_front(t_bdlist **lst, t_bdlist *new);
+int					ft_bdlstsize(t_bdlist *lst);
 
 #endif

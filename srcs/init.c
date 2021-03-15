@@ -6,34 +6,49 @@
 /*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/04 21:23:49 by bswag             #+#    #+#             */
-/*   Updated: 2021/03/15 16:35:06 by bswag            ###   ########.fr       */
+/*   Updated: 2021/03/15 23:49:41 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+char	*get_full_file_name()
+{
+	char	*str;
+	
+	str = getenv("HOME");
+	if (str == NULL)
+		return (NULL);
+	else
+		str = ft_strjoin(str, FILE_HISTORY);
+	return (str);
+}
 
 void	retrieve_history(void)
 {
-	int 	fd;
-	char	*line;
-	t_list	*new;
+	int 		fd;
+	char		*line;
+	t_bdlist	*new;
+	char		*file;
 	
 	g_main->history = NULL;
 	line = NULL;
-	if ((fd = open(FILE_HISTORY, O_RDONLY|O_CREAT, 0600)) < 0)
+	file = get_full_file_name();
+	if ((fd = open(file, O_RDONLY | O_CREAT, 0600)) > -1) ;
+	else if ((fd = open(FILE_HIST_2, O_RDONLY | O_CREAT, 0600)) < 0)
 		ft_error(ER_OPEN);
+	(file != NULL) ? free(file) : 0;
 	while (get_next_line(fd, &line) > 0)
 	{
-		if (!(new = ft_lstnew(line)))
+		if (!(new = ft_bdlstnew(line)))
 			ft_error(ER_MEMORY);
-		ft_lstadd_front(&g_main->history, new);
+		ft_bdlstadd_front(&g_main->history, new);
 	}
 	if (line != NULL)
 	{
-		if (!(new = ft_lstnew(line)))
+		if (!(new = ft_bdlstnew(line)))
 			ft_error(ER_MEMORY);
-		ft_lstadd_front(&g_main->history, new);
+		ft_bdlstadd_front(&g_main->history, new);
 	}
 	g_main->cur_elem = g_main->history;
 	close(fd);
@@ -84,8 +99,6 @@ void	init_glob_struct(char **argv)
 		ft_error(ER_MEMORY);
 	if ((g_main->term = (t_termios *)malloc(sizeof(t_termios))) == NULL)
 		ft_error(ER_MEMORY);
-	if ((g_main->c = (char *)malloc(sizeof(char) * 64)) == NULL)
-		ft_error(ER_MEMORY);
 	tcgetattr(0, g_main->saved_term);
 	ft_memcpy(g_main->term, g_main->saved_term, sizeof(t_termios));
 	g_main->term->c_lflag &= ~(ICANON | ECHO);
@@ -96,6 +109,9 @@ void	init_glob_struct(char **argv)
 	get_term_info();
 	retrieve_history();
 	g_main->cur_buf = NULL;
+	g_main->n_symb_buf = 0;
+	g_main->pos = 0;
+	write(0, "HERE", 4);
 	// debug_print_termios(g_main->saved_term);
 	// ft_printf("\nChanged parameters\n");
 	// debug_print_termios(g_main->term);

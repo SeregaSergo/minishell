@@ -6,82 +6,68 @@
 /*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/14 20:00:38 by bswag             #+#    #+#             */
-/*   Updated: 2021/03/15 16:03:09 by bswag            ###   ########.fr       */
+/*   Updated: 2021/03/15 22:44:02 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// static int			ft_read(t_fd_data *fd_data, char *buf)
-// {
-// 	int		chars;
-// 	char	*tmp_str;
-
-// 	chars = read(fd_data->fd, buf, BUFFER_SIZE);
-// 	if (chars < 0)
-// 		return (chars);
-// 	buf[chars] = '\0';
-// 	if (!(tmp_str = gnl_strjoin(fd_data->rem, buf)))
-// 		return (-1);
-// 	free(fd_data->rem);
-// 	fd_data->rem = tmp_str;
-// 	return (chars);
-// }
-
-// void	add_chars_to_buf(char *c)
-// {
-	
-// }
-
-void	process_input_chars(char *c)
+/*
+** Paste string (c) into string buf at position (pos).
+** Free buf.
+*/
+char	*paste_char_pos(int pos, char *buf, char *c)
 {
-	if (!ft_strncmp(c, "\033[A", 3))			// UP
-	{
-		tputs(restore_cursor, 1, ft_putchar);
-		tputs(tgetstr("ce", 0), 1, ft_putchar);
-		print_previous_cmd();
-	}
-	else if (!ft_strncmp(c, "\033[B", 3))		// DOWN
-	{
-		tputs(restore_cursor, 1, ft_putchar);
-		tputs(tgetstr("ce", 0), 1, ft_putchar);
-		print_next_cmd();
-	}
-	// else if (!ft_strncmp(c, "\033[C", 3))		// RIGHT
-	// {
-		
-	// }
-	// else if (!ft_strncmp(c, "\033[D", 3))		// LEFT
-	// {
-		
-	// }
-	// else if (!ft_strncmp(c, key_backspace, 4))	// Backspace
-	// {
-		
-	// }
+	int		len_b;
+	char	*new;
+	int		len_c;
+	
+	if (buf != NULL)
+		len_b = ft_strlen(buf);
 	else
-	{
-		write(0, c, 1);
-		// add_chars_to_buf(c);
-	}
+		len_b = 0;
+	len_c = ft_strlen(c);
+	if (!(new = malloc(sizeof(char) * (len_b + len_c + 1))))
+		ft_error(ER_MEMORY);
+	ft_strlcpy(new, buf, pos + 1);
+	ft_strlcpy(&new[pos], c, len_c + 1);
+	ft_strlcpy(&new[pos + len_c], &buf[pos], len_b - pos + 1);
+	free(buf);
+	return (new);
+}
+
+int	process_input_chars(char *c)
+{
+	if (!ft_strncmp(c, "\033[A", 3))
+		process_key_up();
+	else if (!ft_strncmp(c, "\033[B", 3))
+		process_key_down();
+	else if (!ft_strncmp(c, "\033[C", 3))
+		process_key_right();
+	else if (!ft_strncmp(c, "\033[D", 3))
+		process_key_left();
+	// else if (!ft_strncmp(c, key_backspace, 4))
+	// 	process_key_backspace(c);
+	else if (!ft_strncmp(c, "\4", 1))
+		return (process_key_eof());
+	else if (ft_isprint(c[0]))
+		return (process_printable_char(c));
+	return (0);
 }
 
 int     shell_reading(void)
 {
 	int			rd;
-	char		*buf;
-	char		*c;
-	// int			n_symbls;
+	char		c[64];
 
-	buf = *(g_main->cur_buf);
-	c = g_main->c;
 	c[0] = 0;
 	rd = 0;
-	while (!ft_strchr(c, '\n') && !ft_strchr(c, '\4'))
+	while (1)
 	{
 		rd = read(0, c, 63);
 		c[rd] = 0;
-		process_input_chars(c);
+		if (process_input_chars(c) == 1)
+			break ;
 	}
-	return (ft_strlen(buf));
+	return (g_main->n_symb_buf);
 }

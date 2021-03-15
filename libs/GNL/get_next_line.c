@@ -6,7 +6,7 @@
 /*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/20 21:52:34 by bswag             #+#    #+#             */
-/*   Updated: 2021/03/15 15:37:42 by bswag            ###   ########.fr       */
+/*   Updated: 2021/03/15 23:49:20 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ int					get_next_line(int fd, char **line)
 		if ((pos_char = ft_read(data, buf)) < 1  && ft_strlen(data->rem) == 0)
 		{
 			if (pos_char == 0)
-				*line = data->rem;
+				*line = (ft_strlen(data->rem) > 0) ? data->rem : NULL;
 			free(buf);
 			ft_del_fd(data->fd, &fd_list);
 			return (pos_char);
