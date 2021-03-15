@@ -6,7 +6,7 @@
 /*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/20 21:52:34 by bswag             #+#    #+#             */
-/*   Updated: 2021/03/12 21:58:12 by bswag            ###   ########.fr       */
+/*   Updated: 2021/03/15 15:37:42 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,6 @@ int					get_next_line(int fd, char **line)
 		return (-1);
 	while ((pos_char = gnl_strchr(data->rem, '\n')) < 0)
 	{
-		// pos_char = ft_read(data, buf);
 		if ((pos_char = ft_read(data, buf)) < 1  && ft_strlen(data->rem) == 0)
 		{
 			if (pos_char == 0)
@@ -100,8 +99,6 @@ int					get_next_line(int fd, char **line)
 			ft_del_fd(data->fd, &fd_list);
 			return (pos_char);
 		}
-		if (buf[0] == '\4' && ft_strlen(data->rem) == 1)
-			return (2);
 	}
 	free(buf);
 	if (!(*line = gnl_substr(data->rem, 0, pos_char)))

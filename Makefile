@@ -5,7 +5,8 @@ SRCS =	./srcs/main.c \
 		./srcs/parser.c \
 		./srcs/utility_func.c \
 		./srcs/signals.c \
-		./srcs/debug.c
+		./srcs/debug.c \
+		./srcs/reading.c
 OBJS = $(SRCS:%.c=%.o)
 LIB = libft_shell.a
 PATHLIB = libs/

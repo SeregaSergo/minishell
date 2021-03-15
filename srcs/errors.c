@@ -6,7 +6,7 @@
 /*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/04 23:03:35 by bswag             #+#    #+#             */
-/*   Updated: 2021/03/12 17:25:41 by bswag            ###   ########.fr       */
+/*   Updated: 2021/03/15 15:21:46 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,17 @@
 
 void	ft_error(unsigned char er)
 {
-	ft_printf("Error: ");
+	ft_putstr_fd("Error: ", 2);
 	if (er == ER_ARGS)
-		ft_printf("You passed incorrect number of arguments.\n");
+		ft_putstr_fd("You passed incorrect number of arguments.\n", 2);
 	else if (er == ER_MEMORY)
-		ft_printf("Not enough memmory to allocate.\n");
+		ft_putstr_fd("Not enough memmory to allocate.\n", 2);
 	else if (er == ER_NO_TERMINAL)
-		ft_printf("Shell is not connected to the terminal.\n");
+		ft_putstr_fd("Shell is not connected to the terminal.\n", 2);
 	else if (er == ER_ENV_TERM)
-		ft_printf("The environment variable \"TERM\" doesn`t exist or current \
-		terminal isn`t in termcap base. Check \"TERM\" variable.\n");
+		ft_putstr_fd("The environment variable \"TERM\" doesn`t exist or current \
+		terminal isn`t in termcap base. Check \"TERM\" variable.\n", 2);
+	else if (er == ER_OPEN)
+		ft_putstr_fd("Can't open the file.\n", 2);
 	exit(1);
 }

@@ -6,7 +6,7 @@
 /*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/03 18:05:44 by bswag             #+#    #+#             */
-/*   Updated: 2021/03/12 19:36:00 by bswag            ###   ########.fr       */
+/*   Updated: 2021/03/15 16:13:12 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 #include <term.h>
 #include <termios.h>
 #include <curses.h>
+#include <fcntl.h>
 
 enum TokenType{
 	CHAR_GENERAL = -1,
@@ -41,12 +42,13 @@ enum TokenType{
 };
 
 # define PROMPT			"USER"
+# define FILE_HISTORY	"~/.minishell_history"
 
 # define ER_MEMORY			1
 # define ER_ARGS			2
 # define ER_NO_TERMINAL		3
 # define ER_ENV_TERM		4
-
+# define ER_OPEN			5
 typedef struct termios t_termios;
 
 typedef struct		s_glob
@@ -56,7 +58,11 @@ typedef struct		s_glob
 	t_termios	*saved_term;
 	t_termios	*term;
 	char		**env;
-	char		*buf;
+	t_list		*history;
+	t_list		*cur_elem;  // current editabe element of history list
+	char		*cur_buf;	// current buf (copy of cur_elem.content)
+	char		*c;			// buffer for reading small portions;
+	int			n_symb_buf;
 }					t_glob;
 
 t_glob	*g_main;
@@ -108,6 +114,11 @@ void	init_glob_struct(char **argv);
 */
 void	debug_print_buf(void);
 void	debug_print_info_terminal(void);
-void	debug_print_termios(void);
+void	debug_print_termios(t_termios *t);
+
+/*
+** File: reading.c
+*/
+int		shell_reading(void);
 
 #endif
