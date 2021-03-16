@@ -6,7 +6,7 @@
 /*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/03 18:05:44 by bswag             #+#    #+#             */
-/*   Updated: 2021/03/15 23:28:50 by bswag            ###   ########.fr       */
+/*   Updated: 2021/03/16 16:21:53 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ enum TokenType{
 # define PROMPT			"USER"
 # define FILE_HISTORY	"/.minishell_history"
 # define FILE_HIST_2	"./.minishell_history"
+# define RECORD_LIMIT	500
 
 # define ER_MEMORY			1
 # define ER_ARGS			2
@@ -66,7 +67,7 @@ typedef struct		s_glob
 	char		*cur_buf;	// current buf (copy of cur_elem.content)
 	int			pos;
 	int			n_symb_buf;
-	// int			buf_size;
+	int			num_input_cmds;
 }					t_glob;
 
 t_glob	*g_main;
@@ -125,6 +126,8 @@ void	debug_print_termios(t_termios *t);
 */
 int		shell_reading(void);
 char	*paste_char_pos(int pos, char *buf, char *c);
+char	*delete_char_pos(int pos, char *buf);
+
 /*
 ** File: keys_actions.c
 */
@@ -132,8 +135,15 @@ void    process_key_up(void);
 void	process_key_down(void);
 void    process_key_left(void);
 void	process_key_right(void);
-void	process_key_backspace(char *c);
+void	process_key_backspace(void);
 int		process_key_eof(void);
-int		process_printable_char(char *c);
+void	process_printable_char(char *c);
+int		process_key_newln(void);
+
+/*
+** File: history.c
+*/
+void	retrieve_history(t_bdlist **history);
+void	save_history(void);
 
 #endif

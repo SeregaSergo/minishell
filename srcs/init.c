@@ -6,53 +6,11 @@
 /*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/04 21:23:49 by bswag             #+#    #+#             */
-/*   Updated: 2021/03/15 23:49:41 by bswag            ###   ########.fr       */
+/*   Updated: 2021/03/16 14:51:47 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-char	*get_full_file_name()
-{
-	char	*str;
-	
-	str = getenv("HOME");
-	if (str == NULL)
-		return (NULL);
-	else
-		str = ft_strjoin(str, FILE_HISTORY);
-	return (str);
-}
-
-void	retrieve_history(void)
-{
-	int 		fd;
-	char		*line;
-	t_bdlist	*new;
-	char		*file;
-	
-	g_main->history = NULL;
-	line = NULL;
-	file = get_full_file_name();
-	if ((fd = open(file, O_RDONLY | O_CREAT, 0600)) > -1) ;
-	else if ((fd = open(FILE_HIST_2, O_RDONLY | O_CREAT, 0600)) < 0)
-		ft_error(ER_OPEN);
-	(file != NULL) ? free(file) : 0;
-	while (get_next_line(fd, &line) > 0)
-	{
-		if (!(new = ft_bdlstnew(line)))
-			ft_error(ER_MEMORY);
-		ft_bdlstadd_front(&g_main->history, new);
-	}
-	if (line != NULL)
-	{
-		if (!(new = ft_bdlstnew(line)))
-			ft_error(ER_MEMORY);
-		ft_bdlstadd_front(&g_main->history, new);
-	}
-	g_main->cur_elem = g_main->history;
-	close(fd);
-}
 
 /*
 ** Function initiates prompt by looking for (param) among environment parameters.
@@ -107,13 +65,10 @@ void	init_glob_struct(char **argv)
 	g_main->prompt = get_prompt(PROMPT, ft_strrchr(argv[0], '/') + 1);
 	g_main->cmd_lines = NULL;
 	get_term_info();
-	retrieve_history();
+	retrieve_history(&g_main->history);
+	g_main->cur_elem = g_main->history;
 	g_main->cur_buf = NULL;
 	g_main->n_symb_buf = 0;
 	g_main->pos = 0;
-	write(0, "HERE", 4);
-	// debug_print_termios(g_main->saved_term);
-	// ft_printf("\nChanged parameters\n");
-	// debug_print_termios(g_main->term);
-	// debug_print_info_terminal();
+	g_main->num_input_cmds = 0;
 }

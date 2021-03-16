@@ -6,7 +6,7 @@
 /*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/09 15:32:55 by bswag             #+#    #+#             */
-/*   Updated: 2021/03/15 20:28:45 by bswag            ###   ########.fr       */
+/*   Updated: 2021/03/16 15:06:06 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,5 +88,6 @@ t_list				*ft_lstmap(t_list *lst, void *(*f)(void *), \
 t_bdlist			*ft_bdlstnew(void *content);
 void				ft_bdlstadd_front(t_bdlist **lst, t_bdlist *new);
 int					ft_bdlstsize(t_bdlist *lst);
+t_bdlist    		*ft_bdlstfind(t_bdlist *list, int pos);
 
 #endif

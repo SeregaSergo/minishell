@@ -6,14 +6,14 @@
 /*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/14 20:00:38 by bswag             #+#    #+#             */
-/*   Updated: 2021/03/15 22:44:02 by bswag            ###   ########.fr       */
+/*   Updated: 2021/03/16 14:39:10 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /*
-** Paste string (c) into string buf at position (pos).
+** Paste string (c) into string (buf) at position (pos).
 ** Free buf.
 */
 char	*paste_char_pos(int pos, char *buf, char *c)
@@ -36,6 +36,24 @@ char	*paste_char_pos(int pos, char *buf, char *c)
 	return (new);
 }
 
+/*
+** Delete char in string (buf) at position (pos).
+** Free buf.
+*/
+char	*delete_char_pos(int pos, char *buf)
+{
+	int		len;
+	char	*new;
+	
+	len = ft_strlen(buf);
+	if (!(new = malloc(sizeof(char) * len)))
+		ft_error(ER_MEMORY);
+	ft_strlcpy(new, buf, pos + 1);
+	ft_strlcpy(&new[pos], &buf[pos + 1], len - pos);
+	free(buf);
+	return (new);
+}
+
 int	process_input_chars(char *c)
 {
 	if (!ft_strncmp(c, "\033[A", 3))
@@ -46,12 +64,14 @@ int	process_input_chars(char *c)
 		process_key_right();
 	else if (!ft_strncmp(c, "\033[D", 3))
 		process_key_left();
-	// else if (!ft_strncmp(c, key_backspace, 4))
-	// 	process_key_backspace(c);
+	else if (c[0] == 127)
+		process_key_backspace();
+	else if (!ft_strncmp(c, "\n", 1))
+		return (process_key_newln());
 	else if (!ft_strncmp(c, "\4", 1))
 		return (process_key_eof());
 	else if (ft_isprint(c[0]))
-		return (process_printable_char(c));
+		process_printable_char(c);
 	return (0);
 }
 
