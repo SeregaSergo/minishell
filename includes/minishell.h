@@ -6,7 +6,7 @@
 /*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/03 18:05:44 by bswag             #+#    #+#             */
-/*   Updated: 2021/03/16 16:21:53 by bswag            ###   ########.fr       */
+/*   Updated: 2021/03/16 22:41:41 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,25 +34,43 @@ enum TokenType{
 	CHAR_SEMICOLON = ';',
 	CHAR_WHITESPACE = ' ',
 	CHAR_ESCAPESEQUENCE = '\\',
-	CHAR_TAB = '\t',
-	CHAR_NEWLINE = '\n',
 	CHAR_GREATER = '>',
 	CHAR_LESSER = '<',
-	CHAR_NULL = 0,
-	
-	TOKEN	= -1,
 };
 
+
+/*
+** Program settings
+*/
 # define PROMPT			"USER"
 # define FILE_HISTORY	"/.minishell_history"
 # define FILE_HIST_2	"./.minishell_history"
 # define RECORD_LIMIT	500
 
+
+/*
+** Error defines
+*/
 # define ER_MEMORY			1
 # define ER_ARGS			2
 # define ER_NO_TERMINAL		3
 # define ER_ENV_TERM		4
 # define ER_OPEN			5
+
+
+/*
+** Lexer defines
+*/
+# define SPECIAL_SYMBLS		";|><\"\'\\$"
+# define STOP_SYMBLS		";|><\"\'$"
+# define SINGLE_TOKENS		";|<"
+# define GENERAL_MODE		1
+# define DQOUTE_MODE		2
+# define QOUTE_MODE			3
+# define ESC_MODE			4
+# define ENV_VAR_MODE		5
+
+
 typedef struct termios t_termios;
 
 typedef struct		s_glob
@@ -93,10 +111,9 @@ void	add_argument(t_cmd *cmd, char *arg);
 t_cmd	*construct_cmd(void);
 
 /*
-** File: init.c
+** File: signals.c
 */
 void	switch_off_signals(void);
-char	*get_prompt(char * param, char *prog);
 
 /*
 ** File: errors.c
@@ -107,12 +124,13 @@ void	ft_error(unsigned char er);
 ** File: utility_func.c
 */
 void	print_envp(char **envp);
+int		array_size(char **arr);
+void	copy_array(char **dst, char **src);
 
 /*
-** File: utility_func.c
+** File: init.c
 */
-void	switch_off_signals(void);
-void	init_glob_struct(char **argv);
+void	init_glob_struct(char **argv, char **envp);
 
 /*
 ** File: debug.c

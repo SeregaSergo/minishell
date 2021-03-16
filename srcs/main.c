@@ -6,7 +6,7 @@
 /*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/02 19:25:10 by bswag             #+#    #+#             */
-/*   Updated: 2021/03/16 15:54:43 by bswag            ###   ########.fr       */
+/*   Updated: 2021/03/16 21:53:44 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,18 +47,19 @@ int		main(int argc, char **argv, char **envp)
 		ft_error(ER_ARGS);
 	// setenv("TERM", "xterm-256color", 0);
 	switch_off_signals();
-	init_glob_struct(argv);
+	init_glob_struct(argv, envp);
 	while (1)
 	{
 		prepare_to_read();
 		if (shell_reading() == 0)
 			break ;
 		debug_print_buf();
-		// parse_input();
 		end_of_reading();
+		// parse_input();
 		// execute_comands();
 		// clear_struct();
 	}
+	tcsetattr(0, TCSAFLUSH, g_main->saved_term);
 	save_history();
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/16 14:36:31 by bswag             #+#    #+#             */
-/*   Updated: 2021/03/16 16:21:49 by bswag            ###   ########.fr       */
+/*   Updated: 2021/03/16 20:11:32 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,6 @@ void    save_history(void)
 {
 	t_bdlist	*new_hist;
 	
-	ft_printf("%d", g_main->num_input_cmds);
 	if (g_main->num_input_cmds > 0)
 	{
 		retrieve_history(&new_hist);

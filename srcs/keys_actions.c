@@ -6,7 +6,7 @@
 /*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/15 16:55:02 by bswag             #+#    #+#             */
-/*   Updated: 2021/03/16 14:46:52 by bswag            ###   ########.fr       */
+/*   Updated: 2021/03/16 21:55:42 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,9 +108,17 @@ void	process_key_backspace(void)
 
 int		process_key_newln()
 {
-	write(1, "\n", 1);
-	g_main->num_input_cmds++;
-	return (1);
+	if (g_main->n_symb_buf == 0)
+	{
+		ft_printf("\n%s%% ", g_main->prompt);
+		return (0);
+	}
+	else
+	{
+		write(1, "\n", 1);
+		g_main->num_input_cmds++;
+		return (1);
+	}
 }
 
 int		process_key_eof(void)

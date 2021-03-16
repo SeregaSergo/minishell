@@ -6,7 +6,7 @@
 /*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/04 21:23:49 by bswag             #+#    #+#             */
-/*   Updated: 2021/03/16 14:51:47 by bswag            ###   ########.fr       */
+/*   Updated: 2021/03/16 19:52:16 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void		get_term_info(void)
 ** as PROMPT, if there is no such parameter then set as program name.
 ** Retrieve history from file ~/.minishell_history.
 */
-void	init_glob_struct(char **argv)
+void	init_glob_struct(char **argv, char **envp)
 {
 	if ((g_main = (t_glob *)malloc(sizeof(t_glob))) == NULL)
 		ft_error(ER_MEMORY);
@@ -64,6 +64,7 @@ void	init_glob_struct(char **argv)
 	g_main->term->c_cc[VTIME] = 0;
 	g_main->prompt = get_prompt(PROMPT, ft_strrchr(argv[0], '/') + 1);
 	g_main->cmd_lines = NULL;
+	g_main->env = envp;
 	get_term_info();
 	retrieve_history(&g_main->history);
 	g_main->cur_elem = g_main->history;

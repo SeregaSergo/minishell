@@ -6,7 +6,7 @@
 /*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/04 23:03:35 by bswag             #+#    #+#             */
-/*   Updated: 2021/03/15 22:52:15 by bswag            ###   ########.fr       */
+/*   Updated: 2021/03/16 19:41:07 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,10 @@ void	ft_error(unsigned char er)
 	else if (er == ER_NO_TERMINAL)
 		ft_putstr_fd("Shell is not connected to the terminal.\n", 2);
 	else if (er == ER_ENV_TERM)
-		ft_putstr_fd("The environment variable \"TERM\" doesn`t exist or current \
-		terminal isn`t in termcap base. Check \"TERM\" variable.\n", 2);
+		ft_putstr_fd("The environment variable \"TERM\" doesn`t exist or \
+		current terminal isn`t in termcap base. \
+		Check \"TERM\" variable.\n", 2);
 	else if (er == ER_OPEN)
-	{
-		perror(strerror(errno));
 		ft_putstr_fd("Can't open the file.\n", 2);
-	}
-	exit(1);
+	exit(errno);
 }
