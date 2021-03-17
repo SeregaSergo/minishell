@@ -6,7 +6,7 @@
 /*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/03 18:05:44 by bswag             #+#    #+#             */
-/*   Updated: 2021/03/16 22:41:41 by bswag            ###   ########.fr       */
+/*   Updated: 2021/03/18 00:28:44 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,18 +62,25 @@ enum TokenType{
 ** Lexer defines
 */
 # define SPECIAL_SYMBLS		";|><\"\'\\$"
-# define STOP_SYMBLS		";|><\"\'$"
+# define STOP_SYMBLS		";|><\"\' "
 # define SINGLE_TOKENS		";|<"
-# define GENERAL_MODE		1
-# define DQOUTE_MODE		2
-# define QOUTE_MODE			3
-# define ESC_MODE			4
-# define ENV_VAR_MODE		5
 
+/*
+** Token types
+*/
+# define TOKEN_NONE			0
+# define TOKEN_PIPE			1
+# define TOKEN_SEPARATOR	2
+# define TOKEN_IN			3
+# define TOKEN_OUT			4
+# define TOKEN_OUT_APP		5
+# define TOKEN_GENERAL		6
+# define TOKEN_DQOUTE		7
+# define TOKEN_QOUTE		8
 
-typedef struct termios t_termios;
+typedef struct termios	t_termios;
 
-typedef struct		s_glob
+typedef struct	s_glob
 {
 	char		*prompt;
 	t_list		*cmd_lines;
@@ -86,29 +93,32 @@ typedef struct		s_glob
 	int			pos;
 	int			n_symb_buf;
 	int			num_input_cmds;
-}					t_glob;
+}				t_glob;
 
-t_glob	*g_main;
+t_glob			*g_main;
 
 typedef struct	s_cmd_line
 {
-	int		cmd_space;
-	int		num_cmds;
-	char	**cmds;
+	int			cmd_space;
+	int			num_cmds;
+	char		**cmds;
 }				t_cmd_line;
 
 typedef struct	s_cmd
 {
-	int		arg_space;
-	int		num_arg;
-	char	**args;
-	char	*out_file;
-	int		out_append;
-	char	*in_file;
+	int			arg_space;
+	int			num_arg;
+	char		**args;
+	char		*out_file;
+	int			out_append;
+	char		*in_file;
 }				t_cmd;
 
-void	add_argument(t_cmd *cmd, char *arg);
-t_cmd	*construct_cmd(void);
+typedef struct	s_tok
+{
+	char		*cont;
+	int			type;
+}				t_tok;
 
 /*
 ** File: signals.c
@@ -123,9 +133,9 @@ void	ft_error(unsigned char er);
 /*
 ** File: utility_func.c
 */
-void	print_envp(char **envp);
-int		array_size(char **arr);
-void	copy_array(char **dst, char **src);
+void	print_envp(void);
+int		array_size(void **arr);
+void	copy_array(void **dst, void **src);
 
 /*
 ** File: init.c
@@ -138,6 +148,7 @@ void	init_glob_struct(char **argv, char **envp);
 void	debug_print_buf(void);
 void	debug_print_info_terminal(void);
 void	debug_print_termios(t_termios *t);
+void	debug_print_lex(t_tok **lex);
 
 /*
 ** File: reading.c
@@ -163,5 +174,20 @@ int		process_key_newln(void);
 */
 void	retrieve_history(t_bdlist **history);
 void	save_history(void);
+
+/*
+** File: parser.c
+*/
+void	parse_input(void);
+
+/*
+** File: lexer.c
+*/
+t_tok	**tokenize_input(char *s);
+
+/*
+** File: fixer.c
+*/
+void	fix_lexemes(t_tok **lex);
 
 #endif

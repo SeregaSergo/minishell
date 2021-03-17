@@ -6,11 +6,22 @@
 /*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/04 21:23:49 by bswag             #+#    #+#             */
-/*   Updated: 2021/03/16 19:52:16 by bswag            ###   ########.fr       */
+/*   Updated: 2021/03/18 00:20:09 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	clone_envp(char **envp)
+{
+	int	len;
+
+	len = array_size((void **)envp);
+	if (!(g_main->env = (char **)malloc(sizeof(char *) * (len + 1))))
+		ft_error(ER_MEMORY);
+	copy_array((void **)g_main->env, (void **)envp);
+	g_main->env[len] = NULL;
+}
 
 /*
 ** Function initiates prompt by looking for (param) among environment parameters.
@@ -64,7 +75,7 @@ void	init_glob_struct(char **argv, char **envp)
 	g_main->term->c_cc[VTIME] = 0;
 	g_main->prompt = get_prompt(PROMPT, ft_strrchr(argv[0], '/') + 1);
 	g_main->cmd_lines = NULL;
-	g_main->env = envp;
+	clone_envp(envp);
 	get_term_info();
 	retrieve_history(&g_main->history);
 	g_main->cur_elem = g_main->history;

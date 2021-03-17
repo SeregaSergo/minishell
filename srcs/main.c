@@ -6,7 +6,7 @@
 /*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/02 19:25:10 by bswag             #+#    #+#             */
-/*   Updated: 2021/03/16 21:53:44 by bswag            ###   ########.fr       */
+/*   Updated: 2021/03/17 14:08:54 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,17 +45,18 @@ int		main(int argc, char **argv, char **envp)
 {
 	if (argc != 1 && envp != NULL)
 		ft_error(ER_ARGS);
-	// setenv("TERM", "xterm-256color", 0);
+	setenv("TERM", "xterm-256color", 0);
 	switch_off_signals();
 	init_glob_struct(argv, envp);
+	print_envp();
 	while (1)
 	{
 		prepare_to_read();
 		if (shell_reading() == 0)
 			break ;
-		debug_print_buf();
+		// debug_print_buf();
 		end_of_reading();
-		// parse_input();
+		parse_input();
 		// execute_comands();
 		// clear_struct();
 	}

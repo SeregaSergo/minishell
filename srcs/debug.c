@@ -50,3 +50,12 @@ void	debug_print_buf(void)
 		i++;
 	}
 }
+
+void	debug_print_lex(t_tok **lex)
+{
+	while (*lex)
+	{
+		ft_printf("Type: %d (%s)\n", (*lex)->type, (*lex)->cont);
+		lex++;
+	}
+}

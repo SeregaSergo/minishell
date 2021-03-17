@@ -6,28 +6,25 @@
 /*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/12 19:28:31 by bswag             #+#    #+#             */
-/*   Updated: 2021/03/16 22:22:38 by bswag            ###   ########.fr       */
+/*   Updated: 2021/03/18 00:01:18 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	print_envp(char **envp)
+void	print_envp(void)
 {
 	int	i;
 	
 	i = 0;
-	if (envp != NULL)
+	while (g_main->env[i])	
 	{
-		while (envp[i])	
-		{
-			ft_printf("%s\n", envp[i]);
-			i++;
-		}
+		ft_printf("%s\n", g_main->env[i]);
+		i++;
 	}
 }
 
-int		array_size(char **arr)
+int		array_size(void **arr)
 {
 	int	i;
 	
@@ -39,12 +36,15 @@ int		array_size(char **arr)
 	return (i);
 }
 
-void	copy_array(char **dst, char **src)
+void	copy_array(void **dst, void **src)
 {
-	while (src)
+	if (src)
 	{
-		dst = src;
-		dst++;
-		src++;
+		while (*src)
+		{
+			*dst = *src;
+			dst++;
+			src++;
+		}
 	}
 }
