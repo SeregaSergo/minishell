@@ -1,25 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser.c                                           :+:      :+:    :+:   */
+/*   ft_strchr_pos.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/03/04 22:58:34 by bswag             #+#    #+#             */
-/*   Updated: 2021/03/18 18:59:10 by bswag            ###   ########.fr       */
+/*   Created: 2021/03/18 16:54:30 by bswag             #+#    #+#             */
+/*   Updated: 2021/03/18 17:25:12 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-void	parse_input(void)
+int		ft_strchr_pos(const char *s, int c)
 {
-	char	*str;
-	t_tok	**lex;
-	
-	str = g_main->history->cont;
-	lex = tokenize_input(str);
-	debug_print_lex(lex);
-	fix_lexemes(lex);
-	debug_print_lex(lex);
+	int	i;
+
+	i = 0;
+	while (s[i] != c)
+	{
+		if (!s[i])
+			return (-1);
+		i++;
+	}
+	return (i);
 }

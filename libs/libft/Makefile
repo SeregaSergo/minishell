@@ -6,7 +6,7 @@
 #    By: bswag <bswag@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/09 14:09:47 by bswag             #+#    #+#              #
-#    Updated: 2021/03/16 15:06:34 by bswag            ###   ########.fr        #
+#    Updated: 2021/03/18 16:57:18 by bswag            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -52,7 +52,8 @@ SRCS = ft_strlcat.c \
 	   ft_strchr_null.c \
 	   ft_char_in_set.c \
 	   ft_str_content.c \
-	   ft_putchar.c
+	   ft_putchar.c \
+	   ft_strchr_pos.c
 SRCSBNS = ft_lstnew.c \
 		  ft_lstadd_front.c \
 		  ft_lstsize.c \

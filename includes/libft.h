@@ -6,7 +6,7 @@
 /*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/09 15:32:55 by bswag             #+#    #+#             */
-/*   Updated: 2021/03/16 15:06:19 by bswag            ###   ########.fr       */
+/*   Updated: 2021/03/18 17:13:01 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ void				ft_putnbr_fd(int n, int fd);
 int					ft_char_in_set(char c, char *pattern);
 int					ft_str_content(char *str, char *pattern);
 int					ft_putchar(int c);
+int					ft_strchr_pos(const char *s, int c);
 
 t_list				*ft_lstnew(void *content);
 void				ft_lstadd_front(t_list **lst, t_list *new);

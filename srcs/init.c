@@ -6,21 +6,42 @@
 /*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/04 21:23:49 by bswag             #+#    #+#             */
-/*   Updated: 2021/03/18 00:20:09 by bswag            ###   ########.fr       */
+/*   Updated: 2021/03/18 18:53:34 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+t_env	*make_env_struct(char *env_elem)
+{
+	int		pos;
+	t_env	*new;
+	
+	pos = ft_strchr_pos(env_elem, '=');
+	if (!(new = (t_env *)malloc(sizeof(t_env))))
+		ft_error(ER_MEMORY);
+	new->var = ft_substr(env_elem, 0, pos);
+	new->cont = ft_substr(env_elem, pos + 1, ft_strlen(env_elem) - pos - 1);
+	if (!new->var || !new->cont)
+		ft_error(ER_MEMORY);
+	return (new);
+}
+
 void	clone_envp(char **envp)
 {
 	int	len;
+	int	i;
 
+	i = 0;
 	len = array_size((void **)envp);
-	if (!(g_main->env = (char **)malloc(sizeof(char *) * (len + 1))))
+	if (!(g_main->env = (t_env **)malloc(sizeof(t_env *) * (len + 1))))
 		ft_error(ER_MEMORY);
-	copy_array((void **)g_main->env, (void **)envp);
-	g_main->env[len] = NULL;
+	while (envp[i])
+	{
+		g_main->env[i] = make_env_struct(envp[i]);
+		i++;
+	}
+	g_main->env[i] = NULL;
 }
 
 /*

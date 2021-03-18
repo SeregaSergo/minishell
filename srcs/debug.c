@@ -59,3 +59,15 @@ void	debug_print_lex(t_tok **lex)
 		lex++;
 	}
 }
+
+void	debug_print_envp(char **envp)
+{
+	int i;
+
+	i = 0;
+	while (envp[i])
+	{
+		ft_printf("%s\n", envp[i]);
+		i++;
+	}
+}

@@ -6,7 +6,7 @@
 /*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/03 18:05:44 by bswag             #+#    #+#             */
-/*   Updated: 2021/03/18 00:28:44 by bswag            ###   ########.fr       */
+/*   Updated: 2021/03/18 18:18:50 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ enum TokenType{
 # define ER_NO_TERMINAL		3
 # define ER_ENV_TERM		4
 # define ER_OPEN			5
-
+# define ER_SINGLE_QOUTE	6
 
 /*
 ** Lexer defines
@@ -80,13 +80,19 @@ enum TokenType{
 
 typedef struct termios	t_termios;
 
+typedef struct	s_env
+{
+	char		*var;
+	char		*cont;
+}				t_env;
+
 typedef struct	s_glob
 {
 	char		*prompt;
 	t_list		*cmd_lines;
 	t_termios	*saved_term;
 	t_termios	*term;
-	char		**env;
+	t_env		**env;
 	t_bdlist	*history;
 	t_bdlist	*cur_elem;  // current editabe element of history list
 	char		*cur_buf;	// current buf (copy of cur_elem.content)
@@ -133,9 +139,10 @@ void	ft_error(unsigned char er);
 /*
 ** File: utility_func.c
 */
-void	print_envp(void);
+void	print_env(void);
 int		array_size(void **arr);
 void	copy_array(void **dst, void **src);
+char	**get_val_env(char *var);
 
 /*
 ** File: init.c
@@ -149,6 +156,7 @@ void	debug_print_buf(void);
 void	debug_print_info_terminal(void);
 void	debug_print_termios(t_termios *t);
 void	debug_print_lex(t_tok **lex);
+void	debug_print_envp(char **envp);
 
 /*
 ** File: reading.c
@@ -156,6 +164,8 @@ void	debug_print_lex(t_tok **lex);
 int		shell_reading(void);
 char	*paste_char_pos(int pos, char *buf, char *c);
 char	*delete_char_pos(int pos, char *buf);
+char	*delete_str_pos(int pos, int n_symbols, char *buf);
+char	*paste_str_pos(int pos, char *buf, char *s);
 
 /*
 ** File: keys_actions.c
