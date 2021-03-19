@@ -6,7 +6,7 @@
 /*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/04 23:03:35 by bswag             #+#    #+#             */
-/*   Updated: 2021/03/18 19:11:48 by bswag            ###   ########.fr       */
+/*   Updated: 2021/03/19 12:45:58 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ void	ft_error(unsigned char er)
 	else if (er == ER_SINGLE_QOUTE)
 		ft_putstr_fd("You need to close quotation\n", 2);
 	// save_history();
-	tcsetattr(0, TCSAFLUSH, g_main->saved_term);
+	if (g_main->saved_term)
+		tcsetattr(0, TCSAFLUSH, g_main->saved_term);
 	exit(errno);
 }

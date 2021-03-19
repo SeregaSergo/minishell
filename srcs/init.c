@@ -6,11 +6,19 @@
 /*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/04 21:23:49 by bswag             #+#    #+#             */
-/*   Updated: 2021/03/18 18:53:34 by bswag            ###   ########.fr       */
+/*   Updated: 2021/03/19 14:27:06 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	set_result_prev_cmd(int	res)
+{
+	g_main->i_result_prev_cmd = res;
+	if (g_main->c_result_prev_cmd != NULL)
+		free(g_main->c_result_prev_cmd);
+	g_main->c_result_prev_cmd = ft_itoa(res);
+}
 
 t_env	*make_env_struct(char *env_elem)
 {
@@ -95,7 +103,6 @@ void	init_glob_struct(char **argv, char **envp)
 	g_main->term->c_cc[VMIN] = 1;
 	g_main->term->c_cc[VTIME] = 0;
 	g_main->prompt = get_prompt(PROMPT, ft_strrchr(argv[0], '/') + 1);
-	g_main->cmd_lines = NULL;
 	clone_envp(envp);
 	get_term_info();
 	retrieve_history(&g_main->history);
@@ -104,4 +111,6 @@ void	init_glob_struct(char **argv, char **envp)
 	g_main->n_symb_buf = 0;
 	g_main->pos = 0;
 	g_main->num_input_cmds = 0;
+	g_main->c_result_prev_cmd = NULL;
+	set_result_prev_cmd(0);
 }

@@ -6,7 +6,7 @@
 /*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/12 19:28:31 by bswag             #+#    #+#             */
-/*   Updated: 2021/03/18 18:17:57 by bswag            ###   ########.fr       */
+/*   Updated: 2021/03/19 13:30:13 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,11 @@ char	**get_val_env(char *var)
 	int	i;
 
 	i = 0;
+	if (!ft_strncmp(var, "?", 1))
+		return (&g_main->c_result_prev_cmd);
 	while (g_main->env[i])
 	{
-		if (ft_strncmp(g_main->env[i]->var, var, ft_strlen(var) + 1))
+		if (!ft_strncmp(g_main->env[i]->var, var, ft_strlen(var) + 1))
 			return (&g_main->env[i]->cont);
 		i++;
 	}

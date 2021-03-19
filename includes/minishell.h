@@ -6,7 +6,7 @@
 /*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/03 18:05:44 by bswag             #+#    #+#             */
-/*   Updated: 2021/03/18 18:18:50 by bswag            ###   ########.fr       */
+/*   Updated: 2021/03/19 14:24:28 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,6 @@ typedef struct	s_env
 typedef struct	s_glob
 {
 	char		*prompt;
-	t_list		*cmd_lines;
 	t_termios	*saved_term;
 	t_termios	*term;
 	t_env		**env;
@@ -99,6 +98,8 @@ typedef struct	s_glob
 	int			pos;
 	int			n_symb_buf;
 	int			num_input_cmds;
+	int			i_result_prev_cmd;
+	char		*c_result_prev_cmd;
 }				t_glob;
 
 t_glob			*g_main;
@@ -188,7 +189,7 @@ void	save_history(void);
 /*
 ** File: parser.c
 */
-void	parse_input(void);
+t_cmd_line	*parse_input(t_tok **lex);
 
 /*
 ** File: lexer.c

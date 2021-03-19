@@ -6,7 +6,7 @@
 /*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/16 14:36:31 by bswag             #+#    #+#             */
-/*   Updated: 2021/03/18 18:53:12 by bswag            ###   ########.fr       */
+/*   Updated: 2021/03/19 12:42:11 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,5 +103,5 @@ void    save_history(void)
 		retrieve_history(&new_hist);
 		add_new_records(&new_hist);
 		write_history(ft_bdlstfind(new_hist, RECORD_LIMIT - 1));
-	}	
+	}
 }

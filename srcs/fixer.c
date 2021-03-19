@@ -6,7 +6,7 @@
 /*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 22:26:22 by bswag             #+#    #+#             */
-/*   Updated: 2021/03/18 19:43:05 by bswag            ###   ########.fr       */
+/*   Updated: 2021/03/19 13:58:00 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,22 +42,50 @@ void	replace_env_vars(char **cont)
 	int		i;
 	int		n;
 	char	*var;
-	char	*val;
+	char	**val;
 	
 	i = 0;
-	while (*cont[i])
+	while ((*cont)[i])
 	{
-		if (*cont[i] == '$')
+		if ((*cont)[i] == '$')
 		{
 			n = i + 1;
-			while (ft_isalnum(*cont[n]))
+			if ((*cont)[n] == '?')
 				n++;
+			else
+				while (ft_isalnum((*cont)[n]))
+					n++;
 			var = ft_substr(*cont, i + 1 , n - i - 1);
-			*cont = delete_str_pos(i, n - i, *cont);
-			val = *get_val_env(var);
-			*cont = paste_str_pos(i, *cont, val);
+			val = get_val_env(var);
 			free(var);
-			i +=ft_strlen(val);
+			*cont = delete_str_pos(i, n - i, *cont);
+			if (val != NULL)
+			{
+				*cont = paste_str_pos(i, *cont, *val);
+				i += ft_strlen(*val) - 1;
+			}
+		}
+		i++;
+	}
+}
+
+void	replace_home_dir(char **cont)
+{
+	int	i;
+	char	**val;
+	
+	i = 0;
+	while ((*cont)[i])
+	{
+		if ((*cont)[i] == '~')
+		{
+			val = get_val_env("HOME");
+			if (val != NULL)
+			{
+				*cont = delete_str_pos(i, 1, *cont);
+				*cont = paste_str_pos(i, *cont, *val);
+					i += ft_strlen(*val) - 1;
+			}
 		}
 		i++;
 	}
@@ -70,9 +98,12 @@ void	fix_lexemes(t_tok **lex)
 	i = 0;
 	while (lex[i])
 	{
-		// if (lex[i]->type == TOKEN_GENERAL)
-		// {
-		// }
+		if (lex[i]->type == TOKEN_GENERAL)
+		{
+			cut_backslash(&lex[i]->cont);
+			replace_env_vars(&lex[i]->cont);
+			replace_home_dir(&lex[i]->cont);
+		}
 		if (lex[i]->type == TOKEN_QOUTE)
 			trim_qoutes(&lex[i]->cont, '\'');
 		else if (lex[i]->type == TOKEN_DQOUTE)
