@@ -6,7 +6,7 @@
 /*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/04 23:03:35 by bswag             #+#    #+#             */
-/*   Updated: 2021/03/19 12:45:58 by bswag            ###   ########.fr       */
+/*   Updated: 2021/03/19 18:12:12 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,6 @@ void	ft_error(unsigned char er)
 		Check \"TERM\" variable.\n", 2);
 	else if (er == ER_OPEN)
 		ft_putstr_fd("Can't open the file.\n", 2);
-	else if (er == ER_SINGLE_QOUTE)
-		ft_putstr_fd("You need to close quotation\n", 2);
 	// save_history();
 	if (g_main->saved_term)
 		tcsetattr(0, TCSAFLUSH, g_main->saved_term);

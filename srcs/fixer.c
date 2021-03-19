@@ -6,18 +6,16 @@
 /*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 22:26:22 by bswag             #+#    #+#             */
-/*   Updated: 2021/03/19 13:58:00 by bswag            ###   ########.fr       */
+/*   Updated: 2021/03/19 18:47:05 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void    trim_qoutes(char **cont, char c)
+void    trim_qoutes(char **cont)
 {
 	char    *tmp;
 
-	if ((*cont)[ft_strlen(*cont) - 1] != c)
-		ft_error(ER_SINGLE_QOUTE);
 	if (!(tmp = ft_substr(*cont, 1, ft_strlen(*cont) - 2)))
 		ft_error(ER_MEMORY);
 	free(*cont);
@@ -91,27 +89,20 @@ void	replace_home_dir(char **cont)
 	}
 }
 
-void	fix_lexemes(t_tok **lex)
+void	fix_lexeme(t_tok *lex)
 {
-	int	i;
-
-	i = 0;
-	while (lex[i])
+	if (lex->type == TOKEN_GENERAL)
 	{
-		if (lex[i]->type == TOKEN_GENERAL)
-		{
-			cut_backslash(&lex[i]->cont);
-			replace_env_vars(&lex[i]->cont);
-			replace_home_dir(&lex[i]->cont);
-		}
-		if (lex[i]->type == TOKEN_QOUTE)
-			trim_qoutes(&lex[i]->cont, '\'');
-		else if (lex[i]->type == TOKEN_DQOUTE)
-		{
-			trim_qoutes(&lex[i]->cont, '"');
-			cut_backslash(&lex[i]->cont);
-			replace_env_vars(&lex[i]->cont);
-		}
-		i++;
+		cut_backslash(&lex->cont);
+		replace_env_vars(&lex->cont);
+		replace_home_dir(&lex->cont);
+	}
+	if (lex->type == TOKEN_QOUTE)
+		trim_qoutes(&lex->cont);
+	else if (lex->type == TOKEN_DQOUTE)
+	{
+		trim_qoutes(&lex->cont);
+		cut_backslash(&lex->cont);
+		replace_env_vars(&lex->cont);
 	}
 }

@@ -53,10 +53,13 @@ void	debug_print_buf(void)
 
 void	debug_print_lex(t_tok **lex)
 {
-	while (*lex)
+	if (lex != NULL)
 	{
-		ft_printf("Type: %d (%s)\n", (*lex)->type, (*lex)->cont);
-		lex++;
+		while (*lex)
+		{
+			ft_printf("Type: %d (%s)\n", (*lex)->type, (*lex)->cont);
+			lex++;
+		}
 	}
 }
 

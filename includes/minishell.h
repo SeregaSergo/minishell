@@ -6,7 +6,7 @@
 /*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/03 18:05:44 by bswag             #+#    #+#             */
-/*   Updated: 2021/03/19 14:24:28 by bswag            ###   ########.fr       */
+/*   Updated: 2021/03/19 19:12:12 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,20 +25,6 @@
 #include <string.h>
 #include <stdio.h>
 
-enum TokenType{
-	CHAR_GENERAL = -1,
-	CHAR_PIPE = '|',
-	CHAR_AMPERSAND = '&',
-	CHAR_QOUTE = '\'',
-	CHAR_DQUOTE = '\"',
-	CHAR_SEMICOLON = ';',
-	CHAR_WHITESPACE = ' ',
-	CHAR_ESCAPESEQUENCE = '\\',
-	CHAR_GREATER = '>',
-	CHAR_LESSER = '<',
-};
-
-
 /*
 ** Program settings
 */
@@ -56,7 +42,6 @@ enum TokenType{
 # define ER_NO_TERMINAL		3
 # define ER_ENV_TERM		4
 # define ER_OPEN			5
-# define ER_SINGLE_QOUTE	6
 
 /*
 ** Lexer defines
@@ -104,22 +89,20 @@ typedef struct	s_glob
 
 t_glob			*g_main;
 
-typedef struct	s_cmd_line
-{
-	int			cmd_space;
-	int			num_cmds;
-	char		**cmds;
-}				t_cmd_line;
-
 typedef struct	s_cmd
 {
-	int			arg_space;
-	int			num_arg;
+	int			num_args;
 	char		**args;
 	char		*out_file;
 	int			out_append;
 	char		*in_file;
 }				t_cmd;
+
+typedef struct	s_cmd_line
+{
+	int			num_cmds;
+	t_cmd		**cmds;
+}				t_cmd_line;
 
 typedef struct	s_tok
 {
@@ -149,6 +132,7 @@ char	**get_val_env(char *var);
 ** File: init.c
 */
 void	init_glob_struct(char **argv, char **envp);
+void	set_result_prev_cmd(int	res);
 
 /*
 ** File: debug.c
@@ -189,7 +173,7 @@ void	save_history(void);
 /*
 ** File: parser.c
 */
-t_cmd_line	*parse_input(t_tok **lex);
+t_cmd_line	*parse_input(t_tok ***lex);
 
 /*
 ** File: lexer.c
@@ -199,6 +183,6 @@ t_tok	**tokenize_input(char *s);
 /*
 ** File: fixer.c
 */
-void	fix_lexemes(t_tok **lex);
+void	fix_lexeme(t_tok *lex);
 
 #endif
