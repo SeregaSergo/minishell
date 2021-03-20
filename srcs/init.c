@@ -6,7 +6,7 @@
 /*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/04 21:23:49 by bswag             #+#    #+#             */
-/*   Updated: 2021/03/19 14:27:06 by bswag            ###   ########.fr       */
+/*   Updated: 2021/03/20 19:23:03 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,13 +59,13 @@ void	clone_envp(char **envp)
 char	*get_prompt(char *param, char *prog)
 {
 	int	i;
-	char *ret;
+	char **ret;
 	
 	i = 0;
-	if ((ret = getenv(param)) == NULL)
-		return (ft_strdup(prog));
+	if ((ret = get_val_env(param)) == NULL)
+		return (ft_strjoin(prog, "% "));
 	else
-		return (ret);
+		return (ft_strjoin(*ret, "% "));
 }
 
 /*
@@ -102,8 +102,8 @@ void	init_glob_struct(char **argv, char **envp)
 	g_main->term->c_lflag &= ~(ICANON | ECHO);
 	g_main->term->c_cc[VMIN] = 1;
 	g_main->term->c_cc[VTIME] = 0;
-	g_main->prompt = get_prompt(PROMPT, ft_strrchr(argv[0], '/') + 1);
 	clone_envp(envp);
+	g_main->prompt = get_prompt(PROMPT, ft_strrchr(argv[0], '/') + 1);
 	get_term_info();
 	retrieve_history(&g_main->history);
 	g_main->cur_elem = g_main->history;

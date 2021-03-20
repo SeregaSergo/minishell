@@ -6,7 +6,7 @@
 /*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/15 16:55:02 by bswag             #+#    #+#             */
-/*   Updated: 2021/03/16 21:55:42 by bswag            ###   ########.fr       */
+/*   Updated: 2021/03/20 20:52:22 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,15 @@
 */
 void    process_key_up(void)
 {
+	// int	up;
+
+	// up = (ft_strlen(g_main->prompt) + g_main->n_symb_buf - 1) / tgetnum("co");
 	if (g_main->cur_elem->next != NULL)
 	{
 		tputs(restore_cursor, 1, ft_putchar);
-		tputs(tgetstr("ce", 0), 1, ft_putchar);
+		// while (up--)
+		// 	tputs(tgetstr("up", 0), 1, ft_putchar);
+		tputs(tgetstr("cd", 0), 1, ft_putchar);
 		if (g_main->cur_elem->cont != NULL)
 			free(g_main->cur_elem->cont);
 		g_main->cur_elem->cont = g_main->cur_buf;
@@ -55,7 +60,7 @@ void	process_key_down(void)
 	if (g_main->cur_elem->prev != NULL)
 	{
 		tputs(restore_cursor, 1, ft_putchar);
-		tputs(tgetstr("ce", 0), 1, ft_putchar);
+		tputs(tgetstr("cd", 0), 1, ft_putchar);
 		if (g_main->cur_elem->cont != NULL)
 			free(g_main->cur_elem->cont);
 		g_main->cur_elem->cont = g_main->cur_buf;

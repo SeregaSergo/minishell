@@ -26,17 +26,15 @@ void        debug_print_info_terminal(void)
 {
 	int		col;
 	int		li;
-	int		i_param;
+	// int		i_param;
 	// char	*str_param;
 
 	col = tgetnum("co");
 	li = tgetnum("li");
-	i_param = tgetnum("Yi");
-	// str_param = tgetnum("pa");
 	ft_printf("Columns = %d, lines = %d\n", col, li);
-	ft_printf("Interested numeric parameter: %d\n", i_param);
-	ft_printf("Auto wrap: %d\n", tgetflag("am"));
-	ft_printf("Padding char = %d\n", tgetnum("pc"));
+	// ft_printf("Interested numeric parameter: %d\n", i_param);
+	// ft_printf("Auto wrap: %d\n", tgetflag("am"));
+	// ft_printf("Padding char = %d\n", tgetnum("pc"));
 	// ft_printf("Interested string parameter: %s\n", str_param);
 }
 

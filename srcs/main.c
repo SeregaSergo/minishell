@@ -6,7 +6,7 @@
 /*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/02 19:25:10 by bswag             #+#    #+#             */
-/*   Updated: 2021/03/20 17:17:13 by bswag            ###   ########.fr       */
+/*   Updated: 2021/03/20 21:27:52 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,9 @@ void	prepare_to_read(void)
 		ft_error(ER_MEMORY);
 	ft_bdlstadd_front(&g_main->history, new);
 	g_main->cur_elem = g_main->history;
-	ft_printf("%s%% ", g_main->prompt);
+	ft_printf("%s", g_main->prompt);
 	tputs(save_cursor, 1, ft_putchar);
+	cursor_position(0, &g_main->cur_row, &g_main->cur_col);
 }
 
 /*
@@ -51,10 +52,11 @@ int		main(int argc, char **argv, char **envp)
 	// setenv("TERM", "xterm-256color", 0);
 	switch_off_signals();
 	init_glob_struct(argv, envp);
-	print_env();
+	// print_env();
 	while (1)
 	{
 		prepare_to_read();
+		printf("row %d, col %d\n", g_main->cur_row, g_main->cur_col);
 		if (shell_reading() == 0)
 			break ;
 		end_of_reading();

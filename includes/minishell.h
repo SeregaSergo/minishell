@@ -6,7 +6,7 @@
 /*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/03 18:05:44 by bswag             #+#    #+#             */
-/*   Updated: 2021/03/20 17:34:02 by bswag            ###   ########.fr       */
+/*   Updated: 2021/03/20 21:14:25 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,8 @@ typedef struct	s_glob
 	int			num_input_cmds;
 	int			i_result_prev_cmd;
 	char		*c_result_prev_cmd;
+	int			cur_row;
+	int			cur_col;
 }				t_glob;
 
 t_glob			*g_main;
@@ -190,5 +192,13 @@ t_tok	**tokenize_input(char *s);
 ** File: fixer.c
 */
 void	fix_lexeme(t_tok *lex);
+
+/*
+** File: cursor_pos.c
+*/
+#define   RD_EOF   -1
+#define   RD_EIO   -2
+
+int 	cursor_position(const int tty, int *const rowptr, int *const colptr);
 
 #endif

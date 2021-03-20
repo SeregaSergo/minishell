@@ -10,7 +10,8 @@ SRCS =	./srcs/main.c \
 		./srcs/keys_actions.c \
 		./srcs/history.c \
 		./srcs/lexer.c \
-		./srcs/fixer.c
+		./srcs/fixer.c \
+		./srcs/cursor_pos.c
 OBJS = $(SRCS:%.c=%.o)
 LIB = libft_shell.a
 PATHLIB = libs/
