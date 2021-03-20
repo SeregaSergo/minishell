@@ -6,7 +6,7 @@
 /*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/16 14:36:31 by bswag             #+#    #+#             */
-/*   Updated: 2021/03/19 12:42:11 by bswag            ###   ########.fr       */
+/*   Updated: 2021/03/20 18:18:04 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,8 @@ int		open_hist_file(int flags)
 	int 	fd;
 
 	file = get_full_file_name();
-	if ((fd = open(file, flags, 0600)) > -1) ;
-	else if ((fd = open(FILE_HIST_2, flags, 0600)) < 0)
-		ft_error(ER_OPEN);
+	if ((fd = open(file, flags, 0600)) == -1)
+		fd = open(FILE_HIST_2, flags, 0600);
 	(file != NULL) ? free(file) : 0;
 	return (fd);
 }
@@ -62,36 +61,40 @@ void	retrieve_history(t_bdlist **history)
 	
 	*history = NULL;
 	line = NULL;
-	fd = open_hist_file(O_RDONLY | O_CREAT);
-	while (get_next_line(fd, &line) > 0)
+	if ((fd = open_hist_file(O_RDONLY | O_CREAT)) != -1)
 	{
-		if (!(new = ft_bdlstnew(line)))
-			ft_error(ER_MEMORY);
-		ft_bdlstadd_front(history, new);
+		while (get_next_line(fd, &line) > 0)
+		{
+			if (!(new = ft_bdlstnew(line)))
+				ft_error(ER_MEMORY);
+			ft_bdlstadd_front(history, new);
+		}
+		if (line != NULL)
+		{
+			if (!(new = ft_bdlstnew(line)))
+				ft_error(ER_MEMORY);
+			ft_bdlstadd_front(history, new);
+		}
+		close(fd);
 	}
-	if (line != NULL)
-	{
-		if (!(new = ft_bdlstnew(line)))
-			ft_error(ER_MEMORY);
-		ft_bdlstadd_front(history, new);
-	}
-	close(fd);
 }
 
 void	write_history(t_bdlist *last_elem)
 {
 	int fd;
 
-	fd = open_hist_file(O_WRONLY | O_TRUNC);
-	while (last_elem)
+	if ((fd = open_hist_file(O_WRONLY | O_TRUNC)) != -1)
 	{
-		if (last_elem->prev != NULL)
-			ft_putendl_fd(last_elem->cont, fd);
-		else
-			ft_putstr_fd(last_elem->cont, fd);
-		last_elem = last_elem->prev;
+		while (last_elem)
+		{
+			if (last_elem->prev != NULL)
+				ft_putendl_fd(last_elem->cont, fd);
+			else
+				ft_putstr_fd(last_elem->cont, fd);
+			last_elem = last_elem->prev;
+		}
+		close(fd);
 	}
-	close(fd);
 }
 
 void    save_history(void)

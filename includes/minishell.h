@@ -6,7 +6,7 @@
 /*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/03 18:05:44 by bswag             #+#    #+#             */
-/*   Updated: 2021/03/19 19:12:12 by bswag            ###   ########.fr       */
+/*   Updated: 2021/03/20 17:34:02 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,13 +89,18 @@ typedef struct	s_glob
 
 t_glob			*g_main;
 
+/*
+** Redirects have content type t_tok.
+** They locate in list in the same order as in bash line
+** cat < file1 < file2 < file3 (file1 -> file2 -> file3)
+** cat > file1 >> file2 > file3 (file1 -> file2 -> file3)
+*/
 typedef struct	s_cmd
 {
 	int			num_args;
 	char		**args;
-	char		*out_file;
-	int			out_append;
-	char		*in_file;
+	t_list		*redir_in;
+	t_list		*redir_out;
 }				t_cmd;
 
 typedef struct	s_cmd_line
@@ -142,6 +147,7 @@ void	debug_print_info_terminal(void);
 void	debug_print_termios(t_termios *t);
 void	debug_print_lex(t_tok **lex);
 void	debug_print_envp(char **envp);
+void	debug_print_cmd_line(t_cmd_line *cmd_line);
 
 /*
 ** File: reading.c

@@ -74,3 +74,54 @@ void	debug_print_envp(char **envp)
 		i++;
 	}
 }
+
+void	debug_print_chr_arr(char **arr)
+{
+	int	i;
+
+	i = 0;
+	if (arr == NULL)
+		;
+	else
+	{
+		while (arr[i])
+		{
+			printf("      %d) %s\n", i, arr[i]);
+			i++;
+		}
+	}
+}
+
+void	debug_print_list_tok(t_list *redir)
+{
+	while (redir != NULL)
+	{
+		printf("%s(%d)->", ((t_tok *)(redir->content))->cont, ((t_tok *)(redir->content))->type);
+		redir = redir->next;
+	}
+	printf("NULL\n");
+}
+
+void	debug_print_cmd_line(t_cmd_line *cmd_line)
+{
+	int	i = 0;
+
+	ft_printf("\nCOMAND LINE (num_cmds = %d)\n", cmd_line->num_cmds);
+	if (cmd_line->cmds == NULL)
+		printf("No comands\n");
+	printf("**********************\n");
+	while (i < cmd_line->num_cmds)
+	{
+		
+		printf("num_args = %d\nArgs:\n", cmd_line->cmds[i]->num_args);
+		debug_print_chr_arr(cmd_line->cmds[i]->args);
+		printf("\nIn  files:  ");
+		debug_print_list_tok(cmd_line->cmds[i]->redir_in);
+		printf("Out files:  ");
+		debug_print_list_tok(cmd_line->cmds[i]->redir_out);
+		i++;
+		if (i < cmd_line->num_cmds)
+			printf("----------------------\n");
+	}
+	printf("**********************\n");
+}

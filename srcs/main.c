@@ -6,7 +6,7 @@
 /*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/02 19:25:10 by bswag             #+#    #+#             */
-/*   Updated: 2021/03/19 18:43:39 by bswag            ###   ########.fr       */
+/*   Updated: 2021/03/20 17:17:13 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,13 +59,11 @@ int		main(int argc, char **argv, char **envp)
 			break ;
 		end_of_reading();
 		lex = tokenize_input(g_main->history->cont);
-		debug_print_lex(lex);
 		while (lex)
 		{
 			cmd_line = parse_input(&lex);
-			debug_print_lex(lex);
-			// if (cmd_line != NULL)
-				// execute_cmd_line(cmd_line);
+			debug_print_cmd_line(cmd_line);
+			// execute_cmd_line(cmd_line);
 		}
 	}
 	tcsetattr(0, TCSAFLUSH, g_main->saved_term);

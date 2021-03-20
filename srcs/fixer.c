@@ -6,7 +6,7 @@
 /*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 22:26:22 by bswag             #+#    #+#             */
-/*   Updated: 2021/03/19 18:47:05 by bswag            ###   ########.fr       */
+/*   Updated: 2021/03/20 16:39:28 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ void	fix_lexeme(t_tok *lex)
 		replace_env_vars(&lex->cont);
 		replace_home_dir(&lex->cont);
 	}
-	if (lex->type == TOKEN_QOUTE)
+	else if (lex->type == TOKEN_QOUTE)
 		trim_qoutes(&lex->cont);
 	else if (lex->type == TOKEN_DQOUTE)
 	{
