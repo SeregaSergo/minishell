@@ -6,19 +6,11 @@
 /*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/04 21:23:49 by bswag             #+#    #+#             */
-/*   Updated: 2021/03/20 19:23:03 by bswag            ###   ########.fr       */
+/*   Updated: 2021/03/24 14:48:39 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	set_result_prev_cmd(int	res)
-{
-	g_main->i_result_prev_cmd = res;
-	if (g_main->c_result_prev_cmd != NULL)
-		free(g_main->c_result_prev_cmd);
-	g_main->c_result_prev_cmd = ft_itoa(res);
-}
 
 t_env	*make_env_struct(char *env_elem)
 {

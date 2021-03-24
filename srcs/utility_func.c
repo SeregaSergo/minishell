@@ -6,7 +6,7 @@
 /*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/12 19:28:31 by bswag             #+#    #+#             */
-/*   Updated: 2021/03/19 13:30:13 by bswag            ###   ########.fr       */
+/*   Updated: 2021/03/24 14:48:30 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,19 @@ void	print_env(void)
 }
 
 /*
-** Return a pointer to value of variable
+** Use this function when comand has completed the execution to set
+** a result. This is necessary for $?.
+*/
+void	set_result_prev_cmd(int	res)
+{
+	g_main->i_result_prev_cmd = res;
+	if (g_main->c_result_prev_cmd != NULL)
+		free(g_main->c_result_prev_cmd);
+	g_main->c_result_prev_cmd = ft_itoa(res);
+}
+
+/*
+** Return a pointer(!!!) to value of variable, so you can change it or print.
 */
 char	**get_val_env(char *var)
 {
@@ -55,6 +67,9 @@ int		array_size(void **arr)
 	return (i);
 }
 
+/*
+** It does not make a deep copy, just make lightweight copy of pointers.
+*/
 void	copy_array(void **dst, void **src)
 {
 	if (src)

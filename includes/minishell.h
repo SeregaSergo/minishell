@@ -6,7 +6,7 @@
 /*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/03 18:05:44 by bswag             #+#    #+#             */
-/*   Updated: 2021/03/20 21:14:25 by bswag            ###   ########.fr       */
+/*   Updated: 2021/03/24 14:54:13 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,12 +134,12 @@ void	print_env(void);
 int		array_size(void **arr);
 void	copy_array(void **dst, void **src);
 char	**get_val_env(char *var);
+void	set_result_prev_cmd(int	res);
 
 /*
 ** File: init.c
 */
 void	init_glob_struct(char **argv, char **envp);
-void	set_result_prev_cmd(int	res);
 
 /*
 ** File: debug.c
@@ -155,8 +155,6 @@ void	debug_print_cmd_line(t_cmd_line *cmd_line);
 ** File: reading.c
 */
 int		shell_reading(void);
-char	*paste_char_pos(int pos, char *buf, char *c);
-char	*delete_char_pos(int pos, char *buf);
 char	*delete_str_pos(int pos, int n_symbols, char *buf);
 char	*paste_str_pos(int pos, char *buf, char *s);
 
@@ -196,9 +194,7 @@ void	fix_lexeme(t_tok *lex);
 /*
 ** File: cursor_pos.c
 */
-#define   RD_EOF   -1
-#define   RD_EIO   -2
-
-int 	cursor_position(const int tty, int *const rowptr, int *const colptr);
+int 	get_cursor_position(const int tty, int *const rowptr, int *const colptr);
+void	restore_cursor_pos(void);
 
 #endif

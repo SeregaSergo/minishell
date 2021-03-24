@@ -6,7 +6,7 @@
 /*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/15 16:55:02 by bswag             #+#    #+#             */
-/*   Updated: 2021/03/20 20:52:22 by bswag            ###   ########.fr       */
+/*   Updated: 2021/03/24 14:52:39 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,11 @@
 */
 void    process_key_up(void)
 {
-	// int	up;
-
-	// up = (ft_strlen(g_main->prompt) + g_main->n_symb_buf - 1) / tgetnum("co");
 	if (g_main->cur_elem->next != NULL)
 	{
-		tputs(restore_cursor, 1, ft_putchar);
-		// while (up--)
-		// 	tputs(tgetstr("up", 0), 1, ft_putchar);
+		// tputs(restore_cursor, 1, ft_putchar);
+		restore_cursor_pos();
+		get_cursor_position(0, &g_main->cur_row, &g_main->cur_col);
 		tputs(tgetstr("cd", 0), 1, ft_putchar);
 		if (g_main->cur_elem->cont != NULL)
 			free(g_main->cur_elem->cont);
@@ -59,7 +56,9 @@ void	process_key_down(void)
 {
 	if (g_main->cur_elem->prev != NULL)
 	{
-		tputs(restore_cursor, 1, ft_putchar);
+		// tputs(restore_cursor, 1, ft_putchar);
+		restore_cursor_pos();
+		get_cursor_position(0, &g_main->cur_row, &g_main->cur_col);
 		tputs(tgetstr("cd", 0), 1, ft_putchar);
 		if (g_main->cur_elem->cont != NULL)
 			free(g_main->cur_elem->cont);
@@ -106,7 +105,7 @@ void	process_key_backspace(void)
 		tputs(tgetstr("le", 0), 1, ft_putchar);
 		tputs(tgetstr("dc", 0), 1, ft_putchar);
 		g_main->pos--;
-		g_main->cur_buf = delete_char_pos(g_main->pos, g_main->cur_buf);
+		g_main->cur_buf = delete_str_pos(g_main->pos, 1, g_main->cur_buf);
 		g_main->n_symb_buf--;
 	}
 }
@@ -142,7 +141,7 @@ void	process_printable_char(char *c)
 	tputs(tgetstr("im", 0), 1, ft_putchar);
 	write(1, c, 1);
 	tputs(tgetstr("ei", 0), 1, ft_putchar);
-	g_main->cur_buf = paste_char_pos(g_main->pos, g_main->cur_buf, c);
+	g_main->cur_buf = paste_str_pos(g_main->pos, g_main->cur_buf, c);
 	g_main->pos++;
 	g_main->n_symb_buf++;
 }

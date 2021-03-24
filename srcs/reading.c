@@ -6,35 +6,11 @@
 /*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/14 20:00:38 by bswag             #+#    #+#             */
-/*   Updated: 2021/03/18 17:15:26 by bswag            ###   ########.fr       */
+/*   Updated: 2021/03/24 14:54:28 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-/*
-** Paste string (c) into string (buf) at position (pos).
-** Free buf.
-*/
-char	*paste_char_pos(int pos, char *buf, char *c)
-{
-	int		len_b;
-	char	*new;
-	int		len_c;
-	
-	if (buf != NULL)
-		len_b = ft_strlen(buf);
-	else
-		len_b = 0;
-	len_c = ft_strlen(c);
-	if (!(new = malloc(sizeof(char) * (len_b + len_c + 1))))
-		ft_error(ER_MEMORY);
-	ft_strlcpy(new, buf, pos + 1);
-	ft_strlcpy(&new[pos], c, len_c + 1);
-	ft_strlcpy(&new[pos + len_c], &buf[pos], len_b - pos + 1);
-	free(buf);
-	return (new);
-}
 
 /*
 ** Paste string (s) into string (buf) at position (pos).
@@ -56,24 +32,6 @@ char	*paste_str_pos(int pos, char *buf, char *s)
 	ft_strlcpy(new, buf, pos + 1);
 	ft_strlcpy(&new[pos], s, len_c + 1);
 	ft_strlcpy(&new[pos + len_c], &buf[pos], len_b - pos + 1);
-	free(buf);
-	return (new);
-}
-
-/*
-** Delete char in string (buf) at position (pos).
-** Free buf.
-*/
-char	*delete_char_pos(int pos, char *buf)
-{
-	int		len;
-	char	*new;
-	
-	len = ft_strlen(buf);
-	if (!(new = malloc(sizeof(char) * len)))
-		ft_error(ER_MEMORY);
-	ft_strlcpy(new, buf, pos + 1);
-	ft_strlcpy(&new[pos], &buf[pos + 1], len - pos);
 	free(buf);
 	return (new);
 }

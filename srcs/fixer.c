@@ -6,7 +6,7 @@
 /*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 22:26:22 by bswag             #+#    #+#             */
-/*   Updated: 2021/03/20 16:39:28 by bswag            ###   ########.fr       */
+/*   Updated: 2021/03/24 14:55:34 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	cut_backslash(char **cont)
 	while ((*cont)[i])
 	{
 		if ((*cont)[i] == '\\')
-			*cont = delete_char_pos(i, *cont);
+			*cont = delete_str_pos(i, 1, *cont);
 		i++;
 	}
 }
@@ -69,7 +69,7 @@ void	replace_env_vars(char **cont)
 
 void	replace_home_dir(char **cont)
 {
-	int	i;
+	int		i;
 	char	**val;
 	
 	i = 0;
