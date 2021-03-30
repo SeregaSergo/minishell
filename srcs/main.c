@@ -6,7 +6,7 @@
 /*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/02 19:25:10 by bswag             #+#    #+#             */
-/*   Updated: 2021/03/24 13:42:20 by bswag            ###   ########.fr       */
+/*   Updated: 2021/03/30 21:29:09 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	prepare_to_read(void)
 	ft_bdlstadd_front(&g_main->history, new);
 	g_main->cur_elem = g_main->history;
 	ft_printf("%s", g_main->prompt);
-	// tputs(save_cursor, 1, ft_putchar);
+	tputs(tgetstr("ks", 0), 1, ft_putchar);
 	get_cursor_position(0, &g_main->cur_row, &g_main->cur_col);
 }
 
@@ -34,6 +34,7 @@ void	prepare_to_read(void)
 */
 void	end_of_reading(void)
 {
+	tputs(tgetstr("ke", 0), 1, ft_putchar);
 	tcsetattr(0, TCSAFLUSH, g_main->saved_term);
 	g_main->cur_elem = g_main->history;
 	g_main->cur_elem->cont = g_main->cur_buf;

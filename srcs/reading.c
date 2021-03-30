@@ -6,7 +6,7 @@
 /*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/14 20:00:38 by bswag             #+#    #+#             */
-/*   Updated: 2021/03/24 14:54:28 by bswag            ###   ########.fr       */
+/*   Updated: 2021/03/30 21:36:48 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,13 +56,13 @@ char	*delete_str_pos(int pos, int n_symbols, char *buf)
 
 int	process_input_chars(char *c)
 {
-	if (!ft_strncmp(c, "\033[A", 3))
+	if (!ft_strncmp(c, tgetstr("ku", 0), 4))
 		process_key_up();
-	else if (!ft_strncmp(c, "\033[B", 3))
+	else if (!ft_strncmp(c, tgetstr("kd", 0), 3))
 		process_key_down();
-	else if (!ft_strncmp(c, "\033[C", 3))
+	else if (!ft_strncmp(c, tgetstr("kr", 0), 3))
 		process_key_right();
-	else if (!ft_strncmp(c, "\033[D", 3))
+	else if (!ft_strncmp(c, tgetstr("kl", 0), 3))
 		process_key_left();
 	else if (c[0] == 127)
 		process_key_backspace();
