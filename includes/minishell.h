@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
+/*   By: egilbert <egilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/03 18:05:44 by bswag             #+#    #+#             */
-/*   Updated: 2021/03/24 14:54:13 by bswag            ###   ########.fr       */
+/*   Updated: 2021/04/12 21:57:00 by egilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,7 @@ void	ft_error(unsigned char er);
 /*
 ** File: utility_func.c
 */
-void	print_env(void);
+void	print_env(int exp);
 int		array_size(void **arr);
 void	copy_array(void **dst, void **src);
 char	**get_val_env(char *var);
@@ -140,7 +140,7 @@ void	set_result_prev_cmd(int	res);
 ** File: init.c
 */
 void	init_glob_struct(char **argv, char **envp);
-
+t_env	*make_env_struct(char *env_elem);
 /*
 ** File: debug.c
 */
@@ -197,4 +197,38 @@ void	fix_lexeme(t_tok *lex);
 int 	get_cursor_position(const int tty, int *const rowptr, int *const colptr);
 void	restore_cursor_pos(void);
 
+/*
+** File: cd.c
+*/
+
+void	cd(char *path);
+void	execute_cmd_line(t_cmd_line	*cmd);
+void	change_env_value(char **old, char *new);
+
+/*
+** File: pwd.c
+*/
+
+void	pwd(void);
+
+/*
+** File: echo.c
+*/
+
+int		ft_echo(char **args);
+
+/*
+** File: unset.c
+*/
+
+void	unset(char *var);
+int		ft_strcmp(char *s1, char*s2);
+void	free_env(t_env *fr);
+
+/*
+** File: export.c
+*/
+
+void	export(char *str);
+int		var_exist(char *var);
 #endif

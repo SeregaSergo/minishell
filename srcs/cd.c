@@ -1,4 +1,3 @@
-#include <__wctype.h>
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
@@ -7,56 +6,49 @@
 /*   By: egilbert <egilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/23 20:33:16 by egilbert          #+#    #+#             */
-/*   Updated: 2021/03/02 19:32:07 by egilbert         ###   ########.fr       */
+/*   Updated: 2021/04/12 21:57:34 by egilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../includes/minishell.h"
 
-char		*new_value(char *key, char *value)
+void	change_env_value(char **old, char *new)
 {
-	char *new;
-	int k_len;
-
-	k_len = ft_strlen(key);
-	new = (char *)malloc(ft_strlen(key) + ft_strlen(value) + 2);
-	ft_strlcpy(new, key, k_len + 1);
-	new[k_len] = '=';
-	ft_strlcpy(&new[k_len + 1], value, ft_strlen(value) + 1);
-	return (new);
+	free(*old);
+	*old = ft_strdup(new);
 }
 
-void	change_env_value(t_shell *bash, char *key, char *value)
+void	execute_cmd_line(t_cmd_line	*cmd)
 {
-	int i;
-	int k_len;
-
-	k_len = ft_strlen(key);
-	i = -1;
-	while (bash->env[++i] != NULL)
-    {
-		if (!ft_strncmp(bash->env[i], key, k_len) && bash->env[i][k_len] == '=')
-		{
-			free(bash->env[i]);
-			bash->env[i] = new_value(key, value);
-		}
+	if(!ft_strncmp(cmd->cmds[0]->args[0], "cd", 2))
+		cd(cmd->cmds[0]->args[1]);
+	if(!ft_strncmp(cmd->cmds[0]->args[0], "exit", 4))
+		exit(0);
+	if(!ft_strncmp(cmd->cmds[0]->args[0], "echo", 4))
+		ft_echo(cmd->cmds[0]->args);
+	if(!ft_strncmp(cmd->cmds[0]->args[0], "pwd", 3))
+		pwd();
+	if (!ft_strcmp(cmd->cmds[0]->args[0], "unset"))
+		unset(cmd->cmds[0]->args[1]);
+	if (!ft_strcmp(cmd->cmds[0]->args[0], "export"))
+		export(cmd->cmds[0]->args[1]);
+	if (!ft_strcmp(cmd->cmds[0]->args[0], "env"))
+		print_env(0);
 	}
 
-}
-
-
-void	cd(char *path, t_shell *bash)
+void	cd(char *path)
 {
-    char *old;
+	char *old;
 
-    old = getcwd(NULL, 1);
+	old = getcwd(NULL, 1);
 	if (!chdir(path))
 	{
-	    change_env_value(bash, "OLDPWD", old);
-		change_env_value(bash, "PWD", getcwd(NULL, 1));
-	    free(old);
+		change_env_value(get_val_env("OLDPWD"), old);
+		change_env_value(get_val_env("PWD"), getcwd(NULL, 1));
+		free(old);
+		print_env(0);
 		return ;
 	}
-    free(old);
+	free(old);
 	perror("cd");
 }

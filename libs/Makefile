@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: bswag <bswag@student.42.fr>                +#+  +:+       +#+         #
+#    By: egilbert <egilbert@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/12/20 17:19:13 by bswag             #+#    #+#              #
-#    Updated: 2021/03/12 19:52:19 by bswag            ###   ########.fr        #
+#    Updated: 2021/03/30 20:23:51 by egilbert         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ PATHSRC =	./GNL/
 OBJS =	$(SRCS:%.c=%.o)
 LIB =		libftprintf.a
 PATHLIB = ./ft_printf/
-CC = gcc
+CC = gcc -g
 CFLAGS = -Wall -Wextra -Werror
 DEPS = $(PATHSRC)get_next_line.h
 
@@ -34,7 +34,7 @@ $(LIB):
 
 %.o: $(PATHSRC)%.c $(DEPS)
 	$(CC) $(CFLAGS) -o $(PATHSRC)$@ $<
-	
+
 bonus: all
 
 clean:

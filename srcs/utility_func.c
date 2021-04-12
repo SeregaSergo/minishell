@@ -3,22 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   utility_func.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
+/*   By: egilbert <egilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/12 19:28:31 by bswag             #+#    #+#             */
-/*   Updated: 2021/03/24 14:48:30 by bswag            ###   ########.fr       */
+/*   Updated: 2021/04/12 21:56:26 by egilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	print_env(void)
+void	print_env(int exp)
 {
 	int	i;
-	
+
 	i = 0;
-	while (g_main->env[i])	
+	while (g_main->env[i])
 	{
+		if (exp)
+			ft_printf("declare -x ");
 		ft_printf("%s=%s\n", g_main->env[i]->var, g_main->env[i]->cont);
 		i++;
 	}
@@ -58,7 +60,7 @@ char	**get_val_env(char *var)
 int		array_size(void **arr)
 {
 	int	i;
-	
+
 	if (arr == NULL)
 		return (0);
 	i = 0;

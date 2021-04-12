@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
+/*   By: egilbert <egilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/02 19:25:10 by bswag             #+#    #+#             */
-/*   Updated: 2021/03/24 13:42:20 by bswag            ###   ########.fr       */
+/*   Updated: 2021/04/01 16:40:05 by egilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 void	prepare_to_read(void)
 {
 	t_bdlist	*new;
-	
+
 	tcsetattr(0, TCSAFLUSH, g_main->term);
 	if (!(new = ft_bdlstnew(NULL)))
 		ft_error(ER_MEMORY);
@@ -46,13 +46,13 @@ int		main(int argc, char **argv, char **envp)
 {
 	t_tok		**lex;
 	t_cmd_line	*cmd_line;
-	
+
 	if (argc != 1 && envp != NULL)
 		ft_error(ER_ARGS);
-	// setenv("TERM", "xterm-256color", 0);
+	setenv("TERM", "xterm-256color", 0);
 	switch_off_signals();
 	init_glob_struct(argv, envp);
-	// print_env();
+	//print_env();
 	while (1)
 	{
 		prepare_to_read();
@@ -64,7 +64,8 @@ int		main(int argc, char **argv, char **envp)
 		{
 			cmd_line = parse_input(&lex);
 			debug_print_cmd_line(cmd_line);
-			// execute_cmd_line(cmd_line);
+			execute_cmd_line(cmd_line);
+			//print_env();
 		}
 	}
 	tcsetattr(0, TCSAFLUSH, g_main->saved_term);

@@ -6,11 +6,11 @@
 /*   By: egilbert <egilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/23 18:14:41 by egilbert          #+#    #+#             */
-/*   Updated: 2021/02/23 18:35:45 by egilbert         ###   ########.fr       */
+/*   Updated: 2021/04/01 16:37:55 by egilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../includes/minishell.h"
 
 void	pwd(void)
 {
