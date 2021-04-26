@@ -6,7 +6,7 @@
 /*   By: egilbert <egilbert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/23 20:33:16 by egilbert          #+#    #+#             */
-/*   Updated: 2021/04/12 21:57:34 by egilbert         ###   ########.fr       */
+/*   Updated: 2021/04/25 20:31:28 by egilbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,23 +18,31 @@ void	change_env_value(char **old, char *new)
 	*old = ft_strdup(new);
 }
 
+void	execve_cmds(t_cmd_line	*cmd)
+{
+	while 
+}
+
 void	execute_cmd_line(t_cmd_line	*cmd)
 {
 	if(!ft_strncmp(cmd->cmds[0]->args[0], "cd", 2))
 		cd(cmd->cmds[0]->args[1]);
-	if(!ft_strncmp(cmd->cmds[0]->args[0], "exit", 4))
+	else if(!ft_strncmp(cmd->cmds[0]->args[0], "exit", 4))
 		exit(0);
-	if(!ft_strncmp(cmd->cmds[0]->args[0], "echo", 4))
+	else if(!ft_strncmp(cmd->cmds[0]->args[0], "echo", 4))
 		ft_echo(cmd->cmds[0]->args);
-	if(!ft_strncmp(cmd->cmds[0]->args[0], "pwd", 3))
+	else if(!ft_strncmp(cmd->cmds[0]->args[0], "pwd", 3))
 		pwd();
-	if (!ft_strcmp(cmd->cmds[0]->args[0], "unset"))
+	else if (!ft_strcmp(cmd->cmds[0]->args[0], "unset"))
 		unset(cmd->cmds[0]->args[1]);
-	if (!ft_strcmp(cmd->cmds[0]->args[0], "export"))
+	else if (!ft_strcmp(cmd->cmds[0]->args[0], "export"))
 		export(cmd->cmds[0]->args[1]);
-	if (!ft_strcmp(cmd->cmds[0]->args[0], "env"))
+	else if (!ft_strcmp(cmd->cmds[0]->args[0], "env"))
 		print_env(0);
-	}
+	else
+		execve_cmds();
+
+}
 
 void	cd(char *path)
 {
