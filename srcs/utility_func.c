@@ -6,13 +6,13 @@
 /*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/12 19:28:31 by bswag             #+#    #+#             */
-/*   Updated: 2021/03/24 14:48:30 by bswag            ###   ########.fr       */
+/*   Updated: 2021/05/13 00:04:12 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	print_env(void)
+int	print_env(void)
 {
 	int	i;
 	
@@ -22,6 +22,7 @@ void	print_env(void)
 		ft_printf("%s=%s\n", g_main->env[i]->var, g_main->env[i]->cont);
 		i++;
 	}
+	return (0);
 }
 
 /*

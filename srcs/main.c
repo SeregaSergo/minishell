@@ -6,7 +6,7 @@
 /*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/02 19:25:10 by bswag             #+#    #+#             */
-/*   Updated: 2021/03/30 21:29:09 by bswag            ###   ########.fr       */
+/*   Updated: 2021/05/14 22:37:10 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,31 @@ void	end_of_reading(void)
 	g_main->pos = 0;
 }
 
+void	clear_cmd_line(t_cmd_line *cmd_line)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (i < cmd_line->num_cmds)
+	{
+		j = 0;
+		while (j < cmd_line->cmds[i]->num_args)
+		{
+			free(cmd_line->cmds[i]->args[j]);
+			j++;
+		}
+		free(cmd_line->cmds[i]->args);
+		ft_lstclear(&cmd_line->cmds[i]->redir_in, free_token);
+		ft_lstclear(&cmd_line->cmds[i]->redir_out, free_token);
+		free(cmd_line->cmds[i]->pipe_in);
+		free(cmd_line->cmds[i]->pipe_out);
+		i++;
+	}
+	free(cmd_line->cmds);
+	free(cmd_line);
+}
+
 int		main(int argc, char **argv, char **envp)
 {
 	t_tok		**lex;
@@ -50,10 +75,9 @@ int		main(int argc, char **argv, char **envp)
 	
 	if (argc != 1 && envp != NULL)
 		ft_error(ER_ARGS);
-	// setenv("TERM", "xterm-256color", 0);
+	// setenv("TERM", "xterm-256color", 0); // FOR DEBUG IN VSCODE
 	switch_off_signals();
 	init_glob_struct(argv, envp);
-	// print_env();
 	while (1)
 	{
 		prepare_to_read();
@@ -64,8 +88,9 @@ int		main(int argc, char **argv, char **envp)
 		while (lex)
 		{
 			cmd_line = parse_input(&lex);
-			debug_print_cmd_line(cmd_line);
-			// execute_cmd_line(cmd_line);
+			// debug_print_cmd_line(cmd_line);
+			execute_cmd_line(cmd_line);
+			clear_cmd_line(cmd_line);
 		}
 	}
 	tcsetattr(0, TCSAFLUSH, g_main->saved_term);

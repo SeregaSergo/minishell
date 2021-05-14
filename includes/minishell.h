@@ -6,7 +6,7 @@
 /*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/03 18:05:44 by bswag             #+#    #+#             */
-/*   Updated: 2021/03/24 14:54:13 by bswag            ###   ########.fr       */
+/*   Updated: 2021/05/14 22:39:43 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,9 @@
 # define ER_NO_TERMINAL		3
 # define ER_ENV_TERM		4
 # define ER_OPEN			5
+# define ER_PIPE			6
+# define ER_FORK			7
+# define ER_WAIT			8
 
 /*
 ** Lexer defines
@@ -103,6 +106,8 @@ typedef struct	s_cmd
 	char		**args;
 	t_list		*redir_in;
 	t_list		*redir_out;
+	int			*pipe_in;
+	int			*pipe_out;
 }				t_cmd;
 
 typedef struct	s_cmd_line
@@ -130,7 +135,7 @@ void	ft_error(unsigned char er);
 /*
 ** File: utility_func.c
 */
-void	print_env(void);
+int		print_env(void);
 int		array_size(void **arr);
 void	copy_array(void **dst, void **src);
 char	**get_val_env(char *var);
@@ -140,6 +145,7 @@ void	set_result_prev_cmd(int	res);
 ** File: init.c
 */
 void	init_glob_struct(char **argv, char **envp);
+t_env	*make_env_struct(char *env_elem);
 
 /*
 ** File: debug.c
@@ -185,6 +191,7 @@ t_cmd_line	*parse_input(t_tok ***lex);
 ** File: lexer.c
 */
 t_tok	**tokenize_input(char *s);
+void	free_token(void *t);
 
 /*
 ** File: fixer.c
@@ -196,5 +203,25 @@ void	fix_lexeme(t_tok *lex);
 */
 int 	get_cursor_position(const int tty, int *const rowptr, int *const colptr);
 void	restore_cursor_pos(void);
+
+/*
+** File: execute.c
+*/
+void	execute_cmd_line(t_cmd_line	*cmd);
+
+/*
+** File: built-in.c.c
+*/
+int		export(char *str);
+int		cd(char *path);
+int		ft_echo(char **args);
+int		pwd(void);
+
+/*
+** File: unset.c
+*/
+int		unset(char *var);
+int		var_exist(char *var);
+int		ft_strcmp(char *s1, char*s2);
 
 #endif

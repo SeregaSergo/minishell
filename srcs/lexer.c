@@ -6,7 +6,7 @@
 /*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 22:22:40 by bswag             #+#    #+#             */
-/*   Updated: 2021/03/20 17:05:30 by bswag            ###   ########.fr       */
+/*   Updated: 2021/05/14 22:39:27 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,8 +83,11 @@ int		get_next_token(char *s, int *type)
 	return (0);
 }
 
-void	free_token(t_tok *tok)
+void	free_token(void *t)
 {
+	t_tok	*tok;
+
+	tok = (t_tok *)t;
 	if (tok)
 	{
 		if (tok->cont)
