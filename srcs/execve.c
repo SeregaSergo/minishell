@@ -6,7 +6,7 @@
 /*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/15 19:09:40 by bswag             #+#    #+#             */
-/*   Updated: 2021/05/15 20:54:49 by bswag            ###   ########.fr       */
+/*   Updated: 2021/05/16 01:13:05 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ char	**create_str_envp(void)
 	int		i;
 	char	**envp;
 	char	*tmp;
-	
+
 	i = 0;
 	len = array_size((void **)g_main->env);
 	envp = (char **)malloc(sizeof(char *) * (len + 1));
@@ -43,7 +43,7 @@ int	check_dir_file(char *path, char *name)
 
 	dirp = opendir(path);
 	if (dirp == NULL)
-    	return (1);
+		return (1);
 	len = ft_strlen(name);
 	while (1)
 	{

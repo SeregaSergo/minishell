@@ -6,7 +6,7 @@
 /*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/12 19:28:31 by bswag             #+#    #+#             */
-/*   Updated: 2021/05/13 00:04:12 by bswag            ###   ########.fr       */
+/*   Updated: 2021/05/16 01:00:18 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 int	print_env(void)
 {
 	int	i;
-	
+
 	i = 0;
-	while (g_main->env[i])	
+	while (g_main->env[i])
 	{
 		ft_printf("%s=%s\n", g_main->env[i]->var, g_main->env[i]->cont);
 		i++;
@@ -56,10 +56,10 @@ char	**get_val_env(char *var)
 	return (NULL);
 }
 
-int		array_size(void **arr)
+int	array_size(void **arr)
 {
 	int	i;
-	
+
 	if (arr == NULL)
 		return (0);
 	i = 0;

@@ -6,7 +6,7 @@
 /*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/04 23:03:35 by bswag             #+#    #+#             */
-/*   Updated: 2021/05/14 22:22:32 by bswag            ###   ########.fr       */
+/*   Updated: 2021/05/16 01:13:48 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	ft_error(unsigned char er)
 		ft_putstr_fd("Can't create pipe\n", 2);
 	else if (er == ER_WAIT)
 		ft_putstr_fd("Troubles with waiting of child process\n", 2);
-	save_history();   // This line can be dengerous
+	save_history();
 	if (g_main->saved_term)
 		tcsetattr(0, TCSAFLUSH, g_main->saved_term);
 	exit(errno);

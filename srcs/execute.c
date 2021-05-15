@@ -6,7 +6,7 @@
 /*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/12 21:41:29 by bswag             #+#    #+#             */
-/*   Updated: 2021/05/15 20:53:43 by bswag            ###   ########.fr       */
+/*   Updated: 2021/05/16 01:29:06 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,16 @@ int	execute_cmd(t_cmd *cmd)
 {
 	int	ret;
 
-	if(!ft_strncmp(cmd->args[0], "cd", 2))
+	if (!ft_strncmp(cmd->args[0], "cd", 3))
 		ret = cd(cmd->args[1]);
-	else if(!ft_strncmp(cmd->args[0], "exit", 4))
+	else if (!ft_strncmp(cmd->args[0], "exit", 5))
+	{
+		set_result_prev_cmd(0);
 		exit(0);
-	else if(!ft_strncmp(cmd->args[0], "echo", 4))
+	}
+	else if (!ft_strncmp(cmd->args[0], "echo", 5))
 		ret = ft_echo(cmd->args);
-	else if(!ft_strncmp(cmd->args[0], "pwd", 3))
+	else if (!ft_strncmp(cmd->args[0], "pwd", 4))
 		ret = pwd();
 	else if (!ft_strncmp(cmd->args[0], "unset", 6))
 		ret = unset(cmd->args[1]);
@@ -64,66 +67,16 @@ void	close_pipes(t_cmd **cmds, int n, int i_save)
 	i = 0;
 	while (i < n && n != 1)
 	{
-		if (cmds[i]->redir_in != NULL)
-		{
-			if (i != i_save)
-				close(cmds[i]->pipe_in[0]);
+		if (i != i_save && cmds[i]->pipe_in != NULL)
+			close(cmds[i]->pipe_in[0]);
+		if (i != i_save && cmds[i]->pipe_out != NULL)
+			close(cmds[i]->pipe_out[1]);
+		if (i != (i_save + 1) && cmds[i]->pipe_in != NULL)
 			close(cmds[i]->pipe_in[1]);
-		}
-		if (cmds[i]->redir_out != NULL)
-		{
-			if (i != i_save)
-				close(cmds[i]->pipe_out[1]);
+		if (i != (i_save - 1) && cmds[i]->pipe_out != NULL)
 			close(cmds[i]->pipe_out[0]);
-		}
 		i++;
 	}
-}
-
-void	file_redirect(t_list *files, int stream)
-{
-	int		fd;
-	t_list	*ptr;
-	t_tok	*tok_ptr;
-
-	ptr = files;
-	while (ptr != NULL)
-	{
-		tok_ptr = ((t_tok *)files->content);
-		if (tok_ptr->type == TOKEN_IN)
-			fd = open(tok_ptr->cont, O_RDONLY);
-		else if (tok_ptr->type == TOKEN_OUT)
-			fd = open(tok_ptr->cont, O_WRONLY|O_CREAT|O_TRUNC, 0644);
-		else
-			fd = open(tok_ptr->cont, O_WRONLY|O_APPEND|O_CREAT, 0644);
-		if (ptr->next != NULL)
-			close(fd);
-		ptr = ptr->next;
-	}
-	dup2(fd, stream);
-	close(fd);
-}
-
-void	redirect_streams(t_cmd *cmd)
-{
-	if (cmd->redir_in == NULL) // если входных редиректов нет
-	{
-		if (cmd->pipe_in != NULL) // если есть входной пайп
-			dup2(cmd->pipe_in[0], 0);
-	}
-	else		// есть входные редиректы
-		file_redirect(cmd->redir_in, 0);
-	if (cmd->redir_out == NULL) // если выходных редиректов нет
-	{
-		if (cmd->pipe_out != NULL) // если есть выходной пайп
-			dup2(cmd->pipe_out[1], 1);
-	}
-	else		// есть выходные редиректы
-		file_redirect(cmd->redir_out, 1);
-	if (cmd->pipe_in != NULL)
-		close(cmd->pipe_in[0]);
-	if (cmd->pipe_out != NULL)
-		close(cmd->pipe_out[1]);
 }
 
 void	wait_for_all_children(int n)
@@ -143,14 +96,14 @@ void	wait_for_all_children(int n)
 	set_result_prev_cmd(status);
 }
 
-void	execute_cmd_line(t_cmd_line * cmd_line)
+void	execute_cmd_line(t_cmd_line *cmd_line)
 {
 	int	status;
 	int	i;
 	int	pid;
 
 	i = 0;
-	if (cmd_line->num_cmds > 1)
+	if (cmd_line->num_cmds > 1 || is_builtin(cmd_line->cmds[0]->args[0]))
 	{
 		make_pipes(cmd_line->cmds, cmd_line->num_cmds);
 		while (i < cmd_line->num_cmds)
@@ -168,9 +121,9 @@ void	execute_cmd_line(t_cmd_line * cmd_line)
 			}
 			i++;
 		}
-		close_pipes(cmd_line->cmds, cmd_line->num_cmds, -1);
+		close_pipes(cmd_line->cmds, cmd_line->num_cmds, -2);
 		wait_for_all_children(cmd_line->num_cmds);
 	}
 	else
-		set_result_prev_cmd(execute_cmd(cmd_line->cmds[0]));
+		exec_in_the_same_proc(cmd_line->cmds[0]);
 }

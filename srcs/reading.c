@@ -6,7 +6,7 @@
 /*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/14 20:00:38 by bswag             #+#    #+#             */
-/*   Updated: 2021/03/30 21:36:48 by bswag            ###   ########.fr       */
+/*   Updated: 2021/05/16 01:04:21 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,14 @@ char	*paste_str_pos(int pos, char *buf, char *s)
 	int		len_b;
 	char	*new;
 	int		len_c;
-	
+
 	if (buf != NULL)
 		len_b = ft_strlen(buf);
 	else
 		len_b = 0;
 	len_c = ft_strlen(s);
-	if (!(new = malloc(sizeof(char) * (len_b + len_c + 1))))
+	new = malloc(sizeof(char) * (len_b + len_c + 1));
+	if (!new)
 		ft_error(ER_MEMORY);
 	ft_strlcpy(new, buf, pos + 1);
 	ft_strlcpy(&new[pos], s, len_c + 1);
@@ -44,9 +45,10 @@ char	*delete_str_pos(int pos, int n_symbols, char *buf)
 {
 	int		len;
 	char	*new;
-	
+
 	len = ft_strlen(buf);
-	if (!(new = malloc(sizeof(char) * (len + 1 - n_symbols))))
+	new = malloc(sizeof(char) * (len + 1 - n_symbols));
+	if (!new)
 		ft_error(ER_MEMORY);
 	ft_strlcpy(new, buf, pos + 1);
 	ft_strlcpy(&new[pos], &buf[pos + n_symbols], len - pos + 1 - n_symbols);
@@ -75,7 +77,7 @@ int	process_input_chars(char *c)
 	return (0);
 }
 
-int     shell_reading(void)
+int	shell_reading(void)
 {
 	int			rd;
 	char		c[64];

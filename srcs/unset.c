@@ -6,15 +6,15 @@
 /*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/01 18:54:31 by egilbert          #+#    #+#             */
-/*   Updated: 2021/05/12 23:58:48 by bswag            ###   ########.fr       */
+/*   Updated: 2021/05/16 01:02:53 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int		ft_strcmp(char *s1, char*s2)
+int	ft_strcmp(char *s1, char*s2)
 {
-	int i;
+	int	i;
 
 	i = -1;
 	if (s1 == NULL || s2 == NULL)
@@ -40,7 +40,8 @@ void	clone_without_one(int skip, int len)
 	int		i;
 	t_env	**chp_new;
 
-	if (!(new = (t_env **)malloc(len * sizeof(t_env *))))
+	new = (t_env **)malloc(len * sizeof(t_env *));
+	if (!new)
 		ft_error(ER_MEMORY);
 	i = -1;
 	chp_new = new;
@@ -59,21 +60,21 @@ void	clone_without_one(int skip, int len)
 	g_main->env = chp_new;
 }
 
-int		var_exist(char *var)
+int	var_exist(char *var)
 {
-	int i;
+	int	i;
 
 	i = -1;
 	while (g_main->env[++i] != NULL)
 		if (!ft_strcmp(g_main->env[i]->var, var))
-			return(1);
+			return (1);
 	free(var);
 	return (0);
 }
 
 int	unset(char *var)
 {
-	int i;
+	int	i;
 
 	i = -1;
 	while (g_main->env[++i])
@@ -81,7 +82,7 @@ int	unset(char *var)
 		if (!ft_strcmp(g_main->env[i]->var, var))
 		{
 			clone_without_one(i, array_size((void **)g_main->env));
-			break;
+			break ;
 		}
 	}
 	return (0);

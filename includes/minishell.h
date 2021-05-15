@@ -6,7 +6,7 @@
 /*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/03 18:05:44 by bswag             #+#    #+#             */
-/*   Updated: 2021/05/15 20:32:51 by bswag            ###   ########.fr       */
+/*   Updated: 2021/05/16 01:26:05 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -212,12 +212,19 @@ void	restore_cursor_pos(void);
 void	execute_cmd_line(t_cmd_line	*cmd);
 
 /*
-** File: built-in.c.c
+** File: built-in1.c.c
 */
 int		export(char *str);
 int		cd(char *path);
 int		ft_echo(char **args);
 int		pwd(void);
+
+/*
+** File: built-in2.c.c
+*/
+int		change_value_env(char *new, char **value);
+int		is_builtin(char *cmd);
+void	exec_in_the_same_proc(t_cmd *cmd);
 
 /*
 ** File: unset.c
@@ -230,5 +237,11 @@ int		ft_strcmp(char *s1, char*s2);
 ** File: execve.c
 */
 int		execve_cmds(t_cmd *cmd);
+
+/*
+** File: redirects.c
+*/
+void	redirect_streams(t_cmd *cmd);
+void	file_redirect(t_list *files, int stream);
 
 #endif

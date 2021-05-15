@@ -6,15 +6,15 @@
 /*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/12 21:42:22 by bswag             #+#    #+#             */
-/*   Updated: 2021/05/13 00:04:34 by bswag            ###   ########.fr       */
+/*   Updated: 2021/05/16 01:21:09 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int		ft_echo(char **args)
+int	ft_echo(char **args)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (args[++i])
@@ -41,7 +41,7 @@ void	change_env_value(char **old, char *new)
 
 int	cd(char *path)
 {
-	char *old;
+	char	*old;
 
 	old = getcwd(NULL, 1);
 	if (!chdir(path))
@@ -57,15 +57,6 @@ int	cd(char *path)
 	return (1);
 }
 
-int	change_value_env(char *new, char **value)
-{
-	if (!ft_strcmp(*value, new))
-		return (0);
-	free(*value);
-	*value = new;
-	return (0);
-}
-
 int	export(char *str)
 {
 	t_env	**new_env;
@@ -75,13 +66,15 @@ int	export(char *str)
 	if (!str)
 		return (print_env());
 	len = array_size((void **) g_main->env);
-	if (!(new_env = (t_env **)malloc(sizeof(t_env *) * (len + 2))))
+	new_env = (t_env **)malloc(sizeof(t_env *) * (len + 2));
+	if (!new_env)
 		ft_error(ER_MEMORY);
-	if ((i = ft_strchr_pos(str, '=')) < 0)
+	i = ft_strchr_pos(str, '=');
+	if (i < 0)
 		return (0);
 	if (var_exist(ft_substr(str, 0, i)))
-		return (change_value_env(ft_substr(str, i + 1,ft_strlen(&str[i + 1])),
-			get_val_env(ft_substr(str, 0, i))));
+		return (change_value_env(ft_substr(str, i + 1, ft_strlen(&str[i + 1])), \
+	get_val_env(ft_substr(str, 0, i))));
 	i = -1;
 	while (g_main->env[++i])
 		new_env[i] = g_main->env[i];
@@ -94,11 +87,11 @@ int	export(char *str)
 
 int	pwd(void)
 {
-	char *line;
+	char	*line;
 
 	line = getcwd(NULL, 1);
 	write(1, line, ft_strlen(line));
-	write(1,"\n", 1);
+	write(1, "\n", 1);
 	free(line);
 	return (0);
 }

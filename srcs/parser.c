@@ -6,7 +6,7 @@
 /*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/04 22:58:34 by bswag             #+#    #+#             */
-/*   Updated: 2021/05/15 20:52:52 by bswag            ###   ########.fr       */
+/*   Updated: 2021/05/16 01:09:01 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ t_cmd_line	*init_cmd_line(t_tok **lex)
 	int			i;
 	int			len;
 	t_cmd_line	*cmd_line;
-	
+
 	i = 0;
 	len = 1;
 	while (lex[i] && lex[i]->type != TOKEN_SEPARATOR)
@@ -26,50 +26,58 @@ t_cmd_line	*init_cmd_line(t_tok **lex)
 			len++;
 		i++;
 	}
-	if (!(cmd_line = (t_cmd_line *)malloc(sizeof(t_cmd_line))))
+	cmd_line = (t_cmd_line *)malloc(sizeof(t_cmd_line));
+	if (!cmd_line)
 		ft_error(ER_MEMORY);
 	cmd_line->num_cmds = len;
-	if (!(cmd_line->cmds =(t_cmd **)malloc(sizeof(t_cmd *) * (len + 1))))
+	cmd_line->cmds = (t_cmd **)malloc(sizeof(t_cmd *) * (len + 1));
+	if (!cmd_line->cmds)
 		ft_error(ER_MEMORY);
 	cmd_line->cmds[len] = NULL;
 	return (cmd_line);
 }
 
-t_list		*create_redir_elem(int type, char *cont)
+t_list	*create_redir_elem(int type, char *cont)
 {
 	t_list	*new;
 	t_tok	*tok;
-	
-	if (!(tok = (t_tok *)malloc(sizeof(t_tok))))
+
+	tok = (t_tok *)malloc(sizeof(t_tok));
+	if (!tok)
 		ft_error(ER_MEMORY);
 	tok->type = type;
-	if (!(tok->cont = ft_strdup(cont)))
+	tok->cont = ft_strdup(cont);
+	if (!(tok->cont))
 		ft_error(ER_MEMORY);
-	if (!(new = ft_lstnew(tok)))
+	new = ft_lstnew(tok);
+	if (!new)
 		ft_error(ER_MEMORY);
 	return (new);
 }
 
-char		**add_argument(char **args, char *cont)
+char	**add_argument(char **args, char *cont)
 {
 	int		len;
 	char	**new;
-	
+
 	len = array_size((void **)args);
-	if (!(new = (char **)malloc(sizeof(char *) * (len + 2))))
+	new = (char **)malloc(sizeof(char *) * (len + 2));
+	if (!new)
 		ft_error(ER_MEMORY);
 	copy_array((void **)new, (void **)args);
-	if (!(new[len] = ft_strdup(cont)))
+	new[len] = ft_strdup(cont);
+	if (!new[len])
 		ft_error(ER_MEMORY);
 	new[len + 1] = NULL;
 	return (new);
 }
 
-t_cmd		*init_cmd(char **args)
+t_cmd	*init_cmd(char **args)
 {
 	t_cmd	*cmd;
-	
-	if (!(cmd = (t_cmd *)malloc(sizeof(t_cmd))))
+
+	cmd = (t_cmd *)malloc(sizeof(t_cmd));
+	if (!cmd)
 		ft_error(ER_MEMORY);
 	cmd->redir_in = NULL;
 	cmd->redir_out = NULL;
@@ -80,10 +88,10 @@ t_cmd		*init_cmd(char **args)
 	return (cmd);
 }
 
-t_cmd		*create_comand(t_tok **lex, int *i)
+t_cmd	*create_comand(t_tok **lex, int *i)
 {
 	t_cmd	*cmd;
-	
+
 	cmd = init_cmd(NULL);
 	while (lex[*i] && lex[*i]->type != TOKEN_SEPARATOR && lex[*i]->type != TOKEN_PIPE)
 	{

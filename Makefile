@@ -15,7 +15,9 @@ SRCS =	./srcs/main.c \
 		./srcs/execute.c \
 		./srcs/built-in1.c \
 		./srcs/unset.c \
-		./srcs/execve.c
+		./srcs/execve.c \
+		./srcs/built-in2.c \
+		./srcs/redirects.c
 OBJS = $(SRCS:%.c=%.o)
 LIB = libft_shell.a
 PATHLIB = libs/

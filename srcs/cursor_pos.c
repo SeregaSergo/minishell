@@ -6,25 +6,25 @@
 /*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/20 21:08:25 by bswag             #+#    #+#             */
-/*   Updated: 2021/03/24 14:23:21 by bswag            ###   ########.fr       */
+/*   Updated: 2021/05/16 01:19:33 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int		rd(int fd)
+int	rd(int fd)
 {
-	unsigned char   buffer[4];
-	ssize_t         n;
+	unsigned char	buffer[4];
+	ssize_t			n;
 
 	n = read(fd, buffer, 1);
 	if (n > (ssize_t)0)
-		return buffer[0];
+		return (buffer[0]);
 	else
 		return (-1);
 }
 
-int		wr(int fd, char *data, size_t bytes)
+int	wr(int fd, char *data, size_t bytes)
 {
 	ssize_t		n;
 
@@ -39,7 +39,7 @@ int		wr(int fd, char *data, size_t bytes)
  * This function returns 0 if success, errno code otherwise.
  * Actual errno will be unchanged.
 */
-int get_cursor_position(int tty, int *rowptr, int *colptr)
+int	get_cursor_position(int tty, int *rowptr, int *colptr)
 {
 	int	result;
 
@@ -74,10 +74,12 @@ void	restore_cursor_pos(void)
 	int		col;
 	int		row;
 	int		ln;
-	
+
 	get_cursor_position(0, &row, &col);
 	ln = (g_main->n_symb_buf + g_main->cur_col - 2) / tgetnum("co");
 	ln = ln - (row - g_main->cur_row);
-	str = tgoto(tgetstr("cm", 0), g_main->cur_col - 1 , g_main->cur_row - ln - 1);
+	col = g_main->cur_col - 1;
+	row = g_main->cur_row - ln - 1;
+	str = tgoto(tgetstr("cm", 0), col, row);
 	tputs(str, 1, ft_putchar);
 }

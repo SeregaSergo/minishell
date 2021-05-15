@@ -6,7 +6,7 @@
 /*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/02 19:25:10 by bswag             #+#    #+#             */
-/*   Updated: 2021/05/15 19:09:18 by bswag            ###   ########.fr       */
+/*   Updated: 2021/05/16 01:11:06 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,10 @@
 void	prepare_to_read(void)
 {
 	t_bdlist	*new;
-	
+
 	tcsetattr(0, TCSAFLUSH, g_main->term);
-	if (!(new = ft_bdlstnew(NULL)))
+	new = ft_bdlstnew(NULL);
+	if (!new)
 		ft_error(ER_MEMORY);
 	ft_bdlstadd_front(&g_main->history, new);
 	g_main->cur_elem = g_main->history;
@@ -68,14 +69,13 @@ void	clear_cmd_line(t_cmd_line *cmd_line)
 	free(cmd_line);
 }
 
-int		main(int argc, char **argv, char **envp)
+int	main(int argc, char **argv, char **envp)
 {
 	t_tok		**lex;
 	t_cmd_line	*cmd_line;
-	
+
 	if (argc != 1 && envp != NULL)
 		ft_error(ER_ARGS);
-	// setenv("TERM", "xterm-256color", 0); // FOR DEBUG IN VSCODE
 	switch_off_signals();
 	init_glob_struct(argv, envp);
 	while (1)
@@ -88,7 +88,6 @@ int		main(int argc, char **argv, char **envp)
 		while (lex)
 		{
 			cmd_line = parse_input(&lex);
-			// debug_print_cmd_line(cmd_line);
 			execute_cmd_line(cmd_line);
 			clear_cmd_line(cmd_line);
 		}
