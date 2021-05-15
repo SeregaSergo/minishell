@@ -6,7 +6,7 @@
 /*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/04 22:58:34 by bswag             #+#    #+#             */
-/*   Updated: 2021/03/20 17:50:37 by bswag            ###   ########.fr       */
+/*   Updated: 2021/05/15 20:52:52 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,8 @@ t_cmd		*init_cmd(char **args)
 		ft_error(ER_MEMORY);
 	cmd->redir_in = NULL;
 	cmd->redir_out = NULL;
+	cmd->pipe_in = NULL;
+	cmd->pipe_out = NULL;
 	cmd->args = args;
 	cmd->num_args = 0;
 	return (cmd);

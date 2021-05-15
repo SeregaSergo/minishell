@@ -14,13 +14,14 @@ SRCS =	./srcs/main.c \
 		./srcs/cursor_pos.c \
 		./srcs/execute.c \
 		./srcs/built-in1.c \
-		./srcs/unset.c
+		./srcs/unset.c \
+		./srcs/execve.c
 OBJS = $(SRCS:%.c=%.o)
 LIB = libft_shell.a
 PATHLIB = libs/
 INC = includes
 CC = gcc
-CFLAGS = -g -Wall -Wextra -Werror
+CFLAGS = -fsanitize=address -Wall -Wextra -Werror
 
 .PHONY: all clean fclean re bonus
 

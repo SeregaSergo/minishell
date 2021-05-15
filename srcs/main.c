@@ -6,7 +6,7 @@
 /*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/02 19:25:10 by bswag             #+#    #+#             */
-/*   Updated: 2021/05/14 22:37:10 by bswag            ###   ########.fr       */
+/*   Updated: 2021/05/15 19:09:18 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,8 @@ void	clear_cmd_line(t_cmd_line *cmd_line)
 		free(cmd_line->cmds[i]->args);
 		ft_lstclear(&cmd_line->cmds[i]->redir_in, free_token);
 		ft_lstclear(&cmd_line->cmds[i]->redir_out, free_token);
-		free(cmd_line->cmds[i]->pipe_in);
-		free(cmd_line->cmds[i]->pipe_out);
+		if (cmd_line->cmds[i]->pipe_out != NULL)
+			free(cmd_line->cmds[i]->pipe_out);
 		i++;
 	}
 	free(cmd_line->cmds);

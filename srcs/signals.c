@@ -6,7 +6,7 @@
 /*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/12 19:30:37 by bswag             #+#    #+#             */
-/*   Updated: 2021/03/20 20:02:56 by bswag            ###   ########.fr       */
+/*   Updated: 2021/05/15 17:49:17 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,4 +41,11 @@ void	switch_off_signals(void)
 	signal(SIGINT, sigint_handler);
 	signal(SIGTSTP, sig_handler);
 	signal(SIGQUIT, sig_handler);
+}
+
+void	switch_on_signals(void)
+{
+	signal(SIGINT, SIG_DFL);
+	signal(SIGTSTP, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
 }

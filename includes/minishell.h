@@ -6,7 +6,7 @@
 /*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/03 18:05:44 by bswag             #+#    #+#             */
-/*   Updated: 2021/05/14 22:39:43 by bswag            ###   ########.fr       */
+/*   Updated: 2021/05/15 20:32:51 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 #include <fcntl.h>
 #include <string.h>
 #include <stdio.h>
+#include <dirent.h>
 
 /*
 ** Program settings
@@ -126,6 +127,7 @@ typedef struct	s_tok
 ** File: signals.c
 */
 void	switch_off_signals(void);
+void	switch_on_signals(void);
 
 /*
 ** File: errors.c
@@ -223,5 +225,10 @@ int		pwd(void);
 int		unset(char *var);
 int		var_exist(char *var);
 int		ft_strcmp(char *s1, char*s2);
+
+/*
+** File: execve.c
+*/
+int		execve_cmds(t_cmd *cmd);
 
 #endif

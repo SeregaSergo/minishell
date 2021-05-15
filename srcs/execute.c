@@ -6,18 +6,11 @@
 /*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/12 21:41:29 by bswag             #+#    #+#             */
-/*   Updated: 2021/05/14 22:42:05 by bswag            ###   ########.fr       */
+/*   Updated: 2021/05/15 20:53:43 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	execve_cmds(t_cmd *cmd)
-{
-	if (cmd)
-		;
-	return (0);
-}
 
 int	execute_cmd(t_cmd *cmd)
 {
@@ -40,7 +33,6 @@ int	execute_cmd(t_cmd *cmd)
 	else
 		ret = execve_cmds(cmd);
 	return (ret);
-	
 }
 
 void	make_pipes(t_cmd **cmds, int n)
@@ -50,10 +42,6 @@ void	make_pipes(t_cmd **cmds, int n)
 	i = 0;
 	while (i < n)
 	{
-		if (i == 0)
-			cmds[i]->pipe_in = NULL;
-		if (i == (n - 1))
-			cmds[i]->pipe_out = NULL;
 		if (i != (n - 1))
 		{
 			cmds[i]->pipe_out = (int *)malloc(2 * sizeof(int));
@@ -61,6 +49,7 @@ void	make_pipes(t_cmd **cmds, int n)
 				ft_error(ER_MEMORY);
 			if (pipe(cmds[i]->pipe_out) < 0)
 				ft_error(ER_PIPE);
+			pipe(cmds[i]->pipe_out);
 		}
 		if (i != 0)
 			cmds[i]->pipe_in = cmds[i - 1]->pipe_out;
@@ -73,14 +62,20 @@ void	close_pipes(t_cmd **cmds, int n, int i_save)
 	int	i;
 
 	i = 0;
-	while (i < n)
+	while (i < n && n != 1)
 	{
-		close(cmds[i]->pipe_in[1]);
-		close(cmds[i]->pipe_out[0]);
-		if (cmds[i]->redir_in != NULL && i != i_save)
-			close(cmds[i]->pipe_in[0]);
-		if (cmds[i]->redir_out != NULL && i != i_save)
-			close(cmds[i]->pipe_out[1]);
+		if (cmds[i]->redir_in != NULL)
+		{
+			if (i != i_save)
+				close(cmds[i]->pipe_in[0]);
+			close(cmds[i]->pipe_in[1]);
+		}
+		if (cmds[i]->redir_out != NULL)
+		{
+			if (i != i_save)
+				close(cmds[i]->pipe_out[1]);
+			close(cmds[i]->pipe_out[0]);
+		}
 		i++;
 	}
 }
@@ -113,7 +108,7 @@ void	redirect_streams(t_cmd *cmd)
 {
 	if (cmd->redir_in == NULL) // если входных редиректов нет
 	{
-			if (cmd->pipe_in != NULL) // если есть входной пайп
+		if (cmd->pipe_in != NULL) // если есть входной пайп
 			dup2(cmd->pipe_in[0], 0);
 	}
 	else		// есть входные редиректы
@@ -125,8 +120,10 @@ void	redirect_streams(t_cmd *cmd)
 	}
 	else		// есть выходные редиректы
 		file_redirect(cmd->redir_out, 1);
-	close(cmd->pipe_in[0]);
-	close(cmd->pipe_in[1]);
+	if (cmd->pipe_in != NULL)
+		close(cmd->pipe_in[0]);
+	if (cmd->pipe_out != NULL)
+		close(cmd->pipe_out[1]);
 }
 
 void	wait_for_all_children(int n)
@@ -153,21 +150,27 @@ void	execute_cmd_line(t_cmd_line * cmd_line)
 	int	pid;
 
 	i = 0;
-	make_pipes(cmd_line->cmds, cmd_line->num_cmds);
-	while (i < cmd_line->num_cmds)
-	{	
-		pid = fork();
-		if (pid < 0)
-			ft_error(ER_FORK);
-		if (pid == 0)
-		{
-			close_pipes(cmd_line->cmds, cmd_line->num_cmds, i);
-			redirect_streams(cmd_line->cmds[i]);
-			status = execute_cmd(cmd_line->cmds[i]);
-			exit(status);
+	if (cmd_line->num_cmds > 1)
+	{
+		make_pipes(cmd_line->cmds, cmd_line->num_cmds);
+		while (i < cmd_line->num_cmds)
+		{	
+			pid = fork();
+			if (pid < 0)
+				ft_error(ER_FORK);
+			if (pid == 0)
+			{
+				switch_on_signals();
+				close_pipes(cmd_line->cmds, cmd_line->num_cmds, i);
+				redirect_streams(cmd_line->cmds[i]);
+				status = execute_cmd(cmd_line->cmds[i]);
+				exit(status);
+			}
+			i++;
 		}
-		i++;
+		close_pipes(cmd_line->cmds, cmd_line->num_cmds, -1);
+		wait_for_all_children(cmd_line->num_cmds);
 	}
-	close_pipes(cmd_line->cmds, cmd_line->num_cmds, -1);
-	wait_for_all_children(cmd_line->num_cmds);
+	else
+		set_result_prev_cmd(execute_cmd(cmd_line->cmds[0]));
 }
