@@ -29,7 +29,7 @@ LIB = libft_shell.a
 PATHLIB = libs/
 INC = includes
 CC = gcc
-CFLAGS = -fsanitize=address -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror
 
 .PHONY: all clean fclean re bonus
 

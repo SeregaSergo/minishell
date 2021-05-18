@@ -6,7 +6,7 @@
 /*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/02 19:25:10 by bswag             #+#    #+#             */
-/*   Updated: 2021/05/18 18:54:33 by bswag            ###   ########.fr       */
+/*   Updated: 2021/05/18 19:39:34 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,7 @@ int	main(int argc, char **argv, char **envp)
 		while (lex)
 		{
 			cmd_line = parse_input(&lex);
+			// debug_print_cmd_line(cmd_line);
 			execute_cmd_line(cmd_line);
 			clear_cmd_line(cmd_line);
 		}

@@ -6,7 +6,7 @@
 /*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/15 16:55:02 by bswag             #+#    #+#             */
-/*   Updated: 2021/05/18 18:48:18 by bswag            ###   ########.fr       */
+/*   Updated: 2021/05/18 19:39:56 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ int	process_key_newln(void)
 {
 	if (g_main->n_symb_buf == 0)
 	{
-		printf("\n%s%% ", g_main->prompt);
+		ft_putchar('\n');
+		ft_putstr_fd(g_main->prompt, 1);
 		return (0);
 	}
 	else
