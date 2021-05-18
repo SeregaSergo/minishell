@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   keys_actions.c                                     :+:      :+:    :+:   */
+/*   keys_actions1.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/15 16:55:02 by bswag             #+#    #+#             */
-/*   Updated: 2021/03/24 14:52:39 by bswag            ###   ########.fr       */
+/*   Updated: 2021/05/18 16:57:16 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,10 @@
 ** History:  saving current buffer in history.
 ** Buffer:	 cur_buf is set as previous content.
 */
-void    process_key_up(void)
+void	process_key_up(void)
 {
 	if (g_main->cur_elem->next != NULL)
 	{
-		// tputs(restore_cursor, 1, ft_putchar);
 		restore_cursor_pos();
 		get_cursor_position(0, &g_main->cur_row, &g_main->cur_col);
 		tputs(tgetstr("cd", 0), 1, ft_putchar);
@@ -56,7 +55,6 @@ void	process_key_down(void)
 {
 	if (g_main->cur_elem->prev != NULL)
 	{
-		// tputs(restore_cursor, 1, ft_putchar);
 		restore_cursor_pos();
 		get_cursor_position(0, &g_main->cur_row, &g_main->cur_col);
 		tputs(tgetstr("cd", 0), 1, ft_putchar);
@@ -80,10 +78,10 @@ void	process_key_down(void)
 	}
 }
 
-void    process_key_left(void)
+void	process_key_left(void)
 {
 	if (g_main->pos > 0)
-    {
+	{
 		tputs(tgetstr("le", 0), 1, ft_putchar);
 		g_main->pos--;
 	}
@@ -91,57 +89,9 @@ void    process_key_left(void)
 
 void	process_key_right(void)
 {
-    if (g_main->pos < g_main->n_symb_buf)
-    {
+	if (g_main->pos < g_main->n_symb_buf)
+	{
 		tputs(tgetstr("nd", 0), 1, ft_putchar);
 		g_main->pos++;
 	}
-}
-
-void	process_key_backspace(void)
-{
-	if (g_main->pos > 0)
-    {
-		tputs(tgetstr("le", 0), 1, ft_putchar);
-		tputs(tgetstr("dc", 0), 1, ft_putchar);
-		g_main->pos--;
-		g_main->cur_buf = delete_str_pos(g_main->pos, 1, g_main->cur_buf);
-		g_main->n_symb_buf--;
-	}
-}
-
-int		process_key_newln()
-{
-	if (g_main->n_symb_buf == 0)
-	{
-		ft_printf("\n%s%% ", g_main->prompt);
-		return (0);
-	}
-	else
-	{
-		write(1, "\n", 1);
-		g_main->num_input_cmds++;
-		return (1);
-	}
-}
-
-int		process_key_eof(void)
-{
-    if (g_main->n_symb_buf == 0)
-	{
-		ft_putendl_fd("exit", 1);
-		return (1);
-	}
-	else
-		return (0);
-}
-
-void	process_printable_char(char *c)
-{
-	tputs(tgetstr("im", 0), 1, ft_putchar);
-	write(1, c, 1);
-	tputs(tgetstr("ei", 0), 1, ft_putchar);
-	g_main->cur_buf = paste_str_pos(g_main->pos, g_main->cur_buf, c);
-	g_main->pos++;
-	g_main->n_symb_buf++;
 }

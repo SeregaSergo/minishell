@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bswag <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/17 18:27:50 by bswag             #+#    #+#             */
-/*   Updated: 2020/11/17 19:27:21 by bswag            ###   ########.fr       */
+/*   Updated: 2021/05/01 20:26:37 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,17 +26,21 @@ static int	ft_pow(int base, int pow)
 
 static int	ft_get_size(int n, int base)
 {
-	int i;
+	int	i;
 
 	if (!n)
 		return (1);
 	i = 1;
-	while ((n /= base) != 0)
+	n /= base;
+	while (n != 0)
+	{
+		n /= base;
 		i++;
+	}
 	return (i);
 }
 
-void		ft_putnbr_fd(int n, int fd)
+void	ft_putnbr_fd(int n, int fd)
 {
 	int	size;
 	int	minus;

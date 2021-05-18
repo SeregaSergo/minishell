@@ -6,7 +6,7 @@
 #    By: bswag <bswag@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/12/20 17:19:13 by bswag             #+#    #+#              #
-#    Updated: 2021/03/12 19:52:19 by bswag            ###   ########.fr        #
+#    Updated: 2021/05/18 18:55:51 by bswag            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,8 +15,8 @@ SRCS =		get_next_line.c \
 			get_next_line_utils.c
 PATHSRC =	./GNL/
 OBJS =	$(SRCS:%.c=%.o)
-LIB =		libftprintf.a
-PATHLIB = ./ft_printf/
+LIB =		libft.a
+PATHLIB = ./libft/
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror
 DEPS = $(PATHSRC)get_next_line.h

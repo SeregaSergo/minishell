@@ -1,41 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser.c                                           :+:      :+:    :+:   */
+/*   parser2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/04 22:58:34 by bswag             #+#    #+#             */
-/*   Updated: 2021/05/16 01:09:01 by bswag            ###   ########.fr       */
+/*   Updated: 2021/05/18 18:24:52 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-t_cmd_line	*init_cmd_line(t_tok **lex)
-{
-	int			i;
-	int			len;
-	t_cmd_line	*cmd_line;
-
-	i = 0;
-	len = 1;
-	while (lex[i] && lex[i]->type != TOKEN_SEPARATOR)
-	{
-		if (lex[i]->type == TOKEN_PIPE)
-			len++;
-		i++;
-	}
-	cmd_line = (t_cmd_line *)malloc(sizeof(t_cmd_line));
-	if (!cmd_line)
-		ft_error(ER_MEMORY);
-	cmd_line->num_cmds = len;
-	cmd_line->cmds = (t_cmd **)malloc(sizeof(t_cmd *) * (len + 1));
-	if (!cmd_line->cmds)
-		ft_error(ER_MEMORY);
-	cmd_line->cmds[len] = NULL;
-	return (cmd_line);
-}
 
 t_list	*create_redir_elem(int type, char *cont)
 {
@@ -88,25 +63,30 @@ t_cmd	*init_cmd(char **args)
 	return (cmd);
 }
 
+void	update_redir_struct(t_tok **lex, int *i, int type, t_cmd *cmd)
+{
+	(*i)++;
+	fix_lexeme(lex[*i]);
+	if (type == TOKEN_IN)
+		ft_lstadd_back(&cmd->redir_in, create_redir_elem(TOKEN_IN, \
+		lex[*i]->cont));
+	else
+		ft_lstadd_back(&cmd->redir_out, create_redir_elem(lex[*i - 1]->type, \
+			lex[*i]->cont));
+}
+
 t_cmd	*create_comand(t_tok **lex, int *i)
 {
 	t_cmd	*cmd;
+	int		type;
 
 	cmd = init_cmd(NULL);
-	while (lex[*i] && lex[*i]->type != TOKEN_SEPARATOR && lex[*i]->type != TOKEN_PIPE)
+	if (lex[*i])
+		type = lex[*i]->type;
+	while (lex[*i] && type != TOKEN_SEPARATOR && type != TOKEN_PIPE)
 	{
-		if (lex[*i]->type == TOKEN_IN)
-		{
-			(*i)++;
-			fix_lexeme(lex[*i]);
-			ft_lstadd_back(&cmd->redir_in, create_redir_elem(TOKEN_IN, lex[*i]->cont));
-		}
-		else if (lex[*i]->type == TOKEN_OUT || lex[*i]->type == TOKEN_OUT_APP)
-		{
-			(*i)++;
-			fix_lexeme(lex[*i]);
-			ft_lstadd_back(&cmd->redir_out, create_redir_elem(lex[*i - 1]->type, lex[*i]->cont));
-		}
+		if (type == TOKEN_IN || type == TOKEN_OUT || type == TOKEN_OUT_APP)
+			update_redir_struct(lex, i, type, cmd);
 		else
 		{
 			fix_lexeme(lex[*i]);
@@ -114,52 +94,8 @@ t_cmd	*create_comand(t_tok **lex, int *i)
 			cmd->num_args++;
 		}
 		(*i)++;
+		if (lex[*i])
+			type = lex[*i]->type;
 	}
 	return (cmd);
-}
-
-t_tok	**cut_lexemes_struct(t_tok **lex, int pos)
-{
-	int		i;
-	int		len;
-	t_tok	**new;
-	
-	i = 0;
-	len = array_size((void **)lex);
-	while (i < pos)
-	{
-		free(lex[i]->cont);
-		free(lex[i]);
-		i++;
-	}
-	if (len != pos)
-	{
-		if (!(new = (t_tok **)malloc(sizeof(t_tok *) * (len - pos + 1))))
-			ft_error(ER_MEMORY);
-		copy_array((void **)new, (void **)&lex[pos]);
-		new[len - pos] = NULL;
-	}
-	else
-		new = NULL;
-	free(lex);
-	return (new);
-}
-
-t_cmd_line	*parse_input(t_tok ***lex)
-{
-	t_cmd_line	*line;
-	int			i_lex;
-	int			n_cmd;
-	
-	i_lex = 0;
-	n_cmd = 0;
-	line = init_cmd_line(*lex);
-	while (n_cmd < line->num_cmds)
-	{
-		line->cmds[n_cmd] = create_comand((*lex), &i_lex);
-		i_lex += ((*lex)[i_lex]) ? 1 : 0;
-		n_cmd++;
-	}
-	*lex = cut_lexemes_struct(*lex, i_lex);
-	return (line);
 }

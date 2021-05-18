@@ -1,22 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fixer.c                                            :+:      :+:    :+:   */
+/*   fixer1.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 22:26:22 by bswag             #+#    #+#             */
-/*   Updated: 2021/03/24 14:55:34 by bswag            ###   ########.fr       */
+/*   Updated: 2021/05/18 17:39:26 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void    trim_qoutes(char **cont)
+void	trim_qoutes(char **cont)
 {
-	char    *tmp;
+	char	*tmp;
 
-	if (!(tmp = ft_substr(*cont, 1, ft_strlen(*cont) - 2)))
+	tmp = ft_substr(*cont, 1, ft_strlen(*cont) - 2);
+	if (!tmp)
 		ft_error(ER_MEMORY);
 	free(*cont);
 	*cont = tmp;
@@ -35,43 +36,11 @@ void	cut_backslash(char **cont)
 	}
 }
 
-void	replace_env_vars(char **cont)
-{
-	int		i;
-	int		n;
-	char	*var;
-	char	**val;
-	
-	i = 0;
-	while ((*cont)[i])
-	{
-		if ((*cont)[i] == '$')
-		{
-			n = i + 1;
-			if ((*cont)[n] == '?')
-				n++;
-			else
-				while (ft_isalnum((*cont)[n]))
-					n++;
-			var = ft_substr(*cont, i + 1 , n - i - 1);
-			val = get_val_env(var);
-			free(var);
-			*cont = delete_str_pos(i, n - i, *cont);
-			if (val != NULL)
-			{
-				*cont = paste_str_pos(i, *cont, *val);
-				i += ft_strlen(*val) - 1;
-			}
-		}
-		i++;
-	}
-}
-
 void	replace_home_dir(char **cont)
 {
 	int		i;
 	char	**val;
-	
+
 	i = 0;
 	while ((*cont)[i])
 	{
@@ -82,7 +51,7 @@ void	replace_home_dir(char **cont)
 			{
 				*cont = delete_str_pos(i, 1, *cont);
 				*cont = paste_str_pos(i, *cont, *val);
-					i += ft_strlen(*val) - 1;
+				i += ft_strlen(*val) - 1;
 			}
 		}
 		i++;

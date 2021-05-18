@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_toupper.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bswag <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/10 17:43:22 by bswag             #+#    #+#             */
-/*   Updated: 2020/11/15 15:28:49 by bswag            ###   ########.fr       */
+/*   Updated: 2021/05/01 20:20:25 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static int	ft_islower(int c)
 		return (0);
 }
 
-int			ft_toupper(int c)
+int	ft_toupper(int c)
 {
 	if (ft_islower(c))
 		return (c - 32);

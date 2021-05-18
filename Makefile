@@ -2,22 +2,28 @@ NAME =	minishell
 SRCS =	./srcs/main.c \
 		./srcs/init.c \
 		./srcs/errors.c \
-		./srcs/parser.c \
+		./srcs/parser1.c \
+		./srcs/parser2.c \
 		./srcs/utility_func.c \
 		./srcs/signals.c \
-		./srcs/debug.c \
 		./srcs/reading.c \
-		./srcs/keys_actions.c \
-		./srcs/history.c \
-		./srcs/lexer.c \
-		./srcs/fixer.c \
+		./srcs/keys_actions1.c \
+		./srcs/keys_actions2.c \
+		./srcs/history1.c \
+		./srcs/history2.c \
+		./srcs/lexer1.c \
+		./srcs/lexer2.c \
+		./srcs/lexer3.c \
+		./srcs/fixer1.c \
+		./srcs/fixer2.c \
 		./srcs/cursor_pos.c \
 		./srcs/execute.c \
 		./srcs/built-in1.c \
 		./srcs/unset.c \
 		./srcs/execve.c \
 		./srcs/built-in2.c \
-		./srcs/redirects.c
+		./srcs/redirects.c \
+		./srcs/pipes.c
 OBJS = $(SRCS:%.c=%.o)
 LIB = libft_shell.a
 PATHLIB = libs/

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memmove.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bswag <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/12 18:03:56 by bswag             #+#    #+#             */
-/*   Updated: 2020/11/15 15:20:36 by bswag            ###   ########.fr       */
+/*   Updated: 2021/05/01 20:27:22 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static void	*ft_rvrs_memcpy(void *dst, const void *src, size_t n)
 	return (dst);
 }
 
-void		*ft_memmove(void *dst, const void *src, size_t len)
+void	*ft_memmove(void *dst, const void *src, size_t len)
 {
 	if (dst > src)
 		return (ft_rvrs_memcpy(dst, src, len));

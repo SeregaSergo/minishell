@@ -6,7 +6,7 @@
 /*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/04 21:23:49 by bswag             #+#    #+#             */
-/*   Updated: 2021/03/24 14:48:39 by bswag            ###   ########.fr       */
+/*   Updated: 2021/05/18 18:43:48 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,10 @@ t_env	*make_env_struct(char *env_elem)
 {
 	int		pos;
 	t_env	*new;
-	
+
 	pos = ft_strchr_pos(env_elem, '=');
-	if (!(new = (t_env *)malloc(sizeof(t_env))))
+	new = (t_env *)malloc(sizeof(t_env));
+	if (!new)
 		ft_error(ER_MEMORY);
 	new->var = ft_substr(env_elem, 0, pos);
 	new->cont = ft_substr(env_elem, pos + 1, ft_strlen(env_elem) - pos - 1);
@@ -34,7 +35,8 @@ void	clone_envp(char **envp)
 
 	i = 0;
 	len = array_size((void **)envp);
-	if (!(g_main->env = (t_env **)malloc(sizeof(t_env *) * (len + 1))))
+	g_main->env = (t_env **)malloc(sizeof(t_env *) * (len + 1));
+	if (!g_main->env)
 		ft_error(ER_MEMORY);
 	while (envp[i])
 	{
@@ -50,11 +52,12 @@ void	clone_envp(char **envp)
 */
 char	*get_prompt(char *param, char *prog)
 {
-	int	i;
-	char **ret;
-	
+	int		i;
+	char	**ret;
+
 	i = 0;
-	if ((ret = get_val_env(param)) == NULL)
+	ret = get_val_env(param);
+	if (ret == NULL)
 		return (ft_strjoin(prog, "% "));
 	else
 		return (ft_strjoin(*ret, "% "));
@@ -64,14 +67,14 @@ char	*get_prompt(char *param, char *prog)
 ** Loads info from about terminal from data-base.
 ** It can have leaks because of tgetent with NULL (allocates memory by itself)
 */
-void		get_term_info(void)
+void	get_term_info(void)
 {
 	char	*termtype;
-	
+
 	if (!isatty(STDIN_FILENO))
-        ft_error(ER_NO_TERMINAL);
-    termtype = getenv("TERM");
-    if (termtype == NULL || tgetent(NULL, termtype) != 1) 
+		ft_error(ER_NO_TERMINAL);
+	termtype = getenv("TERM");
+	if (termtype == NULL || tgetent(NULL, termtype) != 1)
 		ft_error(ER_ENV_TERM);
 }
 
@@ -83,14 +86,17 @@ void		get_term_info(void)
 */
 void	init_glob_struct(char **argv, char **envp)
 {
-	if ((g_main = (t_glob *)malloc(sizeof(t_glob))) == NULL)
+	g_main = (t_glob *)malloc(sizeof(t_glob));
+	if (g_main == NULL)
 		ft_error(ER_MEMORY);
-	if ((g_main->saved_term = (t_termios *)malloc(sizeof(t_termios))) == NULL)
+	g_main->saved_term = (struct termios *)malloc(sizeof(struct termios));
+	if (g_main->saved_term == NULL)
 		ft_error(ER_MEMORY);
-	if ((g_main->term = (t_termios *)malloc(sizeof(t_termios))) == NULL)
+	g_main->term = (struct termios *)malloc(sizeof(struct termios));
+	if (g_main->term == NULL)
 		ft_error(ER_MEMORY);
 	tcgetattr(0, g_main->saved_term);
-	ft_memcpy(g_main->term, g_main->saved_term, sizeof(t_termios));
+	ft_memcpy(g_main->term, g_main->saved_term, sizeof(struct termios));
 	g_main->term->c_lflag &= ~(ICANON | ECHO);
 	g_main->term->c_cc[VMIN] = 1;
 	g_main->term->c_cc[VTIME] = 0;

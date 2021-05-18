@@ -6,7 +6,7 @@
 /*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/20 14:28:41 by bswag             #+#    #+#             */
-/*   Updated: 2021/03/15 23:38:32 by bswag            ###   ########.fr       */
+/*   Updated: 2021/05/18 18:35:20 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define GET_NEXT_LINE_H
 
 # ifndef BUFFER_SIZE
-# define BUFFER_SIZE 32
+#  define BUFFER_SIZE 32
 # endif
 
 # include <stdlib.h>
@@ -23,13 +23,13 @@
 # include <sys/uio.h>
 # include "libft.h"
 
-typedef struct		s_fd_data
+typedef struct s_fd_data
 {
 	int				fd;
 	char			*rem;
 }					t_fd_data;
 
-typedef struct		s_lstg
+typedef struct s_lstg
 {
 	t_fd_data		*content;
 	struct s_lstg	*next;

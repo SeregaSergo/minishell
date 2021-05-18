@@ -6,7 +6,7 @@
 /*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/20 14:28:41 by bswag             #+#    #+#             */
-/*   Updated: 2021/03/15 23:38:24 by bswag            ###   ########.fr       */
+/*   Updated: 2021/05/18 19:08:13 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,13 @@
 # include <sys/uio.h>
 # include "../libft/libft.h"
 
-typedef struct		s_fd_data
+typedef struct s_fd_data
 {
 	int				fd;
 	char			*rem;
 }					t_fd_data;
 
-typedef struct		s_lstg
+typedef struct s_lstg
 {
 	t_fd_data		*content;
 	struct s_lstg	*next;

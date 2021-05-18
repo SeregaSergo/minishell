@@ -6,7 +6,7 @@
 /*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/12 21:41:29 by bswag             #+#    #+#             */
-/*   Updated: 2021/05/16 01:29:06 by bswag            ###   ########.fr       */
+/*   Updated: 2021/05/18 16:38:38 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,47 +38,6 @@ int	execute_cmd(t_cmd *cmd)
 	return (ret);
 }
 
-void	make_pipes(t_cmd **cmds, int n)
-{
-	int	i;
-
-	i = 0;
-	while (i < n)
-	{
-		if (i != (n - 1))
-		{
-			cmds[i]->pipe_out = (int *)malloc(2 * sizeof(int));
-			if (cmds[i]->pipe_out == NULL)
-				ft_error(ER_MEMORY);
-			if (pipe(cmds[i]->pipe_out) < 0)
-				ft_error(ER_PIPE);
-			pipe(cmds[i]->pipe_out);
-		}
-		if (i != 0)
-			cmds[i]->pipe_in = cmds[i - 1]->pipe_out;
-		i++;
-	}
-}
-
-void	close_pipes(t_cmd **cmds, int n, int i_save)
-{
-	int	i;
-
-	i = 0;
-	while (i < n && n != 1)
-	{
-		if (i != i_save && cmds[i]->pipe_in != NULL)
-			close(cmds[i]->pipe_in[0]);
-		if (i != i_save && cmds[i]->pipe_out != NULL)
-			close(cmds[i]->pipe_out[1]);
-		if (i != (i_save + 1) && cmds[i]->pipe_in != NULL)
-			close(cmds[i]->pipe_in[1]);
-		if (i != (i_save - 1) && cmds[i]->pipe_out != NULL)
-			close(cmds[i]->pipe_out[0]);
-		i++;
-	}
-}
-
 void	wait_for_all_children(int n)
 {
 	int	status;
@@ -96,9 +55,19 @@ void	wait_for_all_children(int n)
 	set_result_prev_cmd(status);
 }
 
-void	execute_cmd_line(t_cmd_line *cmd_line)
+void	exec_fork_main(t_cmd **cmds, int num_cmds, int index)
 {
 	int	status;
+
+	switch_on_signals();
+	close_pipes(cmds, num_cmds, index);
+	redirect_streams(cmds[index]);
+	status = execute_cmd(cmds[index]);
+	exit(status);
+}
+
+void	execute_cmd_line(t_cmd_line *cmd_line)
+{
 	int	i;
 	int	pid;
 
@@ -112,13 +81,7 @@ void	execute_cmd_line(t_cmd_line *cmd_line)
 			if (pid < 0)
 				ft_error(ER_FORK);
 			if (pid == 0)
-			{
-				switch_on_signals();
-				close_pipes(cmd_line->cmds, cmd_line->num_cmds, i);
-				redirect_streams(cmd_line->cmds[i]);
-				status = execute_cmd(cmd_line->cmds[i]);
-				exit(status);
-			}
+				exec_fork_main(cmd_line->cmds, cmd_line->num_cmds, i);
 			i++;
 		}
 		close_pipes(cmd_line->cmds, cmd_line->num_cmds, -2);

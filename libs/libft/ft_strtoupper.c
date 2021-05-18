@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtoupper.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bswag <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/21 14:24:20 by bswag             #+#    #+#             */
-/*   Updated: 2020/12/24 17:28:33 by bswag            ###   ########.fr       */
+/*   Updated: 2021/05/01 20:21:17 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ char	*ft_strtoupper(char *s)
 	if (!s)
 		return (NULL);
 	size = ft_strlen(s);
-	if (!(ptr = (char *)malloc(size + 1)))
+	ptr = (char *)malloc(size + 1);
+	if (!ptr)
 		return (NULL);
 	while (s[i])
 	{

@@ -6,7 +6,7 @@
 /*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 19:17:37 by bswag             #+#    #+#             */
-/*   Updated: 2021/02/02 19:18:21 by bswag            ###   ########.fr       */
+/*   Updated: 2021/05/01 20:23:57 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	ft_str_content(char *str, char *pattern)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (str[i])

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bswag <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/17 12:09:26 by bswag             #+#    #+#             */
-/*   Updated: 2020/11/17 14:08:47 by bswag            ###   ########.fr       */
+/*   Updated: 2021/05/01 20:41:09 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,16 @@ static int	ft_get_size(int n)
 		return (1);
 	i = 1;
 	del = 10;
-	while ((n /= del) != 0)
+	n /= del;
+	while (n != 0)
+	{
+		n /= del;
 		i++;
+	}
 	return (i);
 }
 
-char		*ft_itoa(int n)
+char	*ft_itoa(int n)
 {
 	int		size_n;
 	char	*ptr;

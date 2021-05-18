@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bswag <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/11 12:06:49 by bswag             #+#    #+#             */
-/*   Updated: 2020/11/15 15:22:22 by bswag            ###   ########.fr       */
+/*   Updated: 2021/05/01 20:23:36 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,5 +20,5 @@ char	*ft_strchr(const char *s, int c)
 			return (NULL);
 		s++;
 	}
-	return (char *)s;
+	return ((char *)s);
 }

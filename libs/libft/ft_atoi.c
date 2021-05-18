@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bswag <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/12 11:23:54 by bswag             #+#    #+#             */
-/*   Updated: 2020/12/21 22:29:04 by bswag            ###   ########.fr       */
+/*   Updated: 2021/05/01 20:42:32 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 static unsigned long long int	ft_pow(int base, int pow)
 {
-	unsigned long long int		result;
+	unsigned long long int	result;
 
 	result = 1;
 	if (pow < 0)
@@ -25,9 +25,9 @@ static unsigned long long int	ft_pow(int base, int pow)
 	return (result);
 }
 
-static int						ft_get_pow(unsigned long long int number)
+static int	ft_get_pow(unsigned long long int number)
 {
-	int result;
+	int	result;
 
 	result = 0;
 	while (number > 9)
@@ -38,7 +38,7 @@ static int						ft_get_pow(unsigned long long int number)
 	return (result);
 }
 
-static int						ft_max_pow_lli(void)
+static int	ft_max_pow_lli(void)
 {
 	int						size_lli;
 	unsigned long long int	max_val;
@@ -48,7 +48,7 @@ static int						ft_max_pow_lli(void)
 	return (ft_get_pow(max_val));
 }
 
-static int						ft_over(int i)
+static int	ft_over(int i)
 {
 	if (i == -1)
 		return (0);
@@ -56,11 +56,11 @@ static int						ft_over(int i)
 		return (-1);
 }
 
-int								ft_atoi(const char *str)
+int	ft_atoi(const char *str)
 {
 	int	result;
 	int	sign;
-	int i;
+	int	i;
 	int	max_long;
 
 	result = 0;

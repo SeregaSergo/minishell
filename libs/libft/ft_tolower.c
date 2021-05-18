@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_tolower.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bswag <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/10 17:59:30 by bswag             #+#    #+#             */
-/*   Updated: 2020/11/15 15:29:24 by bswag            ###   ########.fr       */
+/*   Updated: 2021/05/01 20:20:31 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static int	ft_isupper(int c)
 		return (0);
 }
 
-int			ft_tolower(int c)
+int	ft_tolower(int c)
 {
 	if (ft_isupper(c))
 		return (c + 32);

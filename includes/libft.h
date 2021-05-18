@@ -6,7 +6,7 @@
 /*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/09 15:32:55 by bswag             #+#    #+#             */
-/*   Updated: 2021/03/18 17:13:01 by bswag            ###   ########.fr       */
+/*   Updated: 2021/05/18 18:35:53 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,13 @@
 # include <unistd.h>
 # include <stdlib.h>
 
-typedef struct		s_list
+typedef struct s_list
 {
 	void			*content;
 	struct s_list	*next;
 }					t_list;
 
-typedef struct		s_bdlist
+typedef struct s_bdlist
 {
 	void			*cont;
 	struct s_bdlist	*next;
@@ -89,6 +89,6 @@ t_list				*ft_lstmap(t_list *lst, void *(*f)(void *), \
 t_bdlist			*ft_bdlstnew(void *content);
 void				ft_bdlstadd_front(t_bdlist **lst, t_bdlist *new);
 int					ft_bdlstsize(t_bdlist *lst);
-t_bdlist    		*ft_bdlstfind(t_bdlist *list, int pos);
+t_bdlist			*ft_bdlstfind(t_bdlist *list, int pos);
 
 #endif

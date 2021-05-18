@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bswag <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/16 14:42:48 by bswag             #+#    #+#             */
-/*   Updated: 2020/11/19 20:56:14 by bswag            ###   ########.fr       */
+/*   Updated: 2021/05/01 20:24:44 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int		ft_find_next_c(char const *s, char c)
+static int	ft_find_next_c(char const *s, char c)
 {
 	int	i;
 
@@ -22,7 +22,7 @@ static int		ft_find_next_c(char const *s, char c)
 	return (i);
 }
 
-static void		ft_clear(char **list, int i)
+static void	ft_clear(char **list, int i)
 {
 	char	**ptr;
 
@@ -35,7 +35,7 @@ static void		ft_clear(char **list, int i)
 	free(list);
 }
 
-static int		ft_count_words(char const *s, char c)
+static int	ft_count_words(char const *s, char c)
 {
 	int	i;
 
@@ -53,7 +53,7 @@ static int		ft_count_words(char const *s, char c)
 	return (i);
 }
 
-static char		**ft_fill_list(char const *s, char c, char **list)
+static char	**ft_fill_list(char const *s, char c, char **list)
 {
 	int		i;
 	int		flag;
@@ -63,7 +63,8 @@ static char		**ft_fill_list(char const *s, char c, char **list)
 	{
 		while (*s == c)
 			s++;
-		if ((flag = ft_find_next_c(s, c)))
+		flag = ft_find_next_c(s, c);
+		if (flag)
 		{
 			list[i] = ft_substr(s, 0, flag);
 			if (!list[i])
@@ -79,7 +80,7 @@ static char		**ft_fill_list(char const *s, char c, char **list)
 	return (list);
 }
 
-char			**ft_split(char const *s, char c)
+char	**ft_split(char const *s, char c)
 {
 	char	**list;
 	int		nmbr_of_words;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strchr_null.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bswag <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/23 20:35:07 by bswag             #+#    #+#             */
-/*   Updated: 2020/12/23 20:38:59 by bswag            ###   ########.fr       */
+/*   Updated: 2021/05/01 20:23:13 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,5 +20,5 @@ char	*ft_strchr_null(const char *s, int c)
 		if (!(*s))
 			return (NULL);
 	}
-	return (char *)s;
+	return ((char *)s);
 }

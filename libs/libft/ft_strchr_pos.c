@@ -6,13 +6,13 @@
 /*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/18 16:54:30 by bswag             #+#    #+#             */
-/*   Updated: 2021/03/18 17:25:12 by bswag            ###   ########.fr       */
+/*   Updated: 2021/05/01 20:22:54 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int		ft_strchr_pos(const char *s, int c)
+int	ft_strchr_pos(const char *s, int c)
 {
 	int	i;
 

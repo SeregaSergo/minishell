@@ -1,22 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   history.c                                          :+:      :+:    :+:   */
+/*   history1.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/16 14:36:31 by bswag             #+#    #+#             */
-/*   Updated: 2021/03/20 18:18:04 by bswag            ###   ########.fr       */
+/*   Updated: 2021/05/18 17:00:27 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void    add_new_records(t_bdlist **new_hist)
+void	add_new_records(t_bdlist **new_hist)
 {
 	t_bdlist	*last_elem;
 	t_bdlist	*tmp;
-	
+
 	last_elem = ft_bdlstfind(g_main->history, g_main->num_input_cmds - 1);
 	tmp = last_elem->next;
 	last_elem->next = *new_hist;
@@ -29,49 +29,28 @@ void    add_new_records(t_bdlist **new_hist)
 	tmp = NULL;
 }
 
-char	*get_full_file_name()
-{
-	char	*str;
-	
-	str = getenv("HOME");
-	if (str == NULL)
-		return (NULL);
-	else
-		str = ft_strjoin(str, FILE_HISTORY);
-	return (str);
-}
-
-int		open_hist_file(int flags)
-{
-	char	*file;
-	int 	fd;
-
-	file = get_full_file_name();
-	if ((fd = open(file, flags, 0600)) == -1)
-		fd = open(FILE_HIST_2, flags, 0600);
-	(file != NULL) ? free(file) : 0;
-	return (fd);
-}
-
 void	retrieve_history(t_bdlist **history)
 {
-	int 		fd;
+	int			fd;
 	char		*line;
 	t_bdlist	*new;
-	
+
 	*history = NULL;
 	line = NULL;
-	if ((fd = open_hist_file(O_RDONLY | O_CREAT)) != -1)
+	fd = open_hist_file(O_RDONLY | O_CREAT);
+	if (fd != -1)
 	{
 		while (get_next_line(fd, &line) > 0)
 		{
-			if (!(new = ft_bdlstnew(line)))
+			new = ft_bdlstnew(line);
+			if (!new)
 				ft_error(ER_MEMORY);
 			ft_bdlstadd_front(history, new);
 		}
 		if (line != NULL)
 		{
-			if (!(new = ft_bdlstnew(line)))
+			new = ft_bdlstnew(line);
+			if (!new)
 				ft_error(ER_MEMORY);
 			ft_bdlstadd_front(history, new);
 		}
@@ -81,9 +60,10 @@ void	retrieve_history(t_bdlist **history)
 
 void	write_history(t_bdlist *last_elem)
 {
-	int fd;
+	int	fd;
 
-	if ((fd = open_hist_file(O_WRONLY | O_TRUNC)) != -1)
+	fd = open_hist_file(O_WRONLY | O_TRUNC);
+	if (fd != -1)
 	{
 		while (last_elem)
 		{
@@ -97,10 +77,10 @@ void	write_history(t_bdlist *last_elem)
 	}
 }
 
-void    save_history(void)
+void	save_history(void)
 {
 	t_bdlist	*new_hist;
-	
+
 	if (g_main->num_input_cmds > 0)
 	{
 		retrieve_history(&new_hist);

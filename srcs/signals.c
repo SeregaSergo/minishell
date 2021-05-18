@@ -6,7 +6,7 @@
 /*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/12 19:30:37 by bswag             #+#    #+#             */
-/*   Updated: 2021/05/16 01:00:48 by bswag            ###   ########.fr       */
+/*   Updated: 2021/05/18 19:22:16 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,8 @@ void	sigint_handler(int	sig)
 		g_main->history->cont = NULL;
 		g_main->cur_elem = g_main->history;
 		set_result_prev_cmd(1);
-		ft_printf("\n%s", g_main->prompt);
+		ft_putchar_fd('\n', 1);
+		ft_putstr_fd(g_main->prompt, 1);
 	}
 }
 
