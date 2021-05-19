@@ -6,7 +6,7 @@
 /*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/03 18:05:44 by bswag             #+#    #+#             */
-/*   Updated: 2021/05/18 19:41:42 by bswag            ###   ########.fr       */
+/*   Updated: 2021/05/19 18:32:59 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -219,6 +219,7 @@ int			pwd(void);
 int			change_value_env(char *new, char **value);
 int			is_builtin(char *cmd);
 void		exec_in_the_same_proc(t_cmd *cmd);
+int			exit_cmd(char **args);
 
 /*
 ** File: unset.c

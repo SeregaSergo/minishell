@@ -6,7 +6,7 @@
 /*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/16 01:20:56 by bswag             #+#    #+#             */
-/*   Updated: 2021/05/16 01:27:47 by bswag            ###   ########.fr       */
+/*   Updated: 2021/05/19 18:34:49 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,4 +51,45 @@ void	exec_in_the_same_proc(t_cmd *cmd)
 	set_result_prev_cmd(execute_cmd(cmd));
 	dup2(stdin, 0);
 	dup2(stdout, 1);
+}
+
+int	is_number(char *arg)
+{
+	if (*arg == '+' || *arg == '-')
+		arg++;
+	while (*arg != '\0')
+	{
+		if (!ft_isdigit(*arg))
+			return (1);
+		arg++;
+	}
+	return (0);
+}
+
+int		exit_cmd(char **args)
+{
+	int	ret;
+	int	len;
+
+	len = array_size((void **)args);
+	if (len > 1)
+	{
+		printf("exit: too many arguments\n");
+		return (1);
+	}
+	if (args[0] == NULL)
+		ret = 0;
+	else 
+	{
+		if (is_number(args[0]))
+		{
+			printf("exit: %s: numeric argument required\n", args[0]);
+			ret = 255;
+		}
+		else
+			ret = ft_atoi(args[1]);
+	}
+	set_result_prev_cmd(ret);
+	save_history();
+	exit(ret);
 }

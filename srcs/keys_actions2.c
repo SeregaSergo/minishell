@@ -6,7 +6,7 @@
 /*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/15 16:55:02 by bswag             #+#    #+#             */
-/*   Updated: 2021/05/18 19:39:56 by bswag            ###   ########.fr       */
+/*   Updated: 2021/05/19 18:05:18 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ int	process_key_newln(void)
 	{
 		ft_putchar('\n');
 		ft_putstr_fd(g_main->prompt, 1);
+		tputs(tgetstr("ks", 0), 1, ft_putchar);
+		get_cursor_position(0, &g_main->cur_row, &g_main->cur_col);
 		return (0);
 	}
 	else
