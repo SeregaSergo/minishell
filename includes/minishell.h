@@ -6,7 +6,7 @@
 /*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/03 18:05:44 by bswag             #+#    #+#             */
-/*   Updated: 2021/05/19 18:32:59 by bswag            ###   ########.fr       */
+/*   Updated: 2021/05/21 17:11:39 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,6 +124,7 @@ typedef struct s_tok
 */
 void		switch_off_signals(void);
 void		switch_on_signals(void);
+void		sig_handler(int	sig);
 
 /*
 ** File: errors.c
@@ -209,7 +210,7 @@ int			execute_cmd(t_cmd *cmd);
 ** File: built-in1.c.c
 */
 int			export(char *str);
-int			cd(char *path);
+int			cd(char **path);
 int			ft_echo(char **args);
 int			pwd(void);
 

@@ -6,7 +6,7 @@
 /*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/12 21:42:22 by bswag             #+#    #+#             */
-/*   Updated: 2021/05/19 18:58:03 by bswag            ###   ########.fr       */
+/*   Updated: 2021/05/21 16:21:29 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,14 +52,19 @@ void	change_env_value(char *env, char *new)
 	}
 }
 
-int	cd(char *path)
+int	cd(char **path)
 {
 	char	*old;
 
 	old = getcwd(NULL, 1);
-	if (path == NULL)
+	if (*path == NULL)
 		return (0);
-	if (!chdir(path))
+	if (!ft_strncmp(*path, "-", 2))
+	{
+		free(*path);
+		*path = ft_strdup(*get_val_env("OLDPWD"));
+	}
+	if (!chdir(*path))
 	{
 		change_env_value("OLDPWD", old);
 		change_env_value("PWD", getcwd(NULL, 1));

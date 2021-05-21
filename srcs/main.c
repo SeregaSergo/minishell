@@ -6,7 +6,7 @@
 /*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/02 19:25:10 by bswag             #+#    #+#             */
-/*   Updated: 2021/05/19 18:14:08 by bswag            ###   ########.fr       */
+/*   Updated: 2021/05/21 17:10:39 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void	prepare_to_read(void)
 {
 	t_bdlist	*new;
 
+	switch_off_signals();
 	tcsetattr(0, TCSAFLUSH, g_main->term);
 	new = ft_bdlstnew(NULL);
 	if (!new)

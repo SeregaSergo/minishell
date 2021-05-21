@@ -6,7 +6,7 @@
 /*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/14 20:00:38 by bswag             #+#    #+#             */
-/*   Updated: 2021/05/16 01:04:21 by bswag            ###   ########.fr       */
+/*   Updated: 2021/05/21 18:10:36 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ char	*delete_str_pos(int pos, int n_symbols, char *buf)
 	char	*new;
 
 	len = ft_strlen(buf);
-	new = malloc(sizeof(char) * (len + 1 - n_symbols));
+	new = (char *)malloc(sizeof(char) * (len + 1 - n_symbols));
 	if (!new)
 		ft_error(ER_MEMORY);
 	ft_strlcpy(new, buf, pos + 1);

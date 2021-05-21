@@ -6,7 +6,7 @@
 /*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/12 19:30:37 by bswag             #+#    #+#             */
-/*   Updated: 2021/05/18 19:22:16 by bswag            ###   ########.fr       */
+/*   Updated: 2021/05/21 17:12:59 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 void	sig_handler(int	sig)
 {
-	if (sig > 0)
-		sig = 0;
+	if (sig == SIGINT)
+		write(1, "\n", 1);
 }
 
 void	sigint_handler(int	sig)

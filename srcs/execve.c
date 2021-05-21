@@ -6,7 +6,7 @@
 /*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/15 19:09:40 by bswag             #+#    #+#             */
-/*   Updated: 2021/05/19 16:48:59 by bswag            ###   ########.fr       */
+/*   Updated: 2021/05/21 18:40:06 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,8 +109,9 @@ int	execve_cmds(t_cmd *cmd)
 		path = find_path(cmd->args[0]);
 		if (!path)
 		{
-			ft_putendl_fd(strerror(errno), 2);
-			return (errno);
+			ft_putstr_fd(cmd->args[0], 2);
+			ft_putendl_fd(": No such file or directory", 2);
+			return (127);
 		}
 		full_path = ft_strjoin(path, cmd->args[0]);
 		free(path);
@@ -121,7 +122,7 @@ int	execve_cmds(t_cmd *cmd)
 	if (ret < 0)
 	{
 		ret = errno;
-		printf("%s\n", strerror(ret));
+		printf("Execve: %s\n", strerror(ret));
 	}
 	return (ret);
 }

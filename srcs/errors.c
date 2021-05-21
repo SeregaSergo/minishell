@@ -6,7 +6,7 @@
 /*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/04 23:03:35 by bswag             #+#    #+#             */
-/*   Updated: 2021/05/16 01:13:48 by bswag            ###   ########.fr       */
+/*   Updated: 2021/05/21 18:35:01 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	ft_error(unsigned char er)
 	else if (er == ER_PIPE)
 		ft_putstr_fd("Can't create pipe\n", 2);
 	else if (er == ER_FORK)
-		ft_putstr_fd("Can't create pipe\n", 2);
+		ft_putstr_fd("Can't create fork\n", 2);
 	else if (er == ER_WAIT)
 		ft_putstr_fd("Troubles with waiting of child process\n", 2);
 	save_history();

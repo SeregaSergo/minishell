@@ -6,7 +6,7 @@
 /*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/12 21:41:29 by bswag             #+#    #+#             */
-/*   Updated: 2021/05/19 18:48:47 by bswag            ###   ########.fr       */
+/*   Updated: 2021/05/21 17:11:03 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	execute_cmd(t_cmd *cmd)
 	int	ret;
 
 	if (!ft_strncmp(cmd->args[0], "cd", 3))
-		ret = cd(cmd->args[1]);
+		ret = cd(&cmd->args[1]);
 	else if (!ft_strncmp(cmd->args[0], "exit", 5))
 		ret = exit_cmd(&cmd->args[1]);
 	else if (!ft_strncmp(cmd->args[0], "echo", 5))
@@ -84,7 +84,7 @@ void	execute_cmd_line(t_cmd_line *cmd_line)
 	i = 0;
 	if (cmd_line->num_cmds > 1 || is_builtin(cmd_line->cmds[0]->args[0]))
 	{
-		write(1, "another\n", 8);
+		signal(SIGINT, sig_handler);
 		make_pipes(cmd_line->cmds, cmd_line->num_cmds);
 		while (i < cmd_line->num_cmds)
 		{	

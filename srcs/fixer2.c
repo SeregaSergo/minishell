@@ -6,7 +6,7 @@
 /*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 22:26:22 by bswag             #+#    #+#             */
-/*   Updated: 2021/05/18 17:39:40 by bswag            ###   ########.fr       */
+/*   Updated: 2021/05/21 18:06:30 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	replace_env_vars(char **cont)
 		if ((*cont)[i] == '$')
 		{
 			n = i + 1;
-			if ((*cont)[++n] == '?')
+			if ((*cont)[n] == '?')
 				n++;
 			else
 				while (ft_isalnum((*cont)[n]))
