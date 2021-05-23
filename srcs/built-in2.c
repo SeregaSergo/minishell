@@ -6,7 +6,7 @@
 /*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/16 01:20:56 by bswag             #+#    #+#             */
-/*   Updated: 2021/05/19 18:34:49 by bswag            ###   ########.fr       */
+/*   Updated: 2021/05/23 18:49:56 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int	is_number(char *arg)
 	return (0);
 }
 
-int		exit_cmd(char **args)
+int	exit_cmd(char **args)
 {
 	int	ret;
 	int	len;
@@ -79,7 +79,7 @@ int		exit_cmd(char **args)
 	}
 	if (args[0] == NULL)
 		ret = 0;
-	else 
+	else
 	{
 		if (is_number(args[0]))
 		{

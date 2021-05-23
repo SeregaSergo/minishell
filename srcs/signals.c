@@ -6,7 +6,7 @@
 /*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/12 19:30:37 by bswag             #+#    #+#             */
-/*   Updated: 2021/05/21 17:12:59 by bswag            ###   ########.fr       */
+/*   Updated: 2021/05/22 18:27:21 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void	sigint_handler(int	sig)
 {
 	if (sig > 0)
 	{
+		tcsetattr(0, TCSAFLUSH, g_main->term);
 		if (g_main->cur_buf != NULL)
 			free(g_main->cur_buf);
 		g_main->cur_buf = NULL;

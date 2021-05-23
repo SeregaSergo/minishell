@@ -6,7 +6,7 @@
 /*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/04 22:58:34 by bswag             #+#    #+#             */
-/*   Updated: 2021/05/18 18:24:52 by bswag            ###   ########.fr       */
+/*   Updated: 2021/05/22 18:30:12 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,6 @@ t_cmd	*create_comand(t_tok **lex, int *i)
 			update_redir_struct(lex, i, type, cmd);
 		else
 		{
-			fix_lexeme(lex[*i]);
 			cmd->args = add_argument(cmd->args, lex[*i]->cont);
 			cmd->num_args++;
 		}

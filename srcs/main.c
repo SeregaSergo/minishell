@@ -6,7 +6,7 @@
 /*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/02 19:25:10 by bswag             #+#    #+#             */
-/*   Updated: 2021/05/22 15:30:13 by bswag            ###   ########.fr       */
+/*   Updated: 2021/05/23 18:18:35 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,10 @@ void	prepare_to_read(void)
 /*
 ** Switch back to canonical mode, same comand to history, nulify buffer
 */
-void	end_of_reading(void)
+char	*end_of_reading(void)
 {
+	char	*output_str;
+
 	tputs(tgetstr("ke", 0), 1, ft_putchar);
 	tcsetattr(0, TCSAFLUSH, g_main->saved_term);
 	g_main->cur_elem = g_main->history;
@@ -43,6 +45,10 @@ void	end_of_reading(void)
 	g_main->cur_buf = NULL;
 	g_main->n_symb_buf = 0;
 	g_main->pos = 0;
+	output_str = ft_strdup(g_main->history->cont);
+	if (!output_str)
+		ft_error(ER_MEMORY);
+	return (output_str);
 }
 
 void	clear_cmd_line(t_cmd_line *cmd_line)
@@ -74,26 +80,27 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_tok		**lex;
 	t_cmd_line	*cmd_line;
+	char		*line;
 
 	if (argc != 1 && envp != NULL)
 		ft_error(ER_ARGS);
-	switch_off_signals();
 	init_glob_struct(argv, envp);
 	while (1)
 	{
 		prepare_to_read();
 		if (shell_reading() == 0)
 			break ;
-		end_of_reading();
-		lex = tokenize_input(g_main->history->cont);
-		while (lex)
+		line = end_of_reading();
+		while (line)
 		{
+			lex = tokenize_input(&line);
+			if (lex == NULL)
+				break ;
 			cmd_line = parse_input(&lex);
 			execute_cmd_line(cmd_line);
 			clear_cmd_line(cmd_line);
 		}
 	}
-	tcsetattr(0, TCSAFLUSH, g_main->saved_term);
 	save_history();
 	return (0);
 }

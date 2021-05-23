@@ -6,7 +6,7 @@
 /*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/12 21:42:22 by bswag             #+#    #+#             */
-/*   Updated: 2021/05/21 16:21:29 by bswag            ###   ########.fr       */
+/*   Updated: 2021/05/23 18:54:46 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,23 +33,17 @@ int	ft_echo(char **args)
 	return (0);
 }
 
-void	change_env_value(char *env, char *new)
+void	cd_prev(char **path, char *old)
 {
 	char	**ptr;
-	char	*tmp;
-	
-	ptr = get_val_env(env);
+
+	free(*path);
+	ptr = get_val_env("OLDPWD");
 	if (ptr == NULL)
-	{
-		tmp = ft_strjoin(env, "=");
-		export(ft_strjoin(tmp, new));
-		free(tmp);
-	}
+		*path = old;
 	else
-	{
-		free(*ptr);
-		*ptr = new;
-	}
+		*path = ft_strdup(*ptr);
+	ft_putendl_fd(*path, 1);
 }
 
 int	cd(char **path)
@@ -60,14 +54,11 @@ int	cd(char **path)
 	if (*path == NULL)
 		return (0);
 	if (!ft_strncmp(*path, "-", 2))
-	{
-		free(*path);
-		*path = ft_strdup(*get_val_env("OLDPWD"));
-	}
+		cd_prev(path, old);
 	if (!chdir(*path))
 	{
-		change_env_value("OLDPWD", old);
-		change_env_value("PWD", getcwd(NULL, 1));
+		change_value_env(old, get_val_env("OLDPWD"));
+		change_value_env(getcwd(NULL, 1), get_val_env("PWD"));
 		return (0);
 	}
 	if (old != NULL)
@@ -75,37 +66,6 @@ int	cd(char **path)
 	ft_putstr_fd("cd: ", 2);
 	ft_putendl_fd(strerror(errno), 2);
 	return (1);
-}
-
-int	export(char *str)
-{
-	t_env	**new_env;
-	int		len;
-	int		i;
-
-	if (!str)
-		return (print_env());
-	len = array_size((void **) g_main->env);
-	new_env = (t_env **)malloc(sizeof(t_env *) * (len + 2));
-	if (!new_env)
-		ft_error(ER_MEMORY);
-	i = ft_strchr_pos(str, '=');
-	if (i < 0)
-	{
-		printf("export: '%s' : not a valid identifier\n", str);
-		return (1);
-	}
-	if (var_exist(ft_substr(str, 0, i)))
-		return (change_value_env(ft_substr(str, i + 1, ft_strlen(&str[i + 1])), \
-	get_val_env(ft_substr(str, 0, i))));
-	i = -1;
-	while (g_main->env[++i])
-		new_env[i] = g_main->env[i];
-	new_env[i] = make_env_struct(str);
-	new_env[++i] = NULL;
-	free(g_main->env);
-	g_main->env = new_env;
-	return (0);
 }
 
 int	pwd(void)

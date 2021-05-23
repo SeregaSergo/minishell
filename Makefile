@@ -14,6 +14,7 @@ SRCS =	./srcs/main.c \
 		./srcs/lexer1.c \
 		./srcs/lexer2.c \
 		./srcs/lexer3.c \
+		./srcs/lexer4.c \
 		./srcs/fixer1.c \
 		./srcs/fixer2.c \
 		./srcs/cursor_pos.c \
@@ -23,7 +24,8 @@ SRCS =	./srcs/main.c \
 		./srcs/execve.c \
 		./srcs/built-in2.c \
 		./srcs/redirects.c \
-		./srcs/pipes.c
+		./srcs/pipes.c \
+		./srcs/export.c
 OBJS = $(SRCS:%.c=%.o)
 LIB = libft_shell.a
 PATHLIB = libs/

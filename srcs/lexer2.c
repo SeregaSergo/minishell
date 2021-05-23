@@ -6,7 +6,7 @@
 /*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/18 17:13:08 by bswag             #+#    #+#             */
-/*   Updated: 2021/05/18 17:14:01 by bswag            ###   ########.fr       */
+/*   Updated: 2021/05/23 20:01:13 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,24 +16,28 @@ int	pass_some_symbols(char *str, int type)
 {
 	int		i;
 	char	*stop;
-	int		len;
 
 	i = 0;
-	len = ft_strlen(str);
 	if (type == TOKEN_DQOUTE)
 		stop = "\"";
 	if (type == TOKEN_QOUTE)
 		stop = "'";
 	if (type == TOKEN_GENERAL)
 		stop = STOP_SYMBLS;
-	while (i < len && !ft_char_in_set(str[i], stop))
+	while (str[i])
 	{
-		i++;
-		if (str[i] == '\\' && type != TOKEN_QOUTE)
+		if (type == TOKEN_DQOUTE && str[i] == '\\' && str[i + 1] == '"')
 			i += 2;
+		if (ft_char_in_set(str[i], stop))
+		{
+			if (type != TOKEN_GENERAL)
+				return (i + 1);
+			else
+				return (i);
+		}
+		if (str[i] != '\0')
+			i++;
 	}
-	if (i >= len && (type != TOKEN_GENERAL))
-		i--;
 	return (i);
 }
 
@@ -57,23 +61,6 @@ int	get_token_type(char	c1, char c2)
 		return (TOKEN_GENERAL);
 }
 
-int	get_next_token(char *s, int *type)
-{
-	*type = get_token_type(s[0], s[1]);
-	if (*type == TOKEN_OUT || *type == TOKEN_PIPE || \
-		*type == TOKEN_SEPARATOR || *type == TOKEN_IN)
-		return (1);
-	if (*type == TOKEN_OUT_APP)
-		return (2);
-	if (*type == TOKEN_GENERAL)
-		return (1 + pass_some_symbols(&s[1], TOKEN_GENERAL));
-	if (*type == TOKEN_DQOUTE)
-		return (2 + pass_some_symbols(&s[1], TOKEN_DQOUTE));
-	if (*type == TOKEN_QOUTE)
-		return (2 + pass_some_symbols(&s[1], TOKEN_QOUTE));
-	return (0);
-}
-
 void	free_token(void *t)
 {
 	t_tok	*tok;
@@ -85,4 +72,21 @@ void	free_token(void *t)
 			free(tok->cont);
 		free(tok);
 	}
+}
+
+int	get_next_token(char *s, int *type)
+{
+	*type = get_token_type(s[0], s[1]);
+	if (*type == TOKEN_OUT || *type == TOKEN_PIPE || \
+		*type == TOKEN_SEPARATOR || *type == TOKEN_IN)
+		return (1);
+	if (*type == TOKEN_OUT_APP)
+		return (2);
+	if (*type == TOKEN_GENERAL)
+		return (1 + pass_some_symbols(&s[1], TOKEN_GENERAL));
+	if (*type == TOKEN_DQOUTE)
+		return (1 + pass_some_symbols(&s[1], TOKEN_DQOUTE));
+	if (*type == TOKEN_QOUTE)
+		return (1 + pass_some_symbols(&s[1], TOKEN_QOUTE));
+	return (0);
 }

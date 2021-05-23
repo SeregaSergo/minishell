@@ -6,7 +6,7 @@
 /*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/01 18:54:31 by egilbert          #+#    #+#             */
-/*   Updated: 2021/05/16 01:02:53 by bswag            ###   ########.fr       */
+/*   Updated: 2021/05/23 19:10:13 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,11 @@ int	unset(char *var)
 	int	i;
 
 	i = -1;
+	if (!ft_isalpha(var[0]))
+	{
+		printf("unset: '%s' : not a valid identifier\n", var);
+		return (1);
+	}
 	while (g_main->env[++i])
 	{
 		if (!ft_strcmp(g_main->env[i]->var, var))

@@ -6,7 +6,7 @@
 /*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/03 18:05:44 by bswag             #+#    #+#             */
-/*   Updated: 2021/05/21 17:11:39 by bswag            ###   ########.fr       */
+/*   Updated: 2021/05/23 20:07:10 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,11 +182,15 @@ t_cmd		*create_comand(t_tok **lex, int *i);
 /*
 ** File: lexer.c
 */
-t_tok		**tokenize_input(char *s);
+t_tok		**tokenize_input(char **s);
 void		free_token(void *t);
 int			get_next_token(char *s, int *type);
 int			check_syntax(t_tok **lex);
 void		free_token(void *t);
+int			check_closed_qouts(t_tok *cont, int type);
+int			syntax_error(t_tok	***lex);
+int			add_to_lex_arr(t_tok ***lex, char *token_cont, int type);
+int			add_to_prev_lex_arr(t_tok ***lex, char *token_cont, int type);
 
 /*
 ** File: fixer.c
@@ -207,20 +211,20 @@ void		execute_cmd_line(t_cmd_line	*cmd);
 int			execute_cmd(t_cmd *cmd);
 
 /*
-** File: built-in1.c.c
+** File: built-in1.c
 */
-int			export(char *str);
 int			cd(char **path);
 int			ft_echo(char **args);
 int			pwd(void);
-
-/*
-** File: built-in2.c.c
-*/
 int			change_value_env(char *new, char **value);
 int			is_builtin(char *cmd);
 void		exec_in_the_same_proc(t_cmd *cmd);
 int			exit_cmd(char **args);
+
+/*
+** File: export.c
+*/
+int			export(char *str);
 
 /*
 ** File: unset.c

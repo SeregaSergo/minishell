@@ -6,7 +6,7 @@
 /*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/15 19:09:40 by bswag             #+#    #+#             */
-/*   Updated: 2021/05/22 15:15:24 by bswag            ###   ########.fr       */
+/*   Updated: 2021/05/22 16:11:32 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,6 @@ int	execve_cmds(t_cmd *cmd)
 	}
 	else
 		full_path = cmd->args[0];
-	ft_putendl_fd(full_path, 1);
 	ret = execve(full_path, cmd->args, create_str_envp());
 	if (ret < 0)
 	{

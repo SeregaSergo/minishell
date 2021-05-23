@@ -6,7 +6,7 @@
 /*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/18 18:21:38 by bswag             #+#    #+#             */
-/*   Updated: 2021/05/18 18:26:18 by bswag            ###   ########.fr       */
+/*   Updated: 2021/05/22 15:57:20 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ t_cmd_line	*init_cmd_line(t_tok **lex)
 
 	i = 0;
 	len = 1;
-	while (lex[i] && lex[i]->type != TOKEN_SEPARATOR)
+	while (lex[i])
 	{
 		if (lex[i]->type == TOKEN_PIPE)
 			len++;
@@ -37,32 +37,18 @@ t_cmd_line	*init_cmd_line(t_tok **lex)
 	return (cmd_line);
 }
 
-t_tok	**cut_lexemes_struct(t_tok **lex, int pos)
+void	free_lexemes_struct(t_tok **lex)
 {
 	int		i;
-	int		len;
-	t_tok	**new;
 
 	i = 0;
-	len = array_size((void **)lex);
-	while (i < pos)
+	while (lex[i])
 	{
 		free(lex[i]->cont);
 		free(lex[i]);
 		i++;
 	}
-	if (len != pos)
-	{
-		new = (t_tok **)malloc(sizeof(t_tok *) * (len - pos + 1));
-		if (!new)
-			ft_error(ER_MEMORY);
-		copy_array((void **)new, (void **)&lex[pos]);
-		new[len - pos] = NULL;
-	}
-	else
-		new = NULL;
 	free(lex);
-	return (new);
 }
 
 t_cmd_line	*parse_input(t_tok ***lex)
@@ -81,6 +67,6 @@ t_cmd_line	*parse_input(t_tok ***lex)
 			i_lex++;
 		n_cmd++;
 	}
-	*lex = cut_lexemes_struct(*lex, i_lex);
+	free_lexemes_struct(*lex);
 	return (line);
 }
