@@ -6,7 +6,7 @@
 /*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/12 21:42:22 by bswag             #+#    #+#             */
-/*   Updated: 2021/05/23 18:54:46 by bswag            ###   ########.fr       */
+/*   Updated: 2021/05/24 17:23:33 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,7 @@ int	cd(char **path)
 	}
 	if (old != NULL)
 		free(old);
-	ft_putstr_fd("cd: ", 2);
-	ft_putendl_fd(strerror(errno), 2);
+	printf("cd: %s: %s\n", *path, strerror(errno));
 	return (1);
 }
 

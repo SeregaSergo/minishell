@@ -6,7 +6,7 @@
 /*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/16 01:20:56 by bswag             #+#    #+#             */
-/*   Updated: 2021/05/23 18:49:56 by bswag            ###   ########.fr       */
+/*   Updated: 2021/05/24 15:03:13 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,23 +72,21 @@ int	exit_cmd(char **args)
 	int	len;
 
 	len = array_size((void **)args);
+	ret = 0;
+	if (len > 0 && is_number(args[0]))
+	{
+		printf("exit\nexit: %s: numeric argument required\n", args[0]);
+		set_result_prev_cmd(255);
+		save_history();
+		exit(255);
+	}
 	if (len > 1)
 	{
 		printf("exit: too many arguments\n");
 		return (1);
 	}
-	if (args[0] == NULL)
-		ret = 0;
-	else
-	{
-		if (is_number(args[0]))
-		{
-			printf("exit: %s: numeric argument required\n", args[0]);
-			ret = 255;
-		}
-		else
-			ret = ft_atoi(args[1]);
-	}
+	if (len == 1)
+		ret = ft_atoi(args[0]);
 	set_result_prev_cmd(ret);
 	save_history();
 	exit(ret);

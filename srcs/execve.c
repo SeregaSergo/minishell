@@ -6,7 +6,7 @@
 /*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/15 19:09:40 by bswag             #+#    #+#             */
-/*   Updated: 2021/05/22 16:11:32 by bswag            ###   ########.fr       */
+/*   Updated: 2021/05/24 14:16:49 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,7 @@ int	execve_cmds(t_cmd *cmd)
 	if (ret < 0)
 	{
 		ret = 127;
-		printf("%s: %s\n", strerror(errno), full_path);
+		printf("%s: %s\n", full_path, strerror(errno));
 	}
 	return (ret);
 }

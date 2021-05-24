@@ -6,7 +6,7 @@
 /*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 22:22:40 by bswag             #+#    #+#             */
-/*   Updated: 2021/05/23 20:04:05 by bswag            ###   ########.fr       */
+/*   Updated: 2021/05/24 18:16:24 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,10 +56,10 @@ int	make_lexem_structure(char **s, t_tok ***lex)
 	while ((*s)[i] && (*s)[i] != ';')
 	{
 		len = get_next_token(&((*s)[i]), &type);
-		if (mode == 0)
-			ret = add_to_lex_arr(lex, ft_substr(*s, i, len), type);
-		else
+		if (mode == 1 && type > TOKEN_GENERAL && type < TOKEN_QOUTE)
 			ret = add_to_prev_lex_arr(lex, ft_substr(*s, i, len), type);
+		else
+			ret = add_to_lex_arr(lex, ft_substr(*s, i, len), type);
 		if (ret)
 			return (syntax_error(lex));
 		i += len;

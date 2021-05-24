@@ -6,19 +6,21 @@
 /*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/12 21:41:29 by bswag             #+#    #+#             */
-/*   Updated: 2021/05/23 19:17:33 by bswag            ###   ########.fr       */
+/*   Updated: 2021/05/24 17:04:50 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	cycle_exaecute_cmd(char **args, int (*func)(char *))
+int	cycle_execute_cmd(char **args, int (*func)(char *))
 {
 	int	i;
 	int	ret;
 
 	i = -1;
 	ret = 0;
+	if (*args == NULL)
+		ret = func(args[0]);
 	while (args[++i])
 		ret = func(args[i]);
 	return (ret);
@@ -37,9 +39,9 @@ int	execute_cmd(t_cmd *cmd)
 	else if (!ft_strncmp(cmd->args[0], "pwd", 4))
 		ret = pwd();
 	else if (!ft_strncmp(cmd->args[0], "unset", 6))
-		ret = cycle_exaecute_cmd(&cmd->args[1], unset);
+		ret = cycle_execute_cmd(&cmd->args[1], unset);
 	else if (!ft_strncmp(cmd->args[0], "export", 7))
-		ret = cycle_exaecute_cmd(&cmd->args[1], export);
+		ret = cycle_execute_cmd(&cmd->args[1], export);
 	else if (!ft_strncmp(cmd->args[0], "env", 4))
 		ret = print_env();
 	else
@@ -61,19 +63,19 @@ void	wait_for_all_children(int n)
 			ft_error(ER_WAIT);
 		if (WIFSIGNALED(stat))
 		{
-			if (WEXITSTATUS(stat) == SIGINT)
-				printf("Interrupted proc: %i, status %i\n", ret, stat);
-			if (WEXITSTATUS(stat) == SIGKILL || WEXITSTATUS(stat) == SIGTERM)
-				printf("Killed proc: %i, status %i\n", ret, stat);
-			if (WEXITSTATUS(stat) == SIGTERM)
-				printf("Terminated proc: %i, status %i\n", ret, stat);
-			if (WEXITSTATUS(stat) == SIGTSTP)
-				printf("Stopped proc: %i, status %i\n", ret, stat);
-			if (WEXITSTATUS(stat) == SIGQUIT)
-				printf("Quited proc: %i, status %i\n", ret, stat);
+			if (stat == SIGINT)
+				printf("Interrupt: pid %i, %i\n", ret, stat);
+			if (stat == SIGKILL || stat == SIGTERM)
+				printf("Kill: pid %i, %i\n", ret, stat);
+			if (stat == SIGTERM)
+				printf("Terminate: pid %i, %i\n", ret, stat);
+			if (stat == SIGQUIT)
+				printf("Quit: pid %i, %i\n", ret, stat);
+			set_result_prev_cmd(stat + 128);
 		}
+		else
+			set_result_prev_cmd(WEXITSTATUS(stat));
 	}
-	set_result_prev_cmd(WEXITSTATUS(stat));
 }
 
 void	exec_fork_main(t_cmd **cmds, int num_cmds, int index)
@@ -95,8 +97,8 @@ void	execute_cmd_line(t_cmd_line *cmd_line)
 	i = 0;
 	if (cmd_line->num_cmds > 1 || is_builtin(cmd_line->cmds[0]->args[0]))
 	{
-		signal(SIGINT, sig_handler);
 		make_pipes(cmd_line->cmds, cmd_line->num_cmds);
+		signal(SIGINT, sig_handler);
 		while (i < cmd_line->num_cmds)
 		{	
 			pid = fork();
