@@ -6,7 +6,7 @@
 /*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/16 14:36:31 by bswag             #+#    #+#             */
-/*   Updated: 2021/05/18 17:00:27 by bswag            ###   ########.fr       */
+/*   Updated: 2021/05/25 15:21:56 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,12 +48,7 @@ void	retrieve_history(t_bdlist **history)
 			ft_bdlstadd_front(history, new);
 		}
 		if (line != NULL)
-		{
-			new = ft_bdlstnew(line);
-			if (!new)
-				ft_error(ER_MEMORY);
-			ft_bdlstadd_front(history, new);
-		}
+			free(line);
 		close(fd);
 	}
 }
@@ -67,10 +62,13 @@ void	write_history(t_bdlist *last_elem)
 	{
 		while (last_elem)
 		{
-			if (last_elem->prev != NULL)
-				ft_putendl_fd(last_elem->cont, fd);
-			else
-				ft_putstr_fd(last_elem->cont, fd);
+			if (last_elem->cont != NULL)
+			{
+				if (last_elem->prev != NULL)
+					ft_putendl_fd(last_elem->cont, fd);
+				else
+					ft_putstr_fd(last_elem->cont, fd);
+			}
 			last_elem = last_elem->prev;
 		}
 		close(fd);
@@ -86,5 +84,7 @@ void	save_history(void)
 		retrieve_history(&new_hist);
 		add_new_records(&new_hist);
 		write_history(ft_bdlstfind(new_hist, RECORD_LIMIT - 1));
+		if (g_main->history->cont)
+			free(g_main->history->cont);
 	}
 }

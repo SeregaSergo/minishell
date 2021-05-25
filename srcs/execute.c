@@ -6,7 +6,7 @@
 /*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/12 21:41:29 by bswag             #+#    #+#             */
-/*   Updated: 2021/05/24 17:04:50 by bswag            ###   ########.fr       */
+/*   Updated: 2021/05/25 16:35:55 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,13 +64,13 @@ void	wait_for_all_children(int n)
 		if (WIFSIGNALED(stat))
 		{
 			if (stat == SIGINT)
-				printf("Interrupt: pid %i, %i\n", ret, stat);
+				printf("\n");
 			if (stat == SIGKILL || stat == SIGTERM)
-				printf("Kill: pid %i, %i\n", ret, stat);
+				printf("Kill: %i\n", stat);
 			if (stat == SIGTERM)
-				printf("Terminate: pid %i, %i\n", ret, stat);
+				printf("Terminate:  %i\n", stat);
 			if (stat == SIGQUIT)
-				printf("Quit: pid %i, %i\n", ret, stat);
+				printf("Quit: %i\n", stat);
 			set_result_prev_cmd(stat + 128);
 		}
 		else
@@ -84,7 +84,8 @@ void	exec_fork_main(t_cmd **cmds, int num_cmds, int index)
 
 	switch_on_signals();
 	close_pipes(cmds, num_cmds, index);
-	redirect_streams(cmds[index]);
+	if (redirect_streams(cmds[index]))
+		exit(1);
 	status = execute_cmd(cmds[index]);
 	exit(status);
 }

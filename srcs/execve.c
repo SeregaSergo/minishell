@@ -6,7 +6,7 @@
 /*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/15 19:09:40 by bswag             #+#    #+#             */
-/*   Updated: 2021/05/24 14:16:49 by bswag            ###   ########.fr       */
+/*   Updated: 2021/05/25 16:44:48 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ char	*find_path(char *fname)
 		}
 		i++;
 	}
+	free_arr_char(paths);
 	return (NULL);
 }
 
@@ -103,14 +104,14 @@ int	execve_cmds(t_cmd *cmd)
 	char	*path;
 	char	*full_path;
 	int		ret;
+	char	**env_struct;
 
 	if (!ft_strchr(cmd->args[0], '/'))
 	{
 		path = find_path(cmd->args[0]);
 		if (!path)
 		{
-			ft_putstr_fd(cmd->args[0], 2);
-			ft_putendl_fd(": No such file or directory", 2);
+			printf("%s: No such file or directory\n", cmd->args[0]);
 			return (127);
 		}
 		full_path = ft_strjoin(path, cmd->args[0]);
@@ -118,11 +119,10 @@ int	execve_cmds(t_cmd *cmd)
 	}
 	else
 		full_path = cmd->args[0];
-	ret = execve(full_path, cmd->args, create_str_envp());
-	if (ret < 0)
-	{
-		ret = 127;
-		printf("%s: %s\n", full_path, strerror(errno));
-	}
+	env_struct = create_str_envp();
+	ret = execve(full_path, cmd->args, env_struct);
+	ret = 127;
+	printf("%s: %s\n", full_path, strerror(errno));
+	free_arr_char(env_struct);
 	return (ret);
 }

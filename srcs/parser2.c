@@ -6,7 +6,7 @@
 /*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/04 22:58:34 by bswag             #+#    #+#             */
-/*   Updated: 2021/05/22 18:30:12 by bswag            ###   ########.fr       */
+/*   Updated: 2021/05/24 18:40:11 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ char	**add_argument(char **args, char *cont)
 	if (!new[len])
 		ft_error(ER_MEMORY);
 	new[len + 1] = NULL;
+	free(args);
 	return (new);
 }
 

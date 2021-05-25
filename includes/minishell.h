@@ -6,7 +6,7 @@
 /*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/03 18:05:44 by bswag             #+#    #+#             */
-/*   Updated: 2021/05/24 18:16:44 by bswag            ###   ########.fr       */
+/*   Updated: 2021/05/24 18:58:33 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -241,8 +241,8 @@ int			execve_cmds(t_cmd *cmd);
 /*
 ** File: redirects.c
 */
-void		redirect_streams(t_cmd *cmd);
-void		file_redirect(t_list *files, int stream);
+int			redirect_streams(t_cmd *cmd);
+int			file_redirect(t_list *files, int stream);
 
 /*
 ** File: pipes.c

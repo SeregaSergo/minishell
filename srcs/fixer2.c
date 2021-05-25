@@ -6,7 +6,7 @@
 /*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 22:26:22 by bswag             #+#    #+#             */
-/*   Updated: 2021/05/23 15:33:38 by bswag            ###   ########.fr       */
+/*   Updated: 2021/05/25 15:06:51 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,9 @@ void	replace_env_vars(char **cont)
 			if (val != NULL)
 			{
 				*cont = paste_str_pos(i, *cont, *val);
-				i += ft_strlen(*val) - 1;
+				i += ft_strlen(*val);
 			}
+			i--;
 		}
 	}
 }

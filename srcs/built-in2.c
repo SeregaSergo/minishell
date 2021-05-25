@@ -6,7 +6,7 @@
 /*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/16 01:20:56 by bswag             #+#    #+#             */
-/*   Updated: 2021/05/24 15:03:13 by bswag            ###   ########.fr       */
+/*   Updated: 2021/05/25 16:16:53 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,10 @@ void	exec_in_the_same_proc(t_cmd *cmd)
 
 	stdin = dup(0);
 	stdout = dup(1);
-	redirect_streams(cmd);
-	set_result_prev_cmd(execute_cmd(cmd));
+	if (!redirect_streams(cmd))
+		set_result_prev_cmd(execute_cmd(cmd));
+	else
+		set_result_prev_cmd(1);
 	dup2(stdin, 0);
 	dup2(stdout, 1);
 }
