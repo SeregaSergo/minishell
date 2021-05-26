@@ -1,0 +1,172 @@
+#Simple command
+/bin/ls				✔
+/bin/cd				✔
+/usr/bin/cd			✔
+/usr/bin/wc			✔
+/usr/bin/cat		✔
+bin/cat				✔
+/bin/cat			✔
+/bin/env			✔
+/usr/bin/env		✔
+
+#Arguments
+/bin/ls -la			✔
+/usr/bin/wc 11		✔
+/usr/bin/cat -e		✔
+/bin/cat -e			✔
+Ech		✔
+
+#ECHO
+echo				✔️
+echo -n				✔
+echo 123			✔
+echo -n 123			✔
+echo $?				✔
+echo $SHLVL			✔
+echo ' """" '		✔
+echo " '''''' "		✔
+
+#EXIT
+exit				✔
+exit 2				✔
+exit 300			✔
+exit 258			✔
+exit -1				✔
+exit hello			✔
+exit -hello			✔
+exit 123 123		✔
+exit asdasd adasd	✔
+
+#RETURN_VALUE
+/bin/ls				✔
+ls					✔
+'/bin/ls sdadaddada' ; echo $?  X
+cd					✔
+cd /fdgfdggd		✔
+unset dsfsdf		✔
+export 123sdfsf		✔
+echo $?				✔
+
+#SEMICOLONS
+✔✔ /bin/ls -la ; export aaa=bbb; /bin/echo $aaa
+✔✔ /usr/bin/env ; unset aaa ; /bin/echo "" ; /bin/echo "AFTER UNSET" ; /bin/echo "" ; /usr/bin/env
+✔✔ cd ..    ;/bin/pwd;/usr/bin/cd     ;      /bin/pwd;cd -
+
+#SIGNALS
+ctrl-C empty prompt									✔
+ctrl-\ empty prompt									✔
+ctrl-D empty prompt									✔
+ctrl-C in a prompt after eyou wrote some stuff		✔
+ctrl-\ in a prompt after eyou wrote some stuff		✔
+ctrl-D in a prompt after eyou wrote some stuff		✔
+ctrl-C cat or grep without arguments				✔
+ctrl-\ cat or grep without arguments				✔
+ctrl-D cat or grep without arguments				✔
+
+#DOUBLE_QUOTES
+'e'"x"p'o'r't'								✔
+'e'"x"p'o'r't' "t"$q's'='h'"e"'l'l$r		✔
+/bin/ls "-la"								✔
+/bin/echo "\""								"✔
+/bin/echo "\'"								✔
+
+#ENV
+env					✔
+
+#EXPORT
+export			✔
+export aaa=bbb		✔
+export ccc=			✔
+export ddd			✔
+export aaa=zzz		✔
+export ddd=111		✔
+export 111=ddd		✔
+
+#UNSET
+unset				✔
+unset aaa			✔
+unset fgdfbdfgdf	✔
+unset 213 234123	✔
+unset 111			✔
+unset SHELL			✔
+unset $SHELL		✔
+
+#ENVIRONMENT_VARIABLES
+echo $PATH			✔
+ECHO $TERM			✔
+echo "$HOME"		✔
+echo "$HOME" $pwd	✔
+echo $PWD $HOME		✔
+
+#CD
+cd					✔
+cd Desktop			✔
+cd /Minishell		✔
+cd MINISHELL		✔
+cd dfgfdgd			✔
+cd 111				✔
+cd ..				✔
+cd .				✔
+
+#PWD
+pwd					✔
+/bin/pwd			✔
+
+#RELATIVE_PATH
+cd ..					✔
+Minishell/minishell		✔
+cd Minishell			✔
+./minishell				✔
+open ../history			✔
+
+#ENVIRONMENT_PATH
+ls							✔
+wc							✔
+awk							✔
+unset PATH					✔
+ls							✔✔
+wc							✔✔
+awk							✔✔
+export PATH=/usr/bin:/bin	✔✔
+
+#SIMPLE_QUOTES
+ls '-la'				✔
+echo 'hello'			✔
+echo '$PWD'				✔
+ls ''					✔✔
+ls''					✔
+echo '$PWD' '    ' ';'	✔
+
+#REDIRECTIONS
+echo hello > hello.txt		✔✔
+echo hello1 >> hello.txt	✔✔
+cat < hello.txt				✔✔
+echo rewrite > hello.txt	✔✔
+cat < hello.txt				✔✔
+ls > hello.txt				✔✔
+cat < hello.txt > copy.txt	✔✔
+cat < hello.txt < hello.txt	✔✔
+ls > aaa | yes | yes | yes | yes | yes | < aaa cat	✔✔
+ls > bbb | < bbb cat		✔✔
+
+#PIPES
+ls -la | grep ft | wc							✔✔
+yes | head | wc									✔✔
+cat file | grep bla| more						✔✔
+ls > hello.txt ; cat hello.txt | grep ft | more	✔✔
+ls -la | grep ex > grep.txt						✔✔
+ls asdsadasdadsas | grep ex > grep.txt 			✔✔
+cat | cat -e									✔✔
+cat | cat | cat | ls							✔✔
+/bin/ls|/usr/bin/grep pwd						✔✔
+ls > hello.txt ; tail -f hello.txt | grep 1		✔✔
+echo 111 >> hello.txt							✔✔
+
+
+#GO_CRAZY_AND_HISTORY
+✔ arrow up
+✔ arrow dawn
+✔ execute
+✔ jgasgjklaljgkr
+✔ dshfjsdgfashjgdasjkdsajkb hsdfjhbsjfb dshjshdgfsgfs gdasjhgxsauhgdeyfghjsdh sdfgsuflifh shjdjsahfkjashgdfkjdhgfkjasdghf saghdfjkhgdasfjhdagsfjkghdfjkagef ghjaegfjsg dh h h h h h hdsgfshdfg gdf gsd
+✔ 0. Живи долго и процветай

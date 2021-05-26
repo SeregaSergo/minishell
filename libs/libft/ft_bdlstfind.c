@@ -6,7 +6,7 @@
 /*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/16 15:03:41 by bswag             #+#    #+#             */
-/*   Updated: 2021/03/16 16:01:50 by bswag            ###   ########.fr       */
+/*   Updated: 2021/05/26 00:20:49 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ t_bdlist	*ft_bdlstfind(t_bdlist *list, int pos)
 	int	i;
 
 	i = 0;
-	while (i <= pos && list && list->next)
+	while (i < pos && list && list->next)
 	{
 		list = list->next;
 		i++;

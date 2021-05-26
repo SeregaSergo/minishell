@@ -6,7 +6,7 @@
 /*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/12 21:42:22 by bswag             #+#    #+#             */
-/*   Updated: 2021/05/24 17:23:33 by bswag            ###   ########.fr       */
+/*   Updated: 2021/05/26 15:21:19 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,14 @@ int	ft_echo(char **args)
 	i = 0;
 	while (args[++i])
 	{
-		if (i == 1 && !ft_strncmp(args[1], "-n", 2) && args[1][2] == 0)
+		if (i == 1 && !ft_strncmp(args[1], "-n", 3))
 			i++;
 		if (args[i] != NULL)
 			ft_putstr_fd(args[i], 1);
 		if (args[i + 1] != NULL)
 			write(1, " ", 1);
 	}
-	if (args[1] && !ft_strncmp(args[1], "-n", 2) && args[1][2] == 0)
+	if (args[1] && !ft_strncmp(args[1], "-n", 3))
 		;
 	else
 		write(1, "\n", 1);
@@ -50,9 +50,9 @@ int	cd(char **path)
 {
 	char	*old;
 
-	old = getcwd(NULL, 1);
 	if (*path == NULL)
 		return (0);
+	old = getcwd(NULL, 1);
 	if (!ft_strncmp(*path, "-", 2))
 		cd_prev(path, old);
 	if (!chdir(*path))

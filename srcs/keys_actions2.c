@@ -6,7 +6,7 @@
 /*   By: bswag <bswag@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/15 16:55:02 by bswag             #+#    #+#             */
-/*   Updated: 2021/05/19 18:05:18 by bswag            ###   ########.fr       */
+/*   Updated: 2021/05/26 00:41:09 by bswag            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,15 @@ int	process_key_newln(void)
 
 int	process_key_eof(void)
 {
+	t_bdlist	*tmp;
+
 	if (g_main->n_symb_buf == 0)
 	{
+		tmp = g_main->history->next;
+		free(g_main->history);
+		g_main->history = tmp;
+		if (g_main->history != NULL)
+			g_main->history->prev = NULL;
 		ft_putendl_fd("exit", 1);
 		return (1);
 	}
