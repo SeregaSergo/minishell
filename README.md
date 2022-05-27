@@ -1,5 +1,5 @@
 # minishell
-simple shell for you and me like bash
+simplified shell like bash
 
 This shell can:
 * Display a prompt when waiting for a new command.
